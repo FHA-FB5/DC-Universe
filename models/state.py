@@ -26,7 +26,7 @@ class State(Base):
     def set(cls, name: str, value) -> 'State':
         db_state = State.get(name)
         if not db_state:
-            db_state.name = name
+            db_state = State(name)
             db_state.value = str(value)
             db_session.add(db_state)
         else:
@@ -38,5 +38,5 @@ class State(Base):
 
     @classmethod
     def delete(cls, name: str):
-        db_session.query(State).filter(State.name == name).first().delete()
+        db_session.query(State).filter(State.name == name).delete()
         db_session.commit()
