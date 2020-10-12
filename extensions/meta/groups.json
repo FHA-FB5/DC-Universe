@@ -1,5 +1,5 @@
 {
     "name": "groups",
-    "description": "Bietet die Möglichkeit sich eigene Gruppen, wie dem Studiengang, anzueignen",
-    "author": "Patrik Schmolke"
+    "description": "Die gesamte Verwaltung von Gruppen wird mit dieser Erweiterung bereitgestellt.",
+    "author": "Titus Kirch"
 }
