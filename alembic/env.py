@@ -29,6 +29,7 @@ sys.path.append(ROOT_PATH)
 # import models
 from models.base import Base
 from models.extension import Extension
+from models.state import State
 from models.group import Group
 
 # set metadata
