@@ -4,6 +4,8 @@ import typing
 from discord.ext import commands
 from db import db_session, db_engine, Session
 
+from models.state import State
+
 
 class Groups(commands.Cog, name='Groups'):
     def __init__(self, bot):
@@ -16,23 +18,58 @@ class Groups(commands.Cog, name='Groups'):
             type = type.lower()
 
         if type == 'start':
-            # create output embed
-            embed = discord.Embed(
-                colour=discord.Colour.green(),
-                title=f'Die Gruppenphase wurde erfolgreich gestartet!'
-            )
+            # check if grouphase is already startet
+            state_groupphase_isStarted = State.get('groupphase_isStarted')
+            if (state_groupphase_isStarted and state_groupphase_isStarted.value == str(True)):
 
-            # send embed
-            await ctx.send(ctx.author.mention, embed=embed)
+                # create output embed
+                embed = discord.Embed(
+                    colour=discord.Colour.red(),
+                    title=f'Es läuft schon eine Gruppenphase! Beende erst die alte, bevor du eine neue startest.'
+                )
+
+                # send embed
+                await ctx.send(ctx.author.mention, embed=embed)
+
+            else:
+                # start groupphase
+                State.set('groupphase_isStarted', str(True))
+
+                # create output embed
+                embed = discord.Embed(
+                    colour=discord.Colour.green(),
+                    title=f'Die Gruppenphase wurde erfolgreich gestartet!'
+                )
+
+                # send embed
+                await ctx.send(ctx.author.mention, embed=embed)
         elif type == 'stop':
-            # create output embed
-            embed = discord.Embed(
-                colour=discord.Colour.green(),
-                title=f'Die Gruppenphase wurde erfolgreich beendet!'
-            )
+            # check if grouphase is startet
+            state_groupphase_isStarted = State.get('groupphase_isStarted')
+            if (state_groupphase_isStarted and state_groupphase_isStarted.value == str(True)):
 
-            # send embed
-            await ctx.send(ctx.author.mention, embed=embed)
+                # delete groupphase
+                State.delete('groupphase_isStarted')
+
+                # create output embed
+                embed = discord.Embed(
+                    colour=discord.Colour.green(),
+                    title=f'Die Gruppenphase wurde erfolgreich beendet!'
+                )
+
+                # send embed
+                await ctx.send(ctx.author.mention, embed=embed)
+
+            else:
+
+                # create output embed
+                embed = discord.Embed(
+                    colour=discord.Colour.red(),
+                    title=f'Es läuft keine Gruppenphase, die du beenden könntest!'
+                )
+
+                # send embed
+                await ctx.send(ctx.author.mention, embed=embed)
         else:
             # create output embed
             embed = discord.Embed(
