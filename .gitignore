@@ -124,6 +124,7 @@ __pycache__/
 *.so
 
 # Distribution / packaging
+bot-env/
 .Python
 build/
 develop-eggs/
