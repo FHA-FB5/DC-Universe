@@ -6,7 +6,7 @@ import contextlib
 from dotenv import load_dotenv
 from logging.handlers import RotatingFileHandler
 
-from bot import JustGamingBot
+from bot import DCUniverseBot
 
 load_dotenv()
 
@@ -50,7 +50,7 @@ def setup_logging():
 
 def run_bot():
     # run bot
-    bot = JustGamingBot()
+    bot = DCUniverseBot()
     bot.run()
 
 
