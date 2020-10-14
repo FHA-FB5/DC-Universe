@@ -28,12 +28,6 @@ class Groups(commands.Cog, name='Groups'):
             self.bot_user_id = int(
                 self.bot_user_id)
 
-        self.guild_groupphase_category_id = os.getenv(
-            'GUILD_GROUPPHASE_CATEGORY')
-        if isinstance(self.guild_groupphase_category_id, str):
-            self.guild_groupphase_category_id = int(
-                self.guild_groupphase_category_id)
-
     @commands.command(aliases=['gruppenphase'], hidden=True)
     @commands.has_permissions(administrator=True)
     async def groupphase(self, ctx, type:  typing.Optional[str], groupamount: typing.Optional[int]):
@@ -208,8 +202,8 @@ class Groups(commands.Cog, name='Groups'):
                 if groupamount:
                     if groupamount < 0:
                         groupamount = 0
-                    elif groupamount > 25:
-                        groupamount = 25
+                    elif groupamount > 100:
+                        groupamount = 100
 
                     members_total = len(Groupphaseuser.all())
 
