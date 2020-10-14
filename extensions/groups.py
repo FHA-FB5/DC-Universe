@@ -1,11 +1,14 @@
 import discord
 import typing
 import os
+import math
+import time
 
 from discord.ext import commands
 from db import db_session, db_engine, Session
 
 from models.state import State
+from models.group import Group
 from models.groupphaseuser import Groupphaseuser
 
 
@@ -25,9 +28,15 @@ class Groups(commands.Cog, name='Groups'):
             self.bot_user_id = int(
                 self.bot_user_id)
 
+        self.guild_groupphase_category_id = os.getenv(
+            'GUILD_GROUPPHASE_CATEGORY')
+        if isinstance(self.guild_groupphase_category_id, str):
+            self.guild_groupphase_category_id = int(
+                self.guild_groupphase_category_id)
+
     @commands.command(aliases=['gruppenphase'], hidden=True)
     @commands.has_permissions(administrator=True)
-    async def groupphase(self, ctx, type:  typing.Optional[str]):
+    async def groupphase(self, ctx, type:  typing.Optional[str], groupamount: typing.Optional[int]):
         if type:
             type = type.lower()
 
@@ -96,10 +105,19 @@ class Groups(commands.Cog, name='Groups'):
             state_groupphase_isStarted = State.get('groupphase_isStarted')
             if (state_groupphase_isStarted and state_groupphase_isStarted.value == str(True)):
 
+                # delete all groups
+                for group in Group.all():
+                    await ctx.guild.get_role(group.role).delete()
+                    await ctx.guild.get_channel(group.textChannel).delete()
+                    await ctx.guild.get_channel(group.voiceChannel).delete()
+                    Group.delete(group.id)
+
+                # delete groupphase user
+                Groupphaseuser.deleteall()
+
                 # delete groupphase
                 State.delete('groupphase_isStarted')
                 State.delete('groupphase_reaction_message')
-                Groupphaseuser.deleteall()
 
                 # create output embed
                 embed = discord.Embed(
@@ -150,17 +168,128 @@ class Groups(commands.Cog, name='Groups'):
 
                 # send embed
                 await ctx.send(ctx.author.mention, embed=embed)
+
+        elif type == 'info':
+            # check if grouphase is startet
+            state_groupphase_isStarted = State.get('groupphase_isStarted')
+            if (state_groupphase_isStarted and state_groupphase_isStarted.value == str(True)):
+
+                # create output embed
+                embed = discord.Embed(
+                    colour=discord.Colour.blue(),
+                    title="Informationen zur Gruppenphase",
+                )
+
+                members_total = len(Groupphaseuser.all())
+
+                embed.add_field(name='Teilnehmer',
+                                value=f'{members_total}', inline=False)
+
+                # send message
+                await ctx.send(ctx.author.mention, embed=embed)
+
+            else:
+
+                # create output embed
+                embed = discord.Embed(
+                    colour=discord.Colour.red(),
+                    title=f'Es läuft keine Gruppenphase, über die du Informationen anfodern kannst!'
+                )
+
+                # send embed
+                await ctx.send(ctx.author.mention, embed=embed)
+
+        elif type == 'sort':
+            # check if grouphase is startet
+            state_groupphase_isStarted = State.get('groupphase_isStarted')
+            if (state_groupphase_isStarted and state_groupphase_isStarted.value == str(True)):
+
+                # check if groupamount parameter isset
+                if groupamount:
+                    if groupamount < 0:
+                        groupamount = 0
+                    elif groupamount > 25:
+                        groupamount = 25
+
+                    members_total = len(Groupphaseuser.all())
+
+                    # create output embed
+                    embed = discord.Embed(
+                        colour=discord.Colour.blue(),
+                        title="Einteilung der Gruppenphase beginnt",
+                    )
+
+                    members_total = len(Groupphaseuser.all())
+
+                    embed.add_field(name='Teilnehmer',
+                                    value=f'{members_total}', inline=False)
+                    embed.add_field(name='Gruppenanzahl',
+                                    value=f'{groupamount}', inline=False)
+                    embed.add_field(name='Max. Teilnehmer pro Gruppe',
+                                    value=f'{math.ceil(members_total/groupamount)}', inline=False)
+
+                    # send message
+                    await ctx.send(ctx.author.mention, embed=embed)
+                    guild_groupphase_category = ctx.guild.get_channel(
+                        self.guild_groupphase_category_id)
+
+                    for x in range(groupamount):
+                        role = await ctx.guild.create_role(name='Gruppe ' + str(x), hoist=True)
+
+                        overwrites = {
+                            ctx.guild.default_role: discord.PermissionOverwrite(
+                                view_channel=False,
+                                read_messages=False,
+                                connect=False,
+                            ),
+                            role: discord.PermissionOverwrite(
+                                view_channel=True,
+                                read_messages=True,
+                                connect=True,
+                            )
+                        }
+                        voiceChannel = await ctx.guild.create_voice_channel(name='Gruppe ' + str(x), overwrites=overwrites)
+                        textChannel = await ctx.guild.create_text_channel(name='Gruppe ' + str(x), overwrites=overwrites)
+
+                        group = Group('Gruppe ' + str(x), role.id,
+                                      voiceChannel.id, textChannel.id)
+                        db_session.add(group)
+
+                    db_session.commit()
+
+                else:
+
+                    # create output embed
+                    embed = discord.Embed(
+                        colour=discord.Colour.red(),
+                        title=f'Bitte füge noch den Parameter `groupamount` hinzu.'
+                    )
+
+                    # send embed
+                    await ctx.send(ctx.author.mention, embed=embed)
+
+            else:
+
+                # create output embed
+                embed = discord.Embed(
+                    colour=discord.Colour.red(),
+                    title=f'Es läuft keine Gruppenphase, die du einteilen könntest!'
+                )
+
+                # send embed
+                await ctx.send(ctx.author.mention, embed=embed)
+
         else:
             # create output embed
             embed = discord.Embed(
                 colour=discord.Colour.red(),
-                title=f'Bitte übergebe `start`, `stop` oder `info` als erstes Argument.'
+                title=f'Bitte übergebe `start`, `stop`, `info` oder `sort` als erstes Argument.'
             )
 
             # send embed
             await ctx.send(ctx.author.mention, embed=embed)
 
-    @commands.Cog.listener()
+    @ commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
         # check if bot react
         if payload.user_id == self.bot_user_id:
@@ -183,7 +312,7 @@ class Groups(commands.Cog, name='Groups'):
                     user.id = payload.user_id
                     await message.remove_reaction(payload.emoji, user)
 
-    @commands.Cog.listener()
+    @ commands.Cog.listener()
     async def on_raw_reaction_remove(self, payload):
         # check if bot react
         if payload.user_id == self.bot_user_id:

@@ -23,3 +23,13 @@ class Group(Base):
         self.role = role
         self.voiceChannel = voiceChannel
         self.textChannel = textChannel
+
+    @classmethod
+    def all(cls) -> List['Group']:
+        return db_session.query(Group).all()
+
+    @classmethod
+    def delete(cls, id: int):
+        db_session.query(Group).filter(
+            Group.id == id).delete()
+        db_session.commit()
