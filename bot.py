@@ -11,7 +11,7 @@ from db import db_session, db_engine, Session
 log = logging.getLogger(__name__)
 
 
-class JustGamingBot(commands.AutoShardedBot):
+class DCUniverseBot(commands.AutoShardedBot):
 
     def __init__(self):
         super().__init__('!', case_insensitive=True)
