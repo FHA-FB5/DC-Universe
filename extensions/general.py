@@ -63,6 +63,18 @@ class General(commands.Cog, name='General'):
         # send message
         await ctx.send(ctx.author.mention, embed=embed)
 
+    @commands.command(aliases=['löschen'], hidden=True)
+    @commands.has_permissions(administrator=True)
+    async def delete(self, ctx, amount: int):
+        if amount < 1:
+            amount = 1
+        elif amount > 100:
+            amount = 100
+        deleted = await ctx.channel.purge(limit=amount)
+        message = await ctx.send('Deleted {} message(s)'.format(len(deleted)))
+        time.sleep(3)
+        await message.delete()
+
 
 def setup(bot):
     bot.add_cog(General(bot))
