@@ -2,7 +2,6 @@ import discord
 import typing
 import os
 import math
-import time
 
 from discord.ext import commands
 from db import db_session, db_engine, Session
@@ -200,8 +199,8 @@ class Groups(commands.Cog, name='Groups'):
 
                 # check if groupamount parameter isset
                 if groupamount:
-                    if groupamount < 0:
-                        groupamount = 0
+                    if groupamount < 2:
+                        groupamount = 2
                     elif groupamount > 100:
                         groupamount = 100
 
@@ -224,8 +223,6 @@ class Groups(commands.Cog, name='Groups'):
 
                     # send message
                     await ctx.send(ctx.author.mention, embed=embed)
-                    guild_groupphase_category = ctx.guild.get_channel(
-                        self.guild_groupphase_category_id)
 
                     for x in range(groupamount):
                         role = await ctx.guild.create_role(name='Gruppe ' + str(x), hoist=True)
@@ -250,6 +247,49 @@ class Groups(commands.Cog, name='Groups'):
                         db_session.add(group)
 
                     db_session.commit()
+
+                    # create output embed
+                    embed = discord.Embed(
+                        colour=discord.Colour.green(),
+                        title=f'Gruppen erfolgreich angelegt!'
+                    )
+
+                    # send embed
+                    await ctx.send(ctx.author.mention, embed=embed)
+
+                    # create output embed
+                    embed = discord.Embed(
+                        colour=discord.Colour.blue(),
+                        title=f'Beginne mit der Einteilung der Teilnehmer.'
+                    )
+
+                    # send embed
+                    await ctx.send(ctx.author.mention, embed=embed)
+
+                    groups = Group.all()
+                    counter = 0
+
+                    for user in Groupphaseuser.all():
+                        if counter >= groupamount:
+                            counter = 0
+
+                        user.groupID = groups[counter].id
+                        userDiscord = ctx.guild.get_member(user.id)
+                        role = ctx.guild.get_role(groups[counter].role)
+                        await userDiscord.add_roles(role)
+
+                        counter += 1
+
+                    db_session.commit()
+
+                    # create output embed
+                    embed = discord.Embed(
+                        colour=discord.Colour.green(),
+                        title=f'Teilnehmer erfolgreich eingeteilt!'
+                    )
+
+                    # send embed
+                    await ctx.send(ctx.author.mention, embed=embed)
 
                 else:
 
