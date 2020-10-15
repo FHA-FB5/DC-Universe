@@ -24,7 +24,7 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
             )
         
         self.guild_announcement_channel_id = os.getenv(
-            'GUILD_ANNOUNCMENTS_CHANNEL'
+            'GUILD_ANNOUNCEMENTS_CHANNEL'
         )
         if isinstance( self.guild_announcement_channel_id, str ) :
             self.guild_announcement_channel_id = int(
