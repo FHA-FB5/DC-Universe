@@ -23,12 +23,12 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
                 self.guild_command_channel_id 
             )
         
-        self.guild_announcment_channel_id = os.getenv(
-            'GUILD_ANNOUNCEMENTS_CHANNEL'
+        self.guild_announcement_channel_id = os.getenv(
+            'GUILD_ANNOUNCMENTS_CHANNEL'
         )
-        if isinstance( self.guild_announcment_channel_id, str ) :
-            self.guild_announcment_channel_id = int(
-                self.guild_announcment_channel_id
+        if isinstance( self.guild_announcement_channel_id, str ) :
+            self.guild_announcement_channel_id = int(
+                self.guild_announcement_channel_id
             )
 
         self.guild_inf_role_id = os.getenv(
@@ -75,19 +75,19 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
         # post message with content
         if active == 'start':
 
-            if self.guild_announcment_channel_id > 0 :
+            if self.guild_announcement_channel_id > 0 :
                 guild_announcement_channel = self.bot.get_channel(
-                    self.guild_announcment_channel_id
+                    self.guild_announcement_channel_id
                 )
 
                 if guild_announcement_channel :
                     announcement_message = await guild_announcement_channel.send(
                         'Hallo @everyone,\n' + 
                         'Ab sofort könnt ihr euch eurem Studiengang zuordnen! Dies passiert indem du auf diese Nachricht reagierst.\n' +
-                        '- INF:\t:regional_indicator_i:\n' +
-                        '- WI:\t:regional_indicator_w:\n' +
-                        '- ET:\t:regional_indicator_e:\n' +
-                        '- MCD:\t:regional_indicator_m:'
+                        ':regional_indicator_i: - INF\n' +
+                        ':regional_indicator_w: - WI\n' +
+                        ':regional_indicator_e: - ET\n' +
+                        ':regional_indicator_m: - MCD' 
                     )
                     await announcement_message.add_reaction(':regional_indicator_i:')
                     await announcement_message.add_reaction(':regional_indicator_w:')
@@ -105,7 +105,7 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
         if payload.user_id == self.bot_user_id:
             return
         guild_announcement_channel = self.bot.get_channel(
-            self.guild_announcment_channel_id
+            self.guild_announcement_channel_id
         )
         await guild_announcement_channel.send('Soweit so gut')
 
