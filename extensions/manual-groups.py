@@ -89,10 +89,10 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
                         ':regional_indicator_e: - ET\n' +
                         ':regional_indicator_m: - MCD' 
                     )
-                    await announcement_message.add_reaction(':regional_indicator_i:')
-                    await announcement_message.add_reaction(':regional_indicator_w:')
-                    await announcement_message.add_reaction(':regional_indicator_e:')
-                    await announcement_message.add_reaction(':regional_indicator_m:')
+                    await announcement_message.add_reaction('🇮')
+                    await announcement_message.add_reaction('🇼')
+                    await announcement_message.add_reaction('🇪')
+                    await announcement_message.add_reaction('🇲')
                     if announcement_message:
                         self.announcement_message = announcement_message
 
