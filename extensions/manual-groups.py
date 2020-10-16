@@ -146,7 +146,6 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
         channel = self.bot.get_channel(
             self.guild_announcement_channel_id
         )
-        # await guild_announcement_channel.send('Soweit so gut')
 
         if self.guild_command_message_id > 0 and self.guild_command_message_id == payload.message_id:
 
@@ -180,36 +179,6 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
                 return
 
 
-#            channel = self.bot.get_channel(payload.channel_id)
- #           
-  #          if role > 0:
-#
- #               exRoles = [self.guild_et_role_id, self.guild_inf_role_id, self.guild_mcd_role_id, self.guild_wi_role_id]
-  #              exRoles.remove(role)
-#
- #               for x in exRoles:
-  #                  for y in payload.member.roles:
-   #                     if x == y.id:
-     #                       embed = discord.Embed(
-    #                            colour = discord.Colour.red(),
-      #                          title = f'Du bist bereits einem Studiengang zugewiesen!'
-       #                     )
-          #                  await channel.send ( payload.member.mention, embed=embed )
-        ##                    return
-
-#
- #               guild = self.bot.get_guild(payload.guild_id)
-  #              user = guild.get_member(payload.user_id)
-   #             role = guild.get_role(self.guild_inf_role_id)
-    #            await user.add_roles(role)
-
-     #       else:
-      #          user = self.bot.get_user(payload.user_id)
-       #         embed = discord.Embed(
-        #            colour = discord.Colour.red(),
-         #           title = f'Etwas ist schief gelaufen.'
-          #      )
-           #     await channel.send ( user.mention, embed=embed )
 
 def setup( bot ):
     bot.add_cog( ManualGroups( bot ) )
