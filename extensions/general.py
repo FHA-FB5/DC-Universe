@@ -37,6 +37,10 @@ class General(commands.Cog, name='General'):
                         value="Zeigt alle Informationen über den Bot an.", inline=False)
         embed.add_field(
             name="!stats|stat", value="Zeigt eine Statistik an", inline=False)
+        embed.add_field(
+            name = "!sg|studiengang [start|stopp]", value = "Iniziert die Nachricht für die Studiengangzuordnung bzw. löscht diese.",
+            inline = False
+        )
 
         # send message
         await ctx.send(ctx.author.mention, embed=embed)

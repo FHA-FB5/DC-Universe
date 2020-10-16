@@ -16,26 +16,12 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
         if isinstance( self.bot_user_id, str ) :
             self.bot_user_id = int( self.bot_user_id )
 
-        #self.guild_id = os.getenv(
-        #    'GUILD_ID'
-        #)
-        #if isinstance( self.guild_id, str ) :
-        #    self.guild_id = int( self.guild_id )
-
-        self.guild_command_channel_id = os.getenv(
-            'GUILD_COMMAND_CHANNEL' 
+        self.guild_study_course_channel_id = os.getenv(
+            'GUILD_STUDY_COURSE_CHANNEL' 
         )
-        if isinstance( self.guild_command_channel_id, str ) :
-            self.guild_command_channel_id = int(
-                self.guild_command_channel_id 
-            )
-        
-        self.guild_roles_channel_id = os.getenv(
-            'GUILD_ROLES_CHANNEL' 
-        )
-        if isinstance( self.guild_roles_channel_id, str ) :
-            self.guild_roles_channel_id = int(
-                self.guild_roles_channel_id 
+        if isinstance( self.guild_study_course_channel_id, str ) :
+            self.guild_study_course_channel_id = int(
+                self.guild_study_course_channel_id 
             )
         
         self.guild_announcement_channel_id = os.getenv(
@@ -79,6 +65,7 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
             )
         
         self.guild_command_message_id = 0
+        self.guild_announcement_message_id = 0
 
 
     @commands.command(aliases=['studiengang', 'sg'], hidden=True)
@@ -104,9 +91,12 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
                 guild_announcement_channel = self.bot.get_channel(
                     self.guild_announcement_channel_id
                 )
+                guild_study_course_channel = self.bot.get_channel(
+                    self.guild_study_course_channel_id
+                )
 
-                if guild_announcement_channel :
-                    announcement_message = await guild_announcement_channel.send(
+                if guild_study_course_channel :
+                    command_message = await guild_study_course_channel.send(
                         'Hallo @everyone,\n' + 
                         'Ab sofort könnt ihr euch eurem Studiengang zuordnen! Dies passiert indem du auf diese Nachricht reagierst.\n' +
                         'Die entsprechenden Buchstaben sind wie folgt zu verstehen:\n' +
@@ -115,27 +105,42 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
                         ':regional_indicator_e: - ET\n' +
                         ':regional_indicator_m: - MCD' 
                     )
-                    await announcement_message.add_reaction('🇮')
-                    await announcement_message.add_reaction('🇼')
-                    await announcement_message.add_reaction('🇪')
-                    await announcement_message.add_reaction('🇲')
+                    await command_message.add_reaction('🇮')
+                    await command_message.add_reaction('🇼')
+                    await command_message.add_reaction('🇪')
+                    await command_message.add_reaction('🇲')
+                    if command_message:
+                        await command_message.pin()
+                        self.guild_command_message_id = command_message.id
+                    
+                    embed = discord.Embed(
+                        colour = discord.Colour.blue(),
+                        title = f'Info:\nIm Channel @studiengang könnt ihr euch einem Studiengang zuordnen'
+                    )
+                    announcement_message = await guild_announcement_channel.send(embed=embed)
                     if announcement_message:
-                        self.guild_command_message_id = announcement_message.id
+                        self.guild_announcement_message_id = announcement_message.id
 
         if active == 'stopp':
             if self.guild_command_message_id == 0:
                 embed = discord.Embed(
-                    colour=discord.Colour.red(),
-                    title=f'Es existiert keine Nachricht, welche die Verteilung der Studiengänge behandelt.'
+                    colour = discord.Colour.red(),
+                    title = f'Es existiert keine Nachricht, welche die Verteilung der Studiengänge behandelt.'
                 )
                 # send embed
                 await ctx.send(ctx.author.mention, embed=embed)
             
             else :
-                channel = self.bot.get_channel( self.guild_announcement_channel_id )
+                channel = self.bot.get_channel( self.guild_study_course_channel_id )
                 msg = await channel.fetch_message( self.guild_command_message_id )
+                await msg.unpin()
+                await msg.delete()
+                channel = self.bot.get_channel( self.guild_announcement_channel_id )
+                msg = await channel.fetch_message( self.guild_announcement_message_id )
+                await msg.unpin()
                 await msg.delete()
                 self.guild_command_message_id = 0
+                self.guild_announcement_message_id = 0
 
 
     @ commands.Cog.listener()
@@ -145,7 +150,7 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
             return
         
         channel = self.bot.get_channel(
-            self.guild_announcement_channel_id
+            self.guild_study_course_channel_id
         )
 
         if self.guild_command_message_id > 0 and self.guild_command_message_id == payload.message_id:
