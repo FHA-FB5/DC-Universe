@@ -87,10 +87,10 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
                 await ctx.send(ctx.author.mention, embed=embed)
                 return
 
-            if self.guild_announcement_channel_id > 0 :
-                guild_announcement_channel = self.bot.get_channel(
-                    self.guild_announcement_channel_id
-                )
+            if self.guild_study_course_channel_id > 0:
+                # guild_announcement_channel = self.bot.get_channel(
+                #    self.guild_announcement_channel_id
+                #)
                 guild_study_course_channel = self.bot.get_channel(
                     self.guild_study_course_channel_id
                 )
