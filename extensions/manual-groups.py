@@ -115,9 +115,9 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
                     
                     embed = discord.Embed(
                         colour = discord.Colour.blue(),
-                        title = f'Info:\nIm Channel @studiengang könnt ihr euch einem Studiengang zuordnen'
+                        title = f'Info:\nIm Channel <#{self.guild_study_course_channel_id}> könnt ihr euch einem Studiengang zuordnen'
                     )
-                    announcement_message = await guild_announcement_channel.send(embed=embed)
+                    # announcement_message = await guild_announcement_channel.send(embed=embed)
                     if announcement_message:
                         self.guild_announcement_message_id = announcement_message.id
 
@@ -133,12 +133,14 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
             else :
                 channel = self.bot.get_channel( self.guild_study_course_channel_id )
                 msg = await channel.fetch_message( self.guild_command_message_id )
-                await msg.unpin()
-                await msg.delete()
+                if msg:
+                    await msg.unpin()
+                    await msg.delete()
                 channel = self.bot.get_channel( self.guild_announcement_channel_id )
                 msg = await channel.fetch_message( self.guild_announcement_message_id )
-                await msg.unpin()
-                await msg.delete()
+                if msg:
+                    await msg.unpin()
+                    await msg.delete()
                 self.guild_command_message_id = 0
                 self.guild_announcement_message_id = 0
 
