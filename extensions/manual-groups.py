@@ -113,13 +113,13 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
                         await command_message.pin()
                         self.guild_command_message_id = command_message.id
                     
-                    embed = discord.Embed(
-                        colour = discord.Colour.blue(),
-                        title = f'Info:\nIm Channel <#{self.guild_study_course_channel_id}> könnt ihr euch einem Studiengang zuordnen'
-                    )
+                    # embed = discord.Embed(
+                    #    colour = discord.Colour.blue(),
+                    #    title = f'Info:\nIm Channel <#{self.guild_study_course_channel_id}> könnt ihr euch einem Studiengang zuordnen'
+                    #)
                     # announcement_message = await guild_announcement_channel.send(embed=embed)
-                    if announcement_message:
-                        self.guild_announcement_message_id = announcement_message.id
+                    #if announcement_message:
+                    #    self.guild_announcement_message_id = announcement_message.id
 
         if active == 'stopp':
             if self.guild_command_message_id == 0:
