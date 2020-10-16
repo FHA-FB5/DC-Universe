@@ -206,7 +206,9 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
         
         if self.guild_command_message_id > 0 and self.guild_command_message_id == payload.message_id:
 
+            user_id = payload.user_id
             guild = self.bot.get_guild(payload.guild_id)
+            member = guild.get_member(user_id)
 
             role_inf = guild.get_role(self.guild_inf_role_id)
             role_wi = guild.get_role(self.guild_wi_role_id)
@@ -214,16 +216,16 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
             role_et = guild.get_role(self.guild_et_role_id)   
 
             if payload.emoji.name == '🇮':
-                await payload.member.remove_roles(role_inf)
+                await member.remove_roles(role_inf)
 
             elif payload.emoji.name == '🇼':
-                await payload.member.remove_roles(role_wi)
+                await member.remove_roles(role_wi)
 
             elif payload.emoji.name == '🇪':
-                await payload.member.remove_roles(role_et)    
+                await member.remove_roles(role_et)    
 
             elif payload.emoji.name == '🇲':
-                await payload.member.remove_roles(role_mcd)
+                await member.remove_roles(role_mcd)
 
 def setup( bot ):
     bot.add_cog( ManualGroups( bot ) )
