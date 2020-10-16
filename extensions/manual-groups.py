@@ -84,6 +84,14 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
 
         # post message with content
         if active == 'start':
+            if self.guild_command_message_id > 0:
+                embed = discord.Embed(
+                    colour=discord.Colour.red(),
+                    title=f'Es existiert bereits eine Nachricht, welche die Verteilung der Studiengänge behandelt.'
+                )
+                # send embed
+                await ctx.send(ctx.author.mention, embed=embed)
+                return
 
             if self.guild_announcement_channel_id > 0 :
                 guild_announcement_channel = self.bot.get_channel(
@@ -105,7 +113,7 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
                     await announcement_message.add_reaction('🇪')
                     await announcement_message.add_reaction('🇲')
                     if announcement_message:
-                        self.guild_command_message_id = announcement_message
+                        self.guild_command_message_id = guild_announcement_channel.last_message_id
 
         if active == 'stopp':
             if self.guild_command_message_id == 0:
@@ -113,28 +121,61 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
                     colour=discord.Colour.red(),
                     title=f'Es existiert keine Nachricht, welche die Verteilung der Studiengänge behandelt.'
                 )
-
                 # send embed
                 await ctx.send(ctx.author.mention, embed=embed)
-
-
+            
+            else :
+                channel = self.bot.get_channel( self.guild_announcement_channel_id )
+                msg = await channel.fetch_message( self.guild_command_message_id )
+                await msg.delete()
 
 
     @ commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
+        # check if bot react
         if payload.user_id == self.bot_user_id:
             return
+        
         guild_announcement_channel = self.bot.get_channel(
             self.guild_announcement_channel_id
         )
         # await guild_announcement_channel.send('Soweit so gut')
 
         if self.guild_command_message_id > 0 and self.guild_command_message_id == payload.message_id:
+            role = 0
 
+            if payload.emoji.name == '🇮':
+                role = self.guild_inf_role_id
 
-        
+            elif payload.emoji.name == '🇼':
+                role = self.guild_wi_role_id
 
+            elif payload.emoji.name == '🇪':
+                role = self.guild_et_role_id
 
+            elif payload.emoji.name == '🇲':
+                role = self.guild_mcd_role_id
+
+            else:
+                channel = self.bot.get_channel(payload.channel_id)
+                message = await channel.fetch_message(payload.message_id)
+                user = discord.Member
+                user.id = payload.user_id
+                await message.remove_reaction(payload.emoji, user)
+                return
+
+            if role > 0:
+                userId = payload.user_id
+                userDiscord = self.bot.get_guild.get_member(userId)
+                await userDiscord.add_roles( role )
+            else:
+                channel = self.bot.get_channel(payload.channel_id)
+                user = await self.bot.fetch_user(payload.user_id)
+                embed = discord.Embed(
+                    colour = discord.Colour.red(),
+                    title = f'Etwas ist schief gelaufen.'
+                )
+                await channel.send ( user.mention, embed=embed )
 
 def setup( bot ):
     bot.add_cog( ManualGroups( bot ) )
