@@ -16,11 +16,11 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
         if isinstance( self.bot_user_id, str ) :
             self.bot_user_id = int( self.bot_user_id )
 
-        self.guild_id = os.getenv(
-            'GUILD_ID'
-        )
-        if isinstance( self.guild_id, str ) :
-            self.guild_id = int( self.guild_id )
+        #self.guild_id = os.getenv(
+        #    'GUILD_ID'
+        #)
+        #if isinstance( self.guild_id, str ) :
+        #    self.guild_id = int( self.guild_id )
 
         self.guild_command_channel_id = os.getenv(
             'GUILD_COMMAND_CHANNEL' 
@@ -143,7 +143,7 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
         if payload.user_id == self.bot_user_id:
             return
         
-        guild_announcement_channel = self.bot.get_channel(
+        channel = self.bot.get_channel(
             self.guild_announcement_channel_id
         )
         # await guild_announcement_channel.send('Soweit so gut')
@@ -151,29 +151,28 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
         if self.guild_command_message_id > 0 and self.guild_command_message_id == payload.message_id:
 
             guild = self.bot.get_guild(payload.guild_id)
-            user = guild.get_member(payload.user_id)
+
             role_inf = guild.get_role(self.guild_inf_role_id)
             role_wi = guild.get_role(self.guild_wi_role_id)
             role_mcd = guild.get_role(self.guild_mcd_role_id)
             role_et = guild.get_role(self.guild_et_role_id)
 
             if payload.emoji.name == '🇮':
-                await user.remove_roles(role_wi, role_mcd, role_et)
-                await user.add_roles(role_inf)
+                await payload.member.remove_roles(role_wi, role_mcd, role_et)
+                await payload.member.add_roles(role_inf)
 
             elif payload.emoji.name == '🇼':
-                await user.remove_roles(role_inf, role_mcd, role_et)
-                await user.add_roles(role_wi)
+                await payload.member.remove_roles(role_inf, role_mcd, role_et)
+                await payload.member.add_roles(role_wi)
 
             elif payload.emoji.name == '🇪':
-                await user.remove_roles(role_wi, role_mcd, role_inf)
-                await user.add_roles(role_et)
+                await payload.member.remove_roles(role_wi, role_mcd, role_inf)
+                await payload.member.add_roles(role_et)
 
             elif payload.emoji.name == '🇲':
-                await user.remove_roles(role_wi, role_inf, role_et)
-                await user.add_roles(role_mcd)
+                await payload.member.remove_roles(role_wi, role_inf, role_et)
+                await payload.member.add_roles(role_mcd)
             else:
-                channel = self.bot.get_channel(payload.channel_id)
                 message = await channel.fetch_message(payload.message_id)
                 user = discord.Member
                 user.id = payload.user_id
