@@ -1,6 +1,7 @@
 import discord
 import os
 import typing
+import urllib.request
 
 from discord.ext import commands
 
@@ -14,6 +15,12 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
         )
         if isinstance( self.bot_user_id, str ) :
             self.bot_user_id = int( self.bot_user_id )
+
+        self.guild_id = os.getenv(
+            'GUILD_ID'
+        )
+        if isinstance( self.guild_id, str ) :
+            self.guild_id = int( self.guild_id )
 
         self.guild_command_channel_id = os.getenv(
             'GUILD_COMMAND_CHANNEL' 
@@ -142,20 +149,29 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
         # await guild_announcement_channel.send('Soweit so gut')
 
         if self.guild_command_message_id > 0 and self.guild_command_message_id == payload.message_id:
-            role = 0
+
+            guild = self.bot.get_guild(payload.guild_id)
+            user = guild.get_member(payload.user_id)
+            role_inf = guild.get_role(self.guild_inf_role_id)
+            role_wi = guild.get_role(self.guild_wi_role_id)
+            role_mcd = guild.get_role(self.guild_mcd_role_id)
+            role_et = guild.get_role(self.guild_et_role_id)
 
             if payload.emoji.name == '🇮':
-                role = self.guild_inf_role_id
+                await user.remove_roles(role_wi, role_mcd, role_et)
+                await user.add_roles(role_inf)
 
             elif payload.emoji.name == '🇼':
-                role = self.guild_wi_role_id
+                await user.remove_roles(role_inf, role_mcd, role_et)
+                await user.add_roles(role_wi)
 
             elif payload.emoji.name == '🇪':
-                role = self.guild_et_role_id
+                await user.remove_roles(role_wi, role_mcd, role_inf)
+                await user.add_roles(role_et)
 
             elif payload.emoji.name == '🇲':
-                role = self.guild_mcd_role_id
-
+                await user.remove_roles(role_wi, role_inf, role_et)
+                await user.add_roles(role_mcd)
             else:
                 channel = self.bot.get_channel(payload.channel_id)
                 message = await channel.fetch_message(payload.message_id)
@@ -164,18 +180,37 @@ class ManualGroups( commands.Cog, name='ManualGroups' ):
                 await message.remove_reaction(payload.emoji, user)
                 return
 
-            if role > 0:
-                userId = payload.user_id
-                userDiscord = self.bot.get_guild.get_member(userId)
-                await userDiscord.add_roles( role )
-            else:
-                channel = self.bot.get_channel(payload.channel_id)
-                user = await self.bot.fetch_user(payload.user_id)
-                embed = discord.Embed(
-                    colour = discord.Colour.red(),
-                    title = f'Etwas ist schief gelaufen.'
-                )
-                await channel.send ( user.mention, embed=embed )
+
+#            channel = self.bot.get_channel(payload.channel_id)
+ #           
+  #          if role > 0:
+#
+ #               exRoles = [self.guild_et_role_id, self.guild_inf_role_id, self.guild_mcd_role_id, self.guild_wi_role_id]
+  #              exRoles.remove(role)
+#
+ #               for x in exRoles:
+  #                  for y in payload.member.roles:
+   #                     if x == y.id:
+     #                       embed = discord.Embed(
+    #                            colour = discord.Colour.red(),
+      #                          title = f'Du bist bereits einem Studiengang zugewiesen!'
+       #                     )
+          #                  await channel.send ( payload.member.mention, embed=embed )
+        ##                    return
+
+#
+ #               guild = self.bot.get_guild(payload.guild_id)
+  #              user = guild.get_member(payload.user_id)
+   #             role = guild.get_role(self.guild_inf_role_id)
+    #            await user.add_roles(role)
+
+     #       else:
+      #          user = self.bot.get_user(payload.user_id)
+       #         embed = discord.Embed(
+        #            colour = discord.Colour.red(),
+         #           title = f'Etwas ist schief gelaufen.'
+          #      )
+           #     await channel.send ( user.mention, embed=embed )
 
 def setup( bot ):
     bot.add_cog( ManualGroups( bot ) )
