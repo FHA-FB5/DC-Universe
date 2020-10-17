@@ -10,6 +10,7 @@
 * [Getting Started](#getting-started)
     * [Installing](#installing)
     * [Run bot](#run-bot)
+    * [bot.sh](#bot-sh)
 * [Versioning](#versioning)
 * [Built With](#built-with)
 * [Authors](#authors)
@@ -67,6 +68,9 @@ or if you are developr and want the bot to restart after each change:
 ```bash
 ./dev.sh
 ```
+
+### bot.sh
+For using the `bot.sh` please look [here in the Wiki](https://github.com/FHA-FB5/DC-Universe/wiki/bot.sh).
 
 ## Versioning
 We use [SemVer](http://semver.org/) for versioning. For available versions, see the [tags on this repository](https://github.com/FHA-FB5/DC-Universe/tags). 
