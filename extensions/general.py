@@ -38,7 +38,15 @@ class General(commands.Cog, name='General'):
         embed.add_field(
             name="!stats|stat", value="Zeigt eine Statistik an", inline=False)
         embed.add_field(
-            name = "!sg|studiengang [start|stopp]", value = "Iniziert die Nachricht für die Studiengangzuordnung bzw. löscht diese.",
+            name = "!sg|studiengang [start|stopp]\t(Nur für Tutoren)", value = "Iniziert die Nachricht für die Studiengangzuordnung bzw. löscht diese.",
+            inline = False
+        )
+        embed.add_field(
+            name = "!rl|redeliste [info|add|remove]", value = "Funktion zur Verwaltung einer einfachen Redeliste.",
+            inline = False
+        )
+        embed.add_field(
+            name = "!rl|redeliste [clear|first|last]\t(Nur für Tutoren)", value = "Erweiterte Funktionen zur Verwaltung einer einfachen Redeliste.",
             inline = False
         )
 
