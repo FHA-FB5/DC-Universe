@@ -43,6 +43,10 @@ class Groupphaseuser(Base):
         return db_session.query(Groupphaseuser).all()
 
     @classmethod
+    def allWithoutgroup(cls) -> List['Groupphaseuser']:
+        return db_session.query(Groupphaseuser).filter(Groupphaseuser.groupID == sql.null()).all()
+
+    @classmethod
     def deleteall(cls):
         db_session.query(Groupphaseuser).delete()
         db_session.commit()

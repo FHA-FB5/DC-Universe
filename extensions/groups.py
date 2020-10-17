@@ -245,8 +245,7 @@ class Groups(commands.Cog, name='Groups'):
                         group = Group('Gruppe ' + str(x), role.id,
                                       voiceChannel.id, textChannel.id)
                         db_session.add(group)
-
-                    db_session.commit()
+                        db_session.commit()
 
                     # create output embed
                     embed = discord.Embed(
@@ -269,7 +268,7 @@ class Groups(commands.Cog, name='Groups'):
                     groups = Group.all()
                     counter = 0
 
-                    for user in Groupphaseuser.all():
+                    for user in Groupphaseuser.allWithoutGroup():
                         if counter >= groupamount:
                             counter = 0
 
@@ -279,8 +278,7 @@ class Groups(commands.Cog, name='Groups'):
                         await userDiscord.add_roles(role)
 
                         counter += 1
-
-                    db_session.commit()
+                        db_session.commit()
 
                     # create output embed
                     embed = discord.Embed(
