@@ -156,67 +156,22 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
             role_et = guild.get_role(self.guild_et_role_id)
 
             if payload.emoji.name == '🇮':
-                await msg.remove_reaction('🇼', payload.member)
-                await msg.remove_reaction('🇪', payload.member)
-                await msg.remove_reaction('🇲', payload.member)
                 await payload.member.remove_roles(role_wi, role_mcd, role_et)
                 await payload.member.add_roles(role_inf)
 
             elif payload.emoji.name == '🇼':
-                await msg.remove_reaction('🇮', payload.member)
-                await msg.remove_reaction('🇪', payload.member)
-                await msg.remove_reaction('🇲', payload.member)
                 await payload.member.remove_roles(role_inf, role_mcd, role_et)
                 await payload.member.add_roles(role_wi)
 
             elif payload.emoji.name == '🇪':
-                await msg.remove_reaction('🇼', payload.member)
-                await msg.remove_reaction('🇮', payload.member)
-                await msg.remove_reaction('🇲', payload.member)
                 await payload.member.remove_roles(role_wi, role_mcd, role_inf)
                 await payload.member.add_roles(role_et)
 
             elif payload.emoji.name == '🇲':
-                await msg.remove_reaction('🇼', payload.member)
-                await msg.remove_reaction('🇪', payload.member)
-                await msg.remove_reaction('🇮', payload.member)
                 await payload.member.remove_roles(role_wi, role_inf, role_et)
                 await payload.member.add_roles(role_mcd)
-            else:
-                message = await channel.fetch_message(payload.message_id)
-                user = discord.Member
-                user.id = payload.user_id
-                await message.remove_reaction(payload.emoji, user)
-                return
 
-    @ commands.Cog.listener()
-    async def on_raw_reaction_remove(self, payload):
-        # check if bot react
-        if payload.user_id == self.bot_user_id:
-            return
-
-        if self.guild_command_message_id > 0 and self.guild_command_message_id == payload.message_id:
-
-            user_id = payload.user_id
-            guild = self.bot.get_guild(payload.guild_id)
-            member = guild.get_member(user_id)
-
-            role_inf = guild.get_role(self.guild_inf_role_id)
-            role_wi = guild.get_role(self.guild_wi_role_id)
-            role_mcd = guild.get_role(self.guild_mcd_role_id)
-            role_et = guild.get_role(self.guild_et_role_id)
-
-            if payload.emoji.name == '🇮':
-                await member.remove_roles(role_inf)
-
-            elif payload.emoji.name == '🇼':
-                await member.remove_roles(role_wi)
-
-            elif payload.emoji.name == '🇪':
-                await member.remove_roles(role_et)
-
-            elif payload.emoji.name == '🇲':
-                await member.remove_roles(role_mcd)
+            await msg.remove_reaction(payload.emoji, payload.member)
 
 
 def setup(bot):
