@@ -42,7 +42,7 @@ class General(commands.Cog, name='General'):
             inline = False
         )
         embed.add_field(
-            name = "!rl|redeliste [info|add|remove]", value = "Funktion zur Verwaltung einer einfachen Redeliste.",
+            name = "!rl|redeliste [help|add|remove|print]", value = "Funktion zur Verwaltung einer einfachen Redeliste.",
             inline = False
         )
         embed.add_field(
