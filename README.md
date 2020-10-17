@@ -10,7 +10,7 @@
 * [Getting Started](#getting-started)
     * [Installing](#installing)
     * [Run bot](#run-bot)
-    * [bot.sh](#bot-sh)
+    * [bot.sh](#botsh)
 * [Versioning](#versioning)
 * [Built With](#built-with)
 * [Authors](#authors)
