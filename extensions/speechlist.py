@@ -105,6 +105,9 @@ class Speechlist(commands.Cog, name='Speechlist'):
             )
             await ctx.send(ctx.author.mention, embed=embed)
 
+        # add with prio, remove specific name, clear all
+        # todo add all to list for tutors
+
 def buildMessage(queue: list, count: int):
     tmp = queue.copy()
     text = ""
