@@ -4,6 +4,9 @@ import typing
 
 
 from discord.ext import commands
+from db import db_session, db_engine, Session
+
+from models.speechlist import Speechlist
 
 
 class Speechlist(commands.Cog, name='Speechlist'):
