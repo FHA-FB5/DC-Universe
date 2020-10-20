@@ -106,7 +106,6 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                     await command_message.add_reaction('🇪')
                     await command_message.add_reaction('🇲')
                     if command_message:
-                        await command_message.pin()
                         self.guild_command_message_id = command_message.id
 
         if active == 'stopp':
@@ -123,13 +122,11 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                     self.guild_study_course_channel_id)
                 msg = await channel.fetch_message(self.guild_command_message_id)
                 if msg:
-                    await msg.unpin()
                     await msg.delete()
                 channel = self.bot.get_channel(
                     self.guild_announcement_channel_id)
                 msg = await channel.fetch_message(self.guild_announcement_message_id)
                 if msg:
-                    await msg.unpin()
                     await msg.delete()
                 self.guild_command_message_id = 0
                 self.guild_announcement_message_id = 0
