@@ -27,6 +27,70 @@ class Groups(commands.Cog, name='Groups'):
             self.bot_user_id = int(
                 self.bot_user_id)
 
+        self.guild_inf_role_id = os.getenv(
+            'GUILD_INF_ROLE'
+        )
+        if isinstance(self.guild_inf_role_id, str):
+            self.guild_inf_role_id = int(
+                self.guild_inf_role_id
+            )
+
+        self.guild_wi_role_id = os.getenv(
+            'GUILD_WI_ROLE'
+        )
+        if isinstance(self.guild_wi_role_id, str):
+            self.guild_wi_role_id = int(
+                self.guild_wi_role_id
+            )
+
+        self.guild_et_role_id = os.getenv(
+            'GUILD_ET_ROLE'
+        )
+        if isinstance(self.guild_et_role_id, str):
+            self.guild_et_role_id = int(
+                self.guild_et_role_id
+            )
+
+        self.guild_mcd_role_id = os.getenv(
+            'GUILD_MCD_ROLE'
+        )
+        if isinstance(self.guild_mcd_role_id, str):
+            self.guild_mcd_role_id = int(
+                self.guild_mcd_role_id
+            )
+
+        self.guild_fsr_role_id = os.getenv(
+            'GUILD_FSR_ROLE'
+        )
+        if isinstance(self.guild_fsr_role_id, str):
+            self.guild_fsr_role_id = int(
+                self.guild_fsr_role_id
+            )
+
+        self.guild_tutor_role_id = os.getenv(
+            'GUILD_TUTOR_ROLE'
+        )
+        if isinstance(self.guild_tutor_role_id, str):
+            self.guild_tutor_role_id = int(
+                self.guild_tutor_role_id
+            )
+
+        self.guild_id = os.getenv(
+            'GUILD_ID'
+        )
+        if isinstance(self.guild_id, str):
+            self.guild_id = int(
+                self.guild_id
+            )
+
+        self.guild = self.bot.get_guild(self.guild_id)
+        self.guild_inf_role = self.guild.get_role(self.guild_inf_role_id)
+        self.guild_wi_role = self.guild.get_role(self.guild_wi_role_id)
+        self.guild_et_role = self.guild.get_role(self.guild_et_role_id)
+        self.guild_mcd_role = self.guild.get_role(self.guild_mcd_role_id)
+        self.guild_fsr_role = self.guild.get_role(self.guild_fsr_role_id)
+        self.guild_tutor_role = self.guild.get_role(self.guild_tutor_role_id)
+
     @commands.command(aliases=['gruppenphase'], hidden=True)
     @commands.has_permissions(administrator=True)
     async def groupphase(self, ctx, type:  typing.Optional[str], groupamount: typing.Optional[int]):
@@ -100,9 +164,21 @@ class Groups(commands.Cog, name='Groups'):
 
                 # delete all groups
                 for group in Group.all():
-                    await ctx.guild.get_role(group.role).delete()
-                    await ctx.guild.get_channel(group.textChannel).delete()
-                    await ctx.guild.get_channel(group.voiceChannel).delete()
+                    try:
+                        await ctx.guild.get_role(group.role).delete()
+                    except Exception:
+                        pass
+
+                    try:
+                        await ctx.guild.get_channel(group.textChannel).delete()
+                    except Exception:
+                        pass
+
+                    try:
+                        await ctx.guild.get_channel(group.voiceChannel).delete()
+                    except Exception:
+                        pass
+
                     Group.delete(group.id)
 
                 # delete groupphase user
@@ -132,67 +208,7 @@ class Groups(commands.Cog, name='Groups'):
                 # send embed
                 await ctx.send(ctx.author.mention, embed=embed)
 
-        elif type == 'info':
-            # check if grouphase is startet
-            state_groupphase_isStarted = State.get('groupphase_isStarted')
-            if (state_groupphase_isStarted and state_groupphase_isStarted.value == str(True)):
-
-                # create output embed
-                embed = discord.Embed(
-                    colour=discord.Colour.blue(),
-                    title="Informationen zur Gruppenphase",
-                )
-
-                members_total = len(Groupphaseuser.all())
-
-                embed.add_field(name='Teilnehmer',
-                                value=f'{members_total}', inline=False)
-
-                # send message
-                await ctx.send(ctx.author.mention, embed=embed)
-
-            else:
-
-                # create output embed
-                embed = discord.Embed(
-                    colour=discord.Colour.red(),
-                    title=f'Es läuft keine Gruppenphase, über die du Informationen anfodern kannst!'
-                )
-
-                # send embed
-                await ctx.send(ctx.author.mention, embed=embed)
-
-        elif type == 'info':
-            # check if grouphase is startet
-            state_groupphase_isStarted = State.get('groupphase_isStarted')
-            if (state_groupphase_isStarted and state_groupphase_isStarted.value == str(True)):
-
-                # create output embed
-                embed = discord.Embed(
-                    colour=discord.Colour.blue(),
-                    title="Informationen zur Gruppenphase",
-                )
-
-                members_total = len(Groupphaseuser.all())
-
-                embed.add_field(name='Teilnehmer',
-                                value=f'{members_total}', inline=False)
-
-                # send message
-                await ctx.send(ctx.author.mention, embed=embed)
-
-            else:
-
-                # create output embed
-                embed = discord.Embed(
-                    colour=discord.Colour.red(),
-                    title=f'Es läuft keine Gruppenphase, über die du Informationen anfodern kannst!'
-                )
-
-                # send embed
-                await ctx.send(ctx.author.mention, embed=embed)
-
-        elif type == 'sort':
+        elif type in ['sort', 'inf', 'wi', 'et', 'mcd']:
             # check if grouphase is startet
             state_groupphase_isStarted = State.get('groupphase_isStarted')
             if (state_groupphase_isStarted and state_groupphase_isStarted.value == str(True)):
@@ -204,18 +220,33 @@ class Groups(commands.Cog, name='Groups'):
                     elif groupamount > 100:
                         groupamount = 100
 
-                    members_total = len(Groupphaseuser.all())
-
                     # create output embed
                     embed = discord.Embed(
                         colour=discord.Colour.blue(),
                         title="Einteilung der Gruppenphase beginnt",
                     )
 
-                    members_total = len(Groupphaseuser.all())
+                    if type == 'sort':
+                        members_total = len(Groupphaseuser.all())
+                        embed.add_field(name='Teilnehmer',
+                                        value=f'{members_total}', inline=False)
+                    elif type == 'inf':
+                        members_total = len(Groupphaseuser.inf())
+                        embed.add_field(name='Teilnehmer (INF)',
+                                        value=f'{members_total}', inline=False)
+                    elif type == 'wi':
+                        members_total = len(Groupphaseuser.wi())
+                        embed.add_field(name='Teilnehmer (WI)',
+                                        value=f'{members_total}', inline=False)
+                    elif type == 'et':
+                        members_total = len(Groupphaseuser.et())
+                        embed.add_field(name='Teilnehmer (ET)',
+                                        value=f'{members_total}', inline=False)
+                    elif type == 'mcd':
+                        members_total = len(Groupphaseuser.mcd())
+                        embed.add_field(name='Teilnehmer (MCD)',
+                                        value=f'{members_total}', inline=False)
 
-                    embed.add_field(name='Teilnehmer',
-                                    value=f'{members_total}', inline=False)
                     embed.add_field(name='Gruppenanzahl',
                                     value=f'{groupamount}', inline=False)
                     embed.add_field(name='Max. Teilnehmer pro Gruppe',
@@ -225,7 +256,12 @@ class Groups(commands.Cog, name='Groups'):
                     await ctx.send(ctx.author.mention, embed=embed)
 
                     for x in range(groupamount):
-                        role = await ctx.guild.create_role(name='Gruppe ' + str(x), hoist=True)
+                        if type == 'sort':
+                            groupname = 'Gruppe ' + str(x)
+                        else:
+                            groupname = type.upper() + '-Gruppe ' + str(x)
+
+                        role = await ctx.guild.create_role(name=groupname, hoist=False)
 
                         overwrites = {
                             ctx.guild.default_role: discord.PermissionOverwrite(
@@ -239,11 +275,20 @@ class Groups(commands.Cog, name='Groups'):
                                 connect=True,
                             )
                         }
-                        voiceChannel = await ctx.guild.create_voice_channel(name='Gruppe ' + str(x), overwrites=overwrites)
-                        textChannel = await ctx.guild.create_text_channel(name='Gruppe ' + str(x), overwrites=overwrites)
+                        voiceChannel = await ctx.guild.create_voice_channel(name=groupname, overwrites=overwrites)
+                        textChannel = await ctx.guild.create_text_channel(name=groupname, overwrites=overwrites)
 
-                        group = Group('Gruppe ' + str(x), role.id,
+                        group = Group(groupname, role.id,
                                       voiceChannel.id, textChannel.id)
+                        if type == 'inf':
+                            group.course = "inf"
+                        elif type == 'wi':
+                            group.course = "wi"
+                        elif type == 'et':
+                            group.course = "et"
+                        elif type == 'mcd':
+                            group.course = "mcd"
+
                         db_session.add(group)
                         db_session.commit()
 
@@ -265,10 +310,27 @@ class Groups(commands.Cog, name='Groups'):
                     # send embed
                     await ctx.send(ctx.author.mention, embed=embed)
 
-                    groups = Group.all()
+                    if type == 'sort':
+                        groups = Group.all()
+                        allWithoutGroups = Groupphaseuser.allWithoutGroup()
+                    elif type == 'inf':
+                        groups = Group.inf()
+                        allWithoutGroups = Groupphaseuser.allWithoutGroupInf()
+                    elif type == 'wi':
+                        groups = Group.wi()
+                        allWithoutGroups = Groupphaseuser.allWithoutGroupWi()
+                    elif type == 'et':
+                        groups = Group.et()
+                        allWithoutGroups = Groupphaseuser.allWithoutGroupEt()
+                    elif type == 'mcd':
+                        groups = Group.mcd()
+                        allWithoutGroups = Groupphaseuser.allWithoutGroupMcd()
+                    else:
+                        return
+
                     counter = 0
 
-                    for user in Groupphaseuser.allWithoutGroup():
+                    for user in allWithoutGroups:
                         if counter >= groupamount:
                             counter = 0
 
@@ -312,14 +374,55 @@ class Groups(commands.Cog, name='Groups'):
                 await ctx.send(ctx.author.mention, embed=embed)
 
         else:
-            # create output embed
-            embed = discord.Embed(
-                colour=discord.Colour.red(),
-                title=f'Bitte übergebe `start`, `stop`, `info` oder `sort` als erstes Argument.'
-            )
 
-            # send embed
-            await ctx.send(ctx.author.mention, embed=embed)
+            # check if grouphase is startet
+            state_groupphase_isStarted = State.get('groupphase_isStarted')
+            if (state_groupphase_isStarted and state_groupphase_isStarted.value == str(True)):
+
+                # create output embed
+                embed = discord.Embed(
+                    colour=discord.Colour.blue(),
+                    title="Informationen zur Gruppenphase",
+                )
+
+                members_total = len(Groupphaseuser.all())
+
+                embed.add_field(name='Teilnehmer',
+                                value=f'{members_total}', inline=False)
+
+                inf_total = len(Groupphaseuser.inf())
+
+                embed.add_field(name='INF',
+                                value=f'{inf_total}', inline=False)
+
+                wi_total = len(Groupphaseuser.wi())
+
+                embed.add_field(name='WI',
+                                value=f'{wi_total}', inline=False)
+
+                et_total = len(Groupphaseuser.et())
+
+                embed.add_field(name='ET',
+                                value=f'{et_total}', inline=False)
+
+                mcd_total = len(Groupphaseuser.mcd())
+
+                embed.add_field(name='MCD',
+                                value=f'{mcd_total}', inline=False)
+
+                # send message
+                await ctx.send(ctx.author.mention, embed=embed)
+
+            else:
+
+                # create output embed
+                embed = discord.Embed(
+                    colour=discord.Colour.red(),
+                    title=f'Es läuft keine Gruppenphase, über die du Informationen anfodern kannst!'
+                )
+
+                # send embed
+                await ctx.send(ctx.author.mention, embed=embed)
 
     @ commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
@@ -336,7 +439,34 @@ class Groups(commands.Cog, name='Groups'):
 
                 # check emoji
                 if payload.emoji.name == '✅':
-                    Groupphaseuser.set(payload.user_id)
+
+                    if (self.guild_fsr_role in payload.member.roles or self.guild_tutor_role in payload.member.roles):
+                        channel = self.bot.get_channel(payload.channel_id)
+                        message = await channel.fetch_message(payload.message_id)
+                        user = discord.Member
+                        user.id = payload.user_id
+                        await message.remove_reaction(payload.emoji, user)
+                    else:
+                        course = 'no'
+
+                        if self.guild_inf_role in payload.member.roles:
+                            course = 'inf'
+                        elif self.guild_wi_role in payload.member.roles:
+                            course = 'wi'
+                        elif self.guild_et_role in payload.member.roles:
+                            course = 'et'
+                        elif self.guild_mcd_role in payload.member.roles:
+                            course = 'mcd'
+
+                        if course != 'no':
+                            Groupphaseuser.set(payload.user_id, course)
+                        else:
+                            channel = self.bot.get_channel(payload.channel_id)
+                            message = await channel.fetch_message(payload.message_id)
+                            user = discord.Member
+                            user.id = payload.user_id
+                            await message.remove_reaction(payload.emoji, user)
+
                 else:
                     channel = self.bot.get_channel(payload.channel_id)
                     message = await channel.fetch_message(payload.message_id)
