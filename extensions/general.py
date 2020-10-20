@@ -38,7 +38,7 @@ class General(commands.Cog, name='General'):
         embed.add_field(
             name="!stats|stat", value="Zeigt eine Statistik an", inline=False)
         embed.add_field(
-            name="!p|poll", value="Erstellt eine Umfrage", inline=False)
+            name="!p|poll [Thema] {0..10}[Antwortmöglichkeiten]", value="Erstellt eine Umfrage", inline=False)
 
         # send message
         await ctx.send(ctx.author.mention, embed=embed)
