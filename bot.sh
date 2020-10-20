@@ -20,11 +20,11 @@ fi
 # all functions
 start() {
     echo "Start bot..."
-	tmux new-session -d -s $tmux_session \; send-keys /"cd $app_dir ;python3 run.py" Enter
+	tmux new-session -d -s $tmux_session_bot \; send-keys /"cd $application_dir ;python3 run.py" Enter
 }
 stop() {
     echo "Stop bot..."
-	tmux kill-session -t $tmux_session
+	tmux kill-session -t $tmux_session_bot
 }
 restart() {
     start
