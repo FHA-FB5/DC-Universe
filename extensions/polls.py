@@ -80,8 +80,6 @@ class Polls(commands.Cog, name='Polls'):
         # check if bot react
         if payload.user_id == self.bot_user_id:
             return
-        
-        
 
         guild = self.bot.get_guild(payload.guild_id)
         channel = guild.get_channel(payload.channel_id)
@@ -90,14 +88,12 @@ class Polls(commands.Cog, name='Polls'):
 
         if payload.emoji.name != '✅' and payload.emoji.name != '❌' and self.emojis.count(payload.emoji.name) == 0:
             await msg.remove_reaction(payload.emoji, payload.member)
-            print("hier")
             return
         else:
             removeEmojis = self.emojis.copy()
             removeEmojis.extend('✅')
             removeEmojis.extend('❌')
             removeEmojis.remove(payload.emoji.name)
-            print("da")
             for e in removeEmojis:
                 await msg.remove_reaction(e, payload.member)
             return
