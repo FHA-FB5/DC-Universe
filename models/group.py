@@ -17,6 +17,7 @@ class Group(Base):
     role = Column(BigInteger)
     voiceChannel = Column(BigInteger)
     textChannel = Column(BigInteger)
+    course = Column(String(length=255))
 
     def __init__(self, name: str, role: int, voiceChannel: int, textChannel: int):
         self.name = name
@@ -27,6 +28,22 @@ class Group(Base):
     @classmethod
     def all(cls) -> List['Group']:
         return db_session.query(Group).all()
+
+    @classmethod
+    def inf(cls) -> List['Group']:
+        return db_session.query(Group).filter(Group.course == "inf").all()
+
+    @classmethod
+    def wi(cls) -> List['Group']:
+        return db_session.query(Group).filter(Group.course == "wi").all()
+
+    @classmethod
+    def et(cls) -> List['Group']:
+        return db_session.query(Group).filter(Group.course == "et").all()
+
+    @classmethod
+    def mcd(cls) -> List['Group']:
+        return db_session.query(Group).filter(Group.course == "mcd").all()
 
     @classmethod
     def delete(cls, id: int):

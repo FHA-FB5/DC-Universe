@@ -14,6 +14,7 @@ class Groupphaseuser(Base):
 
     id = Column(BigInteger, primary_key=True)
     groupID = Column(Integer)
+    course = Column(String(length=255))
 
     def __init__(self, id: str):
         self.id = id
@@ -23,10 +24,11 @@ class Groupphaseuser(Base):
         return db_session.query(Groupphaseuser).filter(Groupphaseuser.id == id).first()
 
     @classmethod
-    def set(cls, id: int) -> 'Groupphaseuser':
+    def set(cls, id: int, course: str) -> 'Groupphaseuser':
         db_Groupphaseuser = Groupphaseuser.get(id)
         if not db_Groupphaseuser:
             db_Groupphaseuser = Groupphaseuser(id)
+            db_Groupphaseuser.course = course
             db_session.add(db_Groupphaseuser)
             db_session.commit()
 
@@ -41,6 +43,42 @@ class Groupphaseuser(Base):
     @classmethod
     def all(cls) -> List['Groupphaseuser']:
         return db_session.query(Groupphaseuser).all()
+
+    @classmethod
+    def inf(cls) -> List['Groupphaseuser']:
+        return db_session.query(Groupphaseuser).filter(Groupphaseuser.course == "inf").all()
+
+    @classmethod
+    def wi(cls) -> List['Groupphaseuser']:
+        return db_session.query(Groupphaseuser).filter(Groupphaseuser.course == "wi").all()
+
+    @classmethod
+    def et(cls) -> List['Groupphaseuser']:
+        return db_session.query(Groupphaseuser).filter(Groupphaseuser.course == "et").all()
+
+    @classmethod
+    def mcd(cls) -> List['Groupphaseuser']:
+        return db_session.query(Groupphaseuser).filter(Groupphaseuser.course == "mcd").all()
+
+    @classmethod
+    def allWithoutGroup(cls) -> List['Groupphaseuser']:
+        return db_session.query(Groupphaseuser).filter(Groupphaseuser.groupID == sql.null()).all()
+
+    @classmethod
+    def allWithoutGroupInf(cls) -> List['Groupphaseuser']:
+        return db_session.query(Groupphaseuser).filter(Groupphaseuser.course == "inf").filter(Groupphaseuser.groupID == sql.null()).all()
+
+    @classmethod
+    def allWithoutGroupWi(cls) -> List['Groupphaseuser']:
+        return db_session.query(Groupphaseuser).filter(Groupphaseuser.course == "wi").filter(Groupphaseuser.groupID == sql.null()).all()
+
+    @classmethod
+    def allWithoutGroupEt(cls) -> List['Groupphaseuser']:
+        return db_session.query(Groupphaseuser).filter(Groupphaseuser.course == "et").filter(Groupphaseuser.groupID == sql.null()).all()
+
+    @classmethod
+    def allWithoutGroupMcd(cls) -> List['Groupphaseuser']:
+        return db_session.query(Groupphaseuser).filter(Groupphaseuser.course == "mcd").filter(Groupphaseuser.groupID == sql.null()).all()
 
     @classmethod
     def deleteall(cls):
