@@ -1,4 +1,5 @@
 alembic.ini
+testmode
 
 # Created by https://www.toptal.com/developers/gitignore/api/node,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,python
@@ -124,6 +125,7 @@ __pycache__/
 *.so
 
 # Distribution / packaging
+bot-env/
 .Python
 build/
 develop-eggs/
