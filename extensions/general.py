@@ -37,6 +37,8 @@ class General(commands.Cog, name='General'):
                         value="Zeigt alle Informationen über den Bot an.", inline=False)
         embed.add_field(
             name="!stats|stat", value="Zeigt eine Statistik an", inline=False)
+        embed.add_field(
+            name="!p|poll", value="Erstellt eine Umfrage", inline=False)
 
         # send message
         await ctx.send(ctx.author.mention, embed=embed)
