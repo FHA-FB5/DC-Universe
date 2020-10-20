@@ -5,7 +5,7 @@ import typing
 from discord.ext import commands
 
 
-class ManualGroups(commands.Cog, name='ManualGroups'):
+class Polls(commands.Cog, name='Polls'):
     def __init__(self, bot):
         self.bot = bot
     
@@ -27,5 +27,11 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                 footer = "Stimmt jetzt über die verfügbaren Reaktionen ab."
             )
 
-            await ctx.send(ctx.channel.mention, embed=embed)
+            msg = await ctx.send(ctx.channel.mention, embed=embed)
+            await msg.add_reaction('👍')
+            await msg.add_reaction('👎')
             return
+
+
+def setup(bot):
+    bot.add_cog(Polls(bot))
