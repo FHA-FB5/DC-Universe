@@ -158,20 +158,20 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                 role_et = guild.get_role(self.guild_et_role_id)
 
                 if payload.emoji.name == '🇮':
-                    await payload.member.remove_roles(role_wi, role_mcd, role_et)
                     await payload.member.add_roles(role_inf)
+                    await payload.member.remove_roles(role_wi, role_mcd, role_et)
 
                 elif payload.emoji.name == '🇼':
-                    await payload.member.remove_roles(role_inf, role_mcd, role_et)
                     await payload.member.add_roles(role_wi)
+                    await payload.member.remove_roles(role_inf, role_mcd, role_et)
 
                 elif payload.emoji.name == '🇪':
-                    await payload.member.remove_roles(role_wi, role_mcd, role_inf)
                     await payload.member.add_roles(role_et)
+                    await payload.member.remove_roles(role_wi, role_mcd, role_inf)
 
                 elif payload.emoji.name == '🇲':
-                    await payload.member.remove_roles(role_wi, role_inf, role_et)
                     await payload.member.add_roles(role_mcd)
+                    await payload.member.remove_roles(role_wi, role_inf, role_et)
 
                 await msg.remove_reaction(payload.emoji, payload.member)
 
