@@ -23,7 +23,7 @@
 
 Install all dependencies
 ```BASH
-apt install libffi-dev libnacl-dev python3-dev python3-pip python-mysqldb tmux
+apt install libffi-dev libnacl-dev python3-dev python3-pip python3-mysqldb tmux
 ```
 
 Clone the repository and go to the cloned folder
