@@ -27,8 +27,8 @@ stop() {
 	tmux kill-session -t $tmux_session_bot
 }
 restart() {
-    start
     stop
+    start
 }
 
 # functions
