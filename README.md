@@ -1,4 +1,4 @@
-# justgamingbot
+# Fachschafts-Bot
 <p align="center">
     <a href="https://github.com/FHA-FB5/DC-Universe/releases"><img src="https://img.shields.io/github/downloads/FHA-FB5/DC-Universe/total?label=Downloads&labelColor=30363D&color=2FBF50" alt="Downloads"></a>
     <a href="https://github.com/FHA-FB5/DC-Universe/graphs/contributors"><img src="https://img.shields.io/github/contributors/FHA-FB5/DC-Universe?label=Contributors&labelColor=30363D&color=2FBF50" alt="Contributors"></a>
