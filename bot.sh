@@ -98,7 +98,7 @@ case $1 in
     "--stop" )
         stop
         ;;
-    "--install" )
+    "--restart" )
         restart
         ;;
     "--update" )
