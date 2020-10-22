@@ -26,6 +26,10 @@ class Group(Base):
         self.textChannel = textChannel
 
     @classmethod
+    def getByTextChannelId(cls, textChannel: int) -> 'Group':
+        return db_session.query(Group).filter(Group.textChannel == textChannel).first()
+
+    @classmethod
     def all(cls) -> List['Group']:
         return db_session.query(Group).all()
 
