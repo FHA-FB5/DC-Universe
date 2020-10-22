@@ -99,10 +99,10 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                         'Hallo @everyone,\n' +
                         'Ab sofort könnt ihr euch eurem Studiengang zuordnen! Dies passiert indem du auf diese Nachricht reagierst.\n' +
                         'Die entsprechenden Buchstaben sind wie folgt zu verstehen:\n' +
-                        ':regional_indicator_i: - INF\n' +
-                        ':regional_indicator_w: - WI\n' +
-                        ':regional_indicator_e: - ET\n' +
-                        ':regional_indicator_m: - MCD'
+                        ':regional_indicator_i: - Informatik\n' +
+                        ':regional_indicator_w: - Wirtschaftsinformatik\n' +
+                        ':regional_indicator_e: - Elektrotechnik\n' +
+                        ':regional_indicator_m: - Media and Communications for Digital Business'
                     )
                     await command_message.add_reaction('🇮')
                     await command_message.add_reaction('🇼')
