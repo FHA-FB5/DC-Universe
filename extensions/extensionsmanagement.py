@@ -226,14 +226,14 @@ class ExtensionsManagement(commands.Cog, name='ExtensionsManagement'):
         await ctx.send(ctx.author.mention, embed=embed_unloaded)
 
     @commands.Cog.listener()
-    async def on_command_error( self, ctx, error ):
+    async def on_command_error( self, ctx, err ):
         channel = self.bot.get_channel(
                 self.guild_error_channel_id
             )
 
         debug = discord.utils.get( ctx.guild.roles, id=self.debug_role_id )
         
-        msg = f'{debug.mention}\n```' + str(error) + '\n```'
+        msg = f'{debug.mention}\n```' + str(err) + f'\n```ausgelöst in {ctx.channel.mention} durch {ctx.author.mention}'
         await channel.send( msg )
 
 def setup(bot):
