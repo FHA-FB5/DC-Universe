@@ -74,29 +74,6 @@ class Polls(commands.Cog, name='Polls'):
                 await message.add_reaction('❌')
             
             return
-
-    @ commands.Cog.listener()
-    async def on_raw_reaction_add(self, payload):
-        # check if bot react
-        if payload.user_id == self.bot_user_id:
-            return
-
-        guild = self.bot.get_guild(payload.guild_id)
-        channel = guild.get_channel(payload.channel_id)
-        msg_id = payload.message_id
-        msg = await channel.fetch_message(msg_id)
-
-        if payload.emoji.name != '✅' and payload.emoji.name != '❌' and self.emojis.count(payload.emoji.name) == 0:
-            await msg.remove_reaction(payload.emoji, payload.member)
-            return
-        else:
-            removeEmojis = self.emojis.copy()
-            removeEmojis.extend('✅')
-            removeEmojis.extend('❌')
-            removeEmojis.remove(payload.emoji.name)
-            for e in removeEmojis:
-                await msg.remove_reaction(e, payload.member)
-            return
         
 
 def setup(bot):
