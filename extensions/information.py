@@ -10,7 +10,9 @@ class Information(commands.Cog, name='Informations'):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(aliases=['services','dienste'])
+        self.fb5_logo = 'https://i.imgur.com/WBeaODR.jpg'
+
+    @commands.command(aliases=['services','dienste'], hidden=True)
     @commands.cooldown(1, 60, commands.BucketType.user)
     async def shortMentionForServices( self, ctx ):
         time = datetime.fromisoformat('2020-10-22')
@@ -19,11 +21,11 @@ class Information(commands.Cog, name='Informations'):
             title = 'Verfügbare Services der FH Aachen',
             description = 'Für weitere Infos kannst du den Befehl zum entsprechenden Service benutzen',
             url = 'https://www.fh-aachen.de/fachbereiche/elektrotechnik-und-informationstechnik/',
-            timestamp = time,
-            thumbnail = '../resources/logo-FB5.jpg'
+            timestamp = time
         )
-        embed.set_footer( text='Alle Angaben ohne Gewähr!', 
-                        icon_url='../resources/logo-FB5.jpg' )
+        embed.set_thumbnail( url=self.fb5_logo )
+        embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
+                        icon_url = self.fb5_logo )
         embed.add_field(
             name = 'Services',
             value = 'Allgemeine FH-Account Verwaltung.\nhttps://www.services.fh-aachen.de/',
@@ -50,23 +52,27 @@ class Information(commands.Cog, name='Informations'):
             value = 'Im QIS erhälst du deine Studierendenbescheinigungen, kannst dich zu Prüfungen anmelden und deinen Notenstand einsehen.\nhttps://www.qis.fh-aachen.de/',
             inline = False
         )
+        embed.add_field(
+            name = 'Bibliothek',
+            value = 'Hier kannst du alle Infos rund um die Bib finden.\nhttps://www.fh-aachen.de/hochschule/bibliothek/',
+            inline = False
+        )
         
-
         await ctx.send( ctx.author.mention, embed=embed )
 
-    @commands.command(aliases=['links, href'])
+    @commands.command(aliases=['links', 'href'], hidden=True)
     @commands.cooldown(1, 60, commands.BucketType.user)
     async def listOfImportantUrls( self, ctx ):
         time = datetime.fromisoformat('2020-10-22')
         embed = discord.Embed(
             colour = 0x00b5ad,
             title = 'Wichtige Seiten',
-            description = 'Für weitere Infos kannst du den Befehl zum entsprechenden Service benutzen',
-            timestamp = time,
-            thumbnail = '../resources/logo-FB5.jpg'
+            description = 'Eine kurze Zusammenstellung von Links,\ndie hilfreich sein können.',
+            timestamp = time
         )
-        embed.set_footer( text='Alle Angaben ohne Gewähr!', 
-                        icon_url='../resources/logo-FB5.jpg' )
+        embed.set_thumbnail( url=self.fb5_logo )
+        embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
+                        icon_url = self.fb5_logo )
         embed.add_field(
             name = 'Homepage',
             value = 'http://www.fh-aachen.de/',
@@ -100,6 +106,11 @@ class Information(commands.Cog, name='Informations'):
         embed.add_field(
             name = 'DVZ - Datenverarbeitungszentrale',
             value = 'https://www.fh-aachen.de/hochschule/datenverarbeitungszentrale/',
+            inline = False
+        )
+        embed.add_field(
+            name = 'DigiBib',
+            value = 'https://fhb-aachen.digibib.net/search/katalog',
             inline = False
         )
 

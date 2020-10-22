@@ -1,4 +1,5 @@
 import discord
+import os
 
 from discord.ext import commands
 from db import db_session
