@@ -3,7 +3,6 @@ import os
 import typing
 
 from datetime import datetime
-from stringcolor import cs
 from discord.ext import commands
 
 class Information(commands.Cog, name='Informations'):
@@ -119,3 +118,4 @@ class Information(commands.Cog, name='Informations'):
 
 def setup(bot):
     bot.add_cog(Information(bot))
+
