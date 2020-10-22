@@ -83,7 +83,7 @@ class Information(commands.Cog, name='Informations'):
             inline = False
         )
         embed.add_field(
-            name = 'FSR - Fachschaftsrat',
+            name = 'FSR5 - Fachschaftsrat des FB5',
             value = 'https://fsr5.de/',
             inline = False
         )
@@ -98,7 +98,7 @@ class Information(commands.Cog, name='Informations'):
             inline = False
         )
         embed.add_field(
-            name = 'Prüfungsamt',
+            name = 'Prüfungsamt des FB5',
             value = 'https://www.fh-aachen.de/fachbereiche/elektrotechnik-und-informationstechnik/direkteinstieg/fuer-studierende/klausuren-pruefungen-pos/pruefungsamt/',
             inline = False
         )
