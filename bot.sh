@@ -106,16 +106,32 @@ case $1 in
         # check mode
         case $2 in
             "--files"|"-f" )
+                stop
+                sleep 2
                 update_files
+                sleep 3
+                start
                 ;;
             "--requirements"|"-r" )
+                stop
+                sleep 2
                 update_requirements
+                sleep 3
+                start
                 ;;
             "--database"|"-db" )
+                stop
+                sleep 2
                 update_database
+                sleep 3
+                start
                 ;;
             "--all"|"-a" )
+                stop
+                sleep 2
                 update_all
+                sleep 3
+                start
                 ;;
             *)
                 echo "Error: Your input was incorrect, please have a look at the list of all commands here: https://github.com/FHA-FB5/DC-Universe/wiki/bot.sh"
