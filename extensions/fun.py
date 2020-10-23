@@ -82,7 +82,7 @@ class Fun(commands.Cog, name='Fun'):
 
     @commands.command(hidden=True)
     async def spam(self, ctx):
-        await ctx.send('{0.mention} Selber spam!'.format(ctx.author))
+        await ctx.send('{0.mention} selber Spam!'.format(ctx.author))
 
 
 def setup(bot):
