@@ -2,7 +2,9 @@ import discord
 import os
 import typing
 import urllib.request
+import pytz
 
+from datetime import datetime, tzinfo
 from discord.ext import commands
 from models.state import State
 
@@ -16,6 +18,14 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
         )
         if isinstance(self.bot_user_id, str):
             self.bot_user_id = int(self.bot_user_id)
+
+        self.guild_id = os.getenv(
+            'GUILD_ID'
+        )
+        if isinstance(self.guild_id, str):
+            self.guild_id = int(
+                self.guild_id
+            )
 
         self.guild_study_course_channel_id = os.getenv(
             'GUILD_STUDY_COURSE_CHANNEL'
@@ -63,6 +73,22 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
         if isinstance(self.guild_mcd_role_id, str):
             self.guild_mcd_role_id = int(
                 self.guild_mcd_role_id
+            )
+        
+        self.guild_tutor_role_id = os.getenv(
+            'GUILD_TUTOR_ROLE'
+        )
+        if isinstance(self.guild_tutor_role_id, str):
+            self.guild_tutor_role_id = int(
+                self.guild_tutor_role_id
+            )
+
+        self.guild_fsr_role_id = os.getenv(
+            'GUILD_FSR_ROLE'
+        )
+        if isinstance(self.guild_fsr_role_id, str):
+            self.guild_fsr_role_id = int(
+                self.guild_fsr_role_id
             )
 
     @commands.command(aliases=['studiengang', 'sg'], hidden=True)
@@ -174,6 +200,385 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                     await payload.member.remove_roles(role_wi, role_inf, role_et)
 
                 await msg.remove_reaction(payload.emoji, payload.member)
+
+    @commands.command(aliases=['c', 'count', 'wieviele'], hidden=True)
+    async def studyCourseCount(self, ctx, role: typing.Optional[str]):
+        
+        guild = ctx.guild
+        all_member = self.bot.get_all_members()
+        inf = guild.get_role( self.guild_inf_role_id )
+        wi = guild.get_role( self.guild_wi_role_id )
+        et = guild.get_role( self.guild_et_role_id )
+        mcd = guild.get_role( self.guild_mcd_role_id )
+        tutor = guild.get_role( self.guild_tutor_role_id )
+        fsr = guild.get_role( self.guild_fsr_role_id )
+
+        if role:
+            role = role.lower()
+            # remove whitespaces
+            role = role.replace(' ', '')
+
+            if role == 'inf' or role == 'informatik':
+                inf_member = []
+                for m in all_member:
+                    if m.roles.count( inf ) >= 1:
+                        inf_member.append( m )
+
+                member_count = len(inf_member)
+                online_count = 0
+                for m in inf_member:
+                    if m.status != discord.Status.offline:
+                        online_count += 1
+
+                fancy = ''
+                von = ''
+                if online_count != 0:
+                    fancy = 'sind**'
+                    von = ' von'
+                else:
+                    fancy = 'sind **keine'
+                    online_count = ''
+                    member_count = ''
+
+                embed = discord.Embed(
+                    colour = inf.colour,
+                    title = 'Informatiker auf dem Server:',
+                    description = f'Es {fancy} {online_count}{von} {member_count} Studierenden** online.'
+                )
+
+            elif role == 'wi' or role == 'wirtschaft' or role == 'wirtschaftsinformatik':
+                wi_member = []
+                for m in all_member:
+                    if m.roles.count( wi ) >= 1:
+                        wi_member.append( m )
+
+                member_count = len(wi_member)
+                online_count = 0
+                for m in wi_member:
+                    if m.status != discord.Status.offline:
+                        online_count += 1
+
+
+                fancy = ''
+                von = ''
+                if online_count != 0:
+                    fancy = 'sind**'
+                    von = ' von'
+                else:
+                    fancy = 'sind **keine'
+                    online_count = ''
+                    member_count = ''
+
+                embed = discord.Embed(
+                    colour = wi.colour,
+                    title = 'Wirtschaftsinformatiker auf dem Server:',
+                    description = f'Es {fancy} {online_count}{von} {member_count} Studierenden** online.'
+                )
+      
+            elif role == 'et' or role == 'etec' or role == 'etechnik' or role == 'elektrotechnik':
+                et_member = []
+                for m in all_member:
+                    if m.roles.count( et ) >= 1:
+                        et_member.append( m )
+
+                member_count = len(et_member)
+                online_count = 0
+                for m in et_member:
+                    if m.status != discord.Status.offline:
+                        online_count += 1
+
+                fancy = ''
+                von = ''
+                if online_count != 0:
+                    fancy = 'sind**'
+                    von = ' von'
+                else:
+                    fancy = 'sind **keine'
+                    online_count = ''
+                    member_count = ''
+
+                embed = discord.Embed(
+                    colour = et.colour,
+                    title = 'Elektrotechniker auf dem Server:',
+                    description = f'Es {fancy} {online_count}{von} {member_count} Studierenden** online.'
+                )
+
+            elif role == 'mcd' or role == 'media' or role == 'mediaandcommunication' or role == 'irgendwasmitmedien':
+                mcd_member = []
+                for m in all_member:
+                    if m.roles.count( mcd ) >= 1:
+                        inf_member.append( m )
+
+                member_count = len(mcd_member)
+                online_count = 0
+                for m in mcd_member:
+                    if m.status != discord.Status.offline:
+                        online_count += 1
+
+                fancy = ''
+                von = ''
+                if online_count != 0:
+                    fancy = 'sind**'
+                    von = ' von'
+                else:
+                    fancy = 'sind **keine'
+                    online_count = ''
+                    member_count = ''
+
+                embed = discord.Embed(
+                    colour = mcd.colour,
+                    title = 'MCDler auf dem Server (sry Name ist zu lang):',
+                    description = f'Es {fancy} {online_count}{von} {member_count} Studierenden** online.'
+                )
+
+            elif role == 'tut' or role == 'tutor' or role == 'esa':
+                tut_member = []
+                for m in all_member:
+                    if m.roles.count( tutor ) >= 1:
+                        tut_member.append( m ) 
+
+                member_count = len(tut_member)
+                online_count = 0
+                for m in tut_member:
+                    if m.status != discord.Status.offline:
+                        online_count += 1
+
+                fancy = ''
+                von = ''
+                if online_count != 0:
+                    fancy = 'sind**'
+                    von = ' von'
+                else:
+                    fancy = 'sind **keine'
+                    online_count = ''
+                    member_count = ''
+
+                embed = discord.Embed(
+                    colour = mcd.colour,
+                    title = 'Tutoren auf dem Server:',
+                    description = f'Es {fancy} {online_count}{von} {member_count} Studierenden** online.'
+                )
+            
+            elif role == 'fsr' or role == 'fachschaft' or role == 'rat':
+                fsr_member = []
+                for m in all_member:
+                    if m.roles.count( fsr ) >= 1:
+                        fsr_member.append( m ) 
+
+                member_count = len(fsr_member)
+                online_count = 0
+                for m in fsr_member:
+                    if m.status != discord.Status.offline:
+                        online_count += 1
+
+                fancy = ''
+                von = ''
+                if online_count != 0:
+                    fancy = 'sind**'
+                    von = ' von'
+                else:
+                    fancy = 'sind **keine'
+                    online_count = ''
+                    member_count = ''
+
+                embed = discord.Embed(
+                    colour = mcd.colour,
+                    title = 'FSRler auf dem Server:',
+                    description = f'Es {fancy} {online_count}{von} {member_count} Studierenden** online.'
+                )
+            
+            await ctx.send( ctx.author.mention, embed=embed )
+        
+        else:
+            
+            date = datetime.now(pytz.timezone('Etc/GMT+1'))
+            embed = discord.Embed(
+                colour = 0x00b5ad,
+                title = 'Die Verteilung von Mitgliedern auf dem Server',
+                description = 'Eine aktuelle Auflistung',
+                timestamp = date               
+            )
+            embed.set_footer( text = 'Statistiken', icon_url='https://i.imgur.com/WBeaODR.jpg' )
+
+            member = [[], [], [], [], [], []]
+            all_count = 0
+            all_online = 0
+
+            for m in all_member:
+                all_count += 1
+                if m.status != discord.Status.offline:
+                    all_online += 1
+                if m.roles.count( inf ) >= 1:
+                    member[0].append( m )
+                elif m.roles.count( wi ) >= 1:
+                    member[1].append( m )
+                elif m.roles.count( et ) >= 1:
+                    member[2].append( m )
+                elif m.roles.count( mcd ) >= 1:
+                    member[3].append( m )
+                elif m.roles.count( tutor ) >= 1:
+                    member[4].append( m )
+                elif m.roles.count( fsr ) >= 1:
+                    member[5].append( m )
+            
+            inf_count = len(member[0])
+            wi_count = len(member[1])
+            et_count = len(member[2])
+            mcd_count = len(member[3])
+            tut_count = len(member[4])
+            fsr_count = len(member[5])
+            online = 0
+        
+            # inf field
+            for m in member[0]:
+                if m.status != discord.Status.offline:
+                    online += 1
+            
+            fancy = ''
+            von = ''
+            if online != 0:
+                fancy = 'sind**'
+                von = ' von'
+            else:
+                fancy = 'sind **keine'
+                online = ''
+                inf_count = ''
+
+            embed.add_field(
+                name = 'Informatiker auf dem Server:',
+                value = f'Es {fancy} {online}{von} {inf_count} Studierenden** online.',
+                inline = False
+            )
+
+            # wi field
+            online = 0
+            for m in member[1]:
+                if m.status != discord.Status.offline:
+                    online += 1
+            
+            fancy = ''
+            von = ''
+            if online != 0:
+                fancy = 'sind**'
+                von = ' von'
+            else:
+                fancy = 'sind **keine'
+                online = ''
+                wi_count = ''
+
+            embed.add_field(
+                name = 'Wirtschaftsinformatiker auf dem Server:',
+                value = f'Es {fancy} {online}{von} {wi_count} Studierenden** online.',
+                inline = False
+            )
+
+            # et field
+            online = 0
+            for m in member[2]:
+                if m.status != discord.Status.offline:
+                    online += 1
+            
+            fancy = ''
+            von = ''
+            if online != 0:
+                fancy = 'sind**'
+                von = ' von'
+            else:
+                fancy = 'sind **keine'
+                online = ''
+                et_count = ''
+
+            embed.add_field(
+                name = 'Elektrotechniker auf dem Server:',
+                value = f'Es {fancy} {online}{von} {et_count} Studierenden** online.',
+                inline = False
+            )
+
+            # mcd field
+            online = 0
+            for m in member[3]:
+                if m.status != discord.Status.offline:
+                    online += 1
+            
+            fancy = ''
+            von = ''
+            if online != 0:
+                fancy = 'sind**'
+                von = ' von'
+            else:
+                fancy = 'sind **keine'
+                online = ''
+                mcd_count = ''
+
+            embed.add_field(
+                name = 'MCDler auf dem Server:',
+                value = f'Es {fancy} {online}{von} {mcd_count} Studierenden** online.',
+                inline = False
+            )
+
+            # tutor field
+            online = 0
+            for m in member[4]:
+                if m.status != discord.Status.offline:
+                    online += 1
+            
+            fancy = ''
+            von = ''
+            if online != 0:
+                fancy = 'sind**'
+                von = ' von'
+            else:
+                fancy = 'sind **keine'
+                online = ''
+                tut_count = ''
+
+            embed.add_field(
+                name = 'Tutoren auf dem Server:',
+                value = f'Es {fancy} {online}{von} {tut_count} Studierenden** online.',
+                inline = False
+            )
+
+            # fsr field
+            online = 0
+            for m in member[5]:
+                if m.status != discord.Status.offline:
+                    online += 1
+            
+            fancy = ''
+            von = ''
+            if online != 0:
+                fancy = 'sind**'
+                von = ' von'
+            else:
+                fancy = 'sind **keine'
+                online = ''
+                fsr_count = ''
+
+            embed.add_field(
+                name = 'FSRler auf dem Server:',
+                value = f'Es {fancy} {online}{von} {fsr_count} Studierenden** online.',
+                inline = False
+            )
+
+            # all field
+            fancy = ''
+            von = ''
+            if all_online != 0:
+                fancy = 'sind**'
+                von = ' von'
+            else:
+                fancy = 'sind **keine'
+                online = ''
+                all_count = ''
+
+            embed.add_field(
+                name = 'Insgesamt:',
+                value = f'Es {fancy} {all_online}{von} {all_count} Studierenden** online.',
+                inline = False
+            )
+            
+            await ctx.send( ctx.author.mention, embed=embed )
+        
 
 
 def setup(bot):
