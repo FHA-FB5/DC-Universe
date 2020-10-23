@@ -14,7 +14,10 @@ log = logging.getLogger(__name__)
 class DCUniverseBot(commands.AutoShardedBot):
 
     def __init__(self):
-        super().__init__('!', case_insensitive=True)
+        intents = discord.Intents.default()
+        intents.members = True
+        intents.presences = True
+        super().__init__('!', case_insensitive=True, intents=intents)
 
         # remove default commands
         self.remove_command('help')
