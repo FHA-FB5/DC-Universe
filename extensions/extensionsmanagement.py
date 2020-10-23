@@ -198,7 +198,7 @@ class ExtensionsManagement(commands.Cog, name='ExtensionsManagement'):
         unloaded_extensions = Extension.unloaded()
         if unloaded_extensions:
             for extension in unloaded_extensions:
-                embed_loaded.add_field(
+                embed_unloaded.add_field(
                     name=extension.name, value=f'Beschreibung: {extension.description} \n Author: {extension.author}', inline=False)
         else:
             embed_unloaded.add_field(

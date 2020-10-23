@@ -24,6 +24,10 @@ class Groupphaseuser(Base):
         return db_session.query(Groupphaseuser).filter(Groupphaseuser.id == id).first()
 
     @classmethod
+    def getAllByGroupID(cls, groupID: int) -> List['Groupphaseuser']:
+        return db_session.query(Groupphaseuser).filter(Groupphaseuser.groupID == groupID).all()
+
+    @classmethod
     def set(cls, id: int, course: str) -> 'Groupphaseuser':
         db_Groupphaseuser = Groupphaseuser.get(id)
         if not db_Groupphaseuser:

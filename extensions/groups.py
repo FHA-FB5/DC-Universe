@@ -424,6 +424,46 @@ class Groups(commands.Cog, name='Groups'):
                 # send embed
                 await ctx.send(ctx.author.mention, embed=embed)
 
+    @commands.command(aliases=['gruppe'])
+    async def group(self, ctx):
+        # check if grouphase is startet
+        state_groupphase_isStarted = State.get('groupphase_isStarted')
+        if (state_groupphase_isStarted and state_groupphase_isStarted.value == str(True)):
+
+            # check channel
+            current_group = Group.getByTextChannelId(ctx.channel.id)
+            if current_group:
+
+                # create output embed
+                embed = discord.Embed(
+                    colour=discord.Colour.blue(),
+                    title=f'Gruppe: {current_group.name}'
+                )
+
+                # get members
+                current_members = Groupphaseuser.getAllByGroupID(
+                    current_group.id)
+                current_members_total = len(current_members)
+
+                embed.add_field(name='Teilnehmeranzahl',
+                                value=f'{current_members_total}', inline=False)
+
+                # get users
+                current_user_list = []
+                for member in current_members:
+                    try:
+                        current_user_list.append(self.bot.get_user(member.id))
+                    except Exception:
+                        pass
+
+                if len(current_user_list) > 0:
+                    output = ', '.join((u.mention for u in current_user_list))
+                    embed.add_field(name='Teilnehmer',
+                                    value=f'{output}', inline=False)
+
+                # send embed
+                await ctx.send(ctx.author.mention, embed=embed)
+
     @ commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
         # check if bot react
