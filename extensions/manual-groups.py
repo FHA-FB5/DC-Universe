@@ -410,15 +410,15 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                     all_online += 1
                 if m.roles.count( inf ) >= 1:
                     member[0].append( m )
-                elif m.roles.count( wi ) >= 1:
+                if m.roles.count( wi ) >= 1:
                     member[1].append( m )
-                elif m.roles.count( et ) >= 1:
+                if m.roles.count( et ) >= 1:
                     member[2].append( m )
-                elif m.roles.count( mcd ) >= 1:
+                if m.roles.count( mcd ) >= 1:
                     member[3].append( m )
-                elif m.roles.count( tutor ) >= 1:
+                if m.roles.count( tutor ) >= 1:
                     member[4].append( m )
-                elif m.roles.count( fsr ) >= 1:
+                if m.roles.count( fsr ) >= 1:
                     member[5].append( m )
             
             inf_count = len(member[0])
@@ -579,7 +579,6 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
             
             await ctx.send( ctx.author.mention, embed=embed )
         
-
 
 def setup(bot):
     bot.add_cog(ManualGroups(bot))
