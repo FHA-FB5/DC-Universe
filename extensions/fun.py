@@ -74,6 +74,10 @@ class Fun(commands.Cog, name='Fun'):
     async def matheistmagic(self, ctx):
         await ctx.send('{0.mention} Und wie Sie sehen, es funktioniert auf magische Weise. Magic Mathe!'.format(ctx.author))
 
+    @commands.command(hidden=True)
+    async def error(self, ctx):
+        await ctx.send('{0.mention} Claßen: Error heißt ich weigere mich!'.format(ctx.author))
+
 
 def setup(bot):
     bot.add_cog(Fun(bot))
