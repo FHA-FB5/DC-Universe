@@ -3,6 +3,7 @@ import os
 
 from discord.ext import commands
 
+
 class Error(commands.Cog, name='Error'):
     def __init__(self, bot):
         self.bot = bot
@@ -24,15 +25,28 @@ class Error(commands.Cog, name='Error'):
             )
 
     @commands.Cog.listener()
-    async def on_command_error( self, ctx, err ):
+    async def on_command_error(self, ctx, err):
         channel = self.bot.get_channel(
-                self.guild_error_channel_id
-            )
+            self.guild_error_channel_id
+        )
+        debug = discord.utils.get(ctx.guild.roles, id=self.debug_role_id)
 
-        debug = discord.utils.get( ctx.guild.roles, id=self.debug_role_id )
-        
-        msg = f'{debug.mention}\n```' + str(err) + f'\n```ausgelöst in {ctx.channel.mention} durch {ctx.author.mention}'
-        await channel.send( msg )
+        # create output embed
+        embed = discord.Embed(
+            colour=discord.Colour.red(),
+            title=f'Ein Fehler ist aufgetreten!'
+        )
+        embed.add_field(
+            name="Channel", value=f'{ctx.channel.mention}', inline=False)
+        embed.add_field(
+            name="Author", value=f'{ctx.author.mention}', inline=False)
+
+        embed.add_field(name="Fehler", value="{}: {}".format(
+            type(err).__name__, err), inline=False)
+
+        # send embed
+        await channel.send(debug.mention, embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Error(bot))
