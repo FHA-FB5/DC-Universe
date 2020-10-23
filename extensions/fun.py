@@ -8,7 +8,7 @@ class Fun(commands.Cog, name='Fun'):
     def __init__(self, bot):
         self.bot = bot
         self._last_member = None
-        self.caro = None
+        self.caroMember = None
 
     @commands.command(aliases=['keks'], hidden=True)
     async def cookie(self, ctx, member: discord.Member):
@@ -53,14 +53,26 @@ class Fun(commands.Cog, name='Fun'):
     @commands.command(aliases=['carlo'], hidden=True)
     async def caro(self, ctx):
         ping = ctx.author
-        if self.caro == None:
+        if self.caroMember == None:
             tmp = ctx.guild.get_member(163444674097446913)
             if tmp:
-                self.caro = tmp
+                self.caroMember = tmp
 
-        if self.caro:
-            ping = self.caro
+        if self.caroMember:
+            ping = self.caroMember
         await ctx.send('{0.mention} https://youtu.be/NFAjjdM0HaU?t=27'.format(ping))
+
+    @commands.command(hidden=True)
+    async def hoever(self, ctx):
+        await ctx.send('{0.mention} https://soundcloud.com/cvrofficial/hoever/s-eXVFz'.format(ctx.author))
+
+    @commands.command(hidden=True)
+    async def matheisttoll(self, ctx):
+        await ctx.send('{0.mention} Mathe ist magic!'.format(ctx.author))
+
+    @commands.command(hidden=True)
+    async def matheistmagic(self, ctx):
+        await ctx.send('{0.mention} Und wie Sie sehen, es funktioniert auf magische Weise. Magic Mathe!'.format(ctx.author))
 
 
 def setup(bot):
