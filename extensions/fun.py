@@ -80,6 +80,10 @@ class Fun(commands.Cog, name='Fun'):
     async def error(self, ctx):
         await ctx.send('{0.mention} Claßen: Error heißt ich weigere mich!'.format(ctx.author))
 
+    @commands.command(hidden=True)
+    async def spam(self, ctx):
+        await ctx.send('{0.mention} Selber spam!'.format(ctx.author))
+
 
 def setup(bot):
     bot.add_cog(Fun(bot))
