@@ -8,6 +8,7 @@ class Fun(commands.Cog, name='Fun'):
     def __init__(self, bot):
         self.bot = bot
         self._last_member = None
+        self.caro = None
 
     @commands.command(aliases=['keks'], hidden=True)
     async def cookie(self, ctx, member: discord.Member):
@@ -51,7 +52,15 @@ class Fun(commands.Cog, name='Fun'):
 
     @commands.command(aliases=['carlo'], hidden=True)
     async def caro(self, ctx):
-        await ctx.send('{0.mention} https://youtu.be/NFAjjdM0HaU?t=27'.format(ctx.author))
+        ping = ctx.author
+        if self.caro == None:
+            tmp = ctx.guild.get_member(163444674097446913)
+            if tmp:
+                self.caro = tmp
+
+        if self.caro:
+            ping = self.caro
+        await ctx.send('{0.mention} https://youtu.be/NFAjjdM0HaU?t=27'.format(ping))
 
 
 def setup(bot):
