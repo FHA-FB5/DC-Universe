@@ -12,10 +12,12 @@ class Fun(commands.Cog, name='Fun'):
 
     @commands.command(aliases=['keks'], hidden=True)
     async def cookie(self, ctx, member: discord.Member):
-        if self._last_member is None or self._last_member.id != member.id:
+        if ctx.author.id == member.id:
+            await ctx.send('{0.mention} zu Eigenlob sage ich nur: https://tenor.com/view/shame-sad-too-bad-hot-fuzz-nick-gif-4991655'.format(member))
+        elif self._last_member is None or self._last_member.id != member.id:
             await ctx.send('{0.mention} hier ist ein Keks für dich 🍪'.format(member))
         else:
-            await ctx.send('Ach {0.mention}, der {1.name} bekam zuletzt einen Keks. Du darfst ihm nicht noch einen geben.'.format(ctx.author, member))
+            await ctx.send('Ach {0.mention}... {1.mention} bekam zuletzt einen Keks.'.format(ctx.author, member))
         self._last_member = member
 
     @commands.command(hidden=True)
