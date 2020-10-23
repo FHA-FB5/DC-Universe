@@ -307,7 +307,7 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                 mcd_member = []
                 for m in all_member:
                     if m.roles.count( mcd ) >= 1:
-                        inf_member.append( m )
+                        mcd_member.append( m )
 
                 member_count = len(mcd_member)
                 online_count = 0
@@ -354,7 +354,7 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                     member_count = ''
 
                 embed = discord.Embed(
-                    colour = mcd.colour,
+                    colour = tutor.colour,
                     title = 'Tutoren auf dem Server:',
                     description = f'Es {fancy} {online_count}{von} {member_count} Studierenden** online.'
                 )
@@ -382,7 +382,7 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                     member_count = ''
 
                 embed = discord.Embed(
-                    colour = mcd.colour,
+                    colour = fsr.colour,
                     title = 'FSRler auf dem Server:',
                     description = f'Es {fancy} {online_count}{von} {member_count} Studierenden** online.'
                 )
