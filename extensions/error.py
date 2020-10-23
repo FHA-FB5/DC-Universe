@@ -45,7 +45,7 @@ class Error(commands.Cog, name='Error'):
             type(err).__name__, err), inline=False)
 
         # send embed
-        await channelfeat: .send(debug.mention, embed=embed)
+        await channel.send(debug.mention, embed=embed)
 
 
 def setup(bot):
