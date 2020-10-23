@@ -231,14 +231,12 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                         online_count += 1
 
                 fancy = ''
-                von = ''
+                von = ' von'
                 if online_count != 0:
                     fancy = 'sind**'
-                    von = ' von'
                 else:
-                    fancy = 'sind **keine'
+                    fancy = 'ist **keiner'
                     online_count = ''
-                    member_count = ''
 
                 embed = discord.Embed(
                     colour = inf.colour,
@@ -260,14 +258,12 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
 
 
                 fancy = ''
-                von = ''
+                von = ' von'
                 if online_count != 0:
                     fancy = 'sind**'
-                    von = ' von'
                 else:
-                    fancy = 'sind **keine'
+                    fancy = 'ist **keiner'
                     online_count = ''
-                    member_count = ''
 
                 embed = discord.Embed(
                     colour = wi.colour,
@@ -288,14 +284,12 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                         online_count += 1
 
                 fancy = ''
-                von = ''
+                von = ' von'
                 if online_count != 0:
                     fancy = 'sind**'
-                    von = ' von'
                 else:
-                    fancy = 'sind **keine'
+                    fancy = 'ist **keiner'
                     online_count = ''
-                    member_count = ''
 
                 embed = discord.Embed(
                     colour = et.colour,
@@ -316,14 +310,12 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                         online_count += 1
 
                 fancy = ''
-                von = ''
+                von = ' von'
                 if online_count != 0:
                     fancy = 'sind**'
-                    von = ' von'
                 else:
-                    fancy = 'sind **keine'
+                    fancy = 'ist **keiner'
                     online_count = ''
-                    member_count = ''
 
                 embed = discord.Embed(
                     colour = mcd.colour,
@@ -344,14 +336,12 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                         online_count += 1
 
                 fancy = ''
-                von = ''
+                von = ' von'
                 if online_count != 0:
                     fancy = 'sind**'
-                    von = ' von'
                 else:
-                    fancy = 'sind **keine'
+                    fancy = 'ist **keiner'
                     online_count = ''
-                    member_count = ''
 
                 embed = discord.Embed(
                     colour = mcd.colour,
@@ -372,14 +362,12 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                         online_count += 1
 
                 fancy = ''
-                von = ''
+                von = ' von'
                 if online_count != 0:
                     fancy = 'sind**'
-                    von = ' von'
                 else:
-                    fancy = 'sind **keine'
+                    fancy = 'ist **keiner'
                     online_count = ''
-                    member_count = ''
 
                 embed = discord.Embed(
                     colour = mcd.colour,
@@ -400,9 +388,10 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
             )
             embed.set_footer( text = 'Statistiken', icon_url='https://i.imgur.com/WBeaODR.jpg' )
 
-            member = [[], [], [], [], [], []]
-            all_count = 0
-            all_online = 0
+            member = [[], [], [], [], [], [], []]
+            # -1 coz of bot
+            all_count = -1
+            all_online = -1
 
             for m in all_member:
                 all_count += 1
@@ -410,16 +399,18 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                     all_online += 1
                 if m.roles.count( inf ) >= 1:
                     member[0].append( m )
-                elif m.roles.count( wi ) >= 1:
+                if m.roles.count( wi ) >= 1:
                     member[1].append( m )
-                elif m.roles.count( et ) >= 1:
+                if m.roles.count( et ) >= 1:
                     member[2].append( m )
-                elif m.roles.count( mcd ) >= 1:
+                if m.roles.count( mcd ) >= 1:
                     member[3].append( m )
-                elif m.roles.count( tutor ) >= 1:
+                if m.roles.count( tutor ) >= 1:
                     member[4].append( m )
-                elif m.roles.count( fsr ) >= 1:
+                if m.roles.count( fsr ) >= 1:
                     member[5].append( m )
+                if m.roles.count( tutor ) == 0 and m.roles.count ( fsr ) == 0 and not m.bot:
+                    member[6].append( m )
             
             inf_count = len(member[0])
             wi_count = len(member[1])
@@ -427,22 +418,41 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
             mcd_count = len(member[3])
             tut_count = len(member[4])
             fsr_count = len(member[5])
+            ersti_count = len(member[6])
+
+            # ersti field
             online = 0
-        
+            for m in member[6]:
+                if m.status != discord.Status.offline:
+                    online += 1
+            
+            fancy = ''
+            von = ' von'
+            if online != 0:
+                fancy = 'sind**'
+            else:
+                fancy = 'ist **keiner'
+                online = ''
+
+            embed.add_field(
+                name = 'Erstsemester auf dem Server:',
+                value = f'Es {fancy} {online}{von} {ersti_count} Studierenden** online.',
+                inline = False
+            )
+
             # inf field
+            online = 0
             for m in member[0]:
                 if m.status != discord.Status.offline:
                     online += 1
             
             fancy = ''
-            von = ''
+            von = ' von'
             if online != 0:
                 fancy = 'sind**'
-                von = ' von'
             else:
-                fancy = 'sind **keine'
+                fancy = 'ist **keiner'
                 online = ''
-                inf_count = ''
 
             embed.add_field(
                 name = 'Informatiker auf dem Server:',
@@ -457,14 +467,12 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                     online += 1
             
             fancy = ''
-            von = ''
+            von = ' von'
             if online != 0:
                 fancy = 'sind**'
-                von = ' von'
             else:
-                fancy = 'sind **keine'
+                fancy = 'ist **keiner'
                 online = ''
-                wi_count = ''
 
             embed.add_field(
                 name = 'Wirtschaftsinformatiker auf dem Server:',
@@ -479,14 +487,12 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                     online += 1
             
             fancy = ''
-            von = ''
+            von = ' von'
             if online != 0:
                 fancy = 'sind**'
-                von = ' von'
             else:
-                fancy = 'sind **keine'
+                fancy = 'ist **keiner'
                 online = ''
-                et_count = ''
 
             embed.add_field(
                 name = 'Elektrotechniker auf dem Server:',
@@ -501,14 +507,12 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                     online += 1
             
             fancy = ''
-            von = ''
+            von = ' von'
             if online != 0:
                 fancy = 'sind**'
-                von = ' von'
             else:
-                fancy = 'sind **keine'
+                fancy = 'ist **keiner'
                 online = ''
-                mcd_count = ''
 
             embed.add_field(
                 name = 'MCDler auf dem Server:',
@@ -523,14 +527,12 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                     online += 1
             
             fancy = ''
-            von = ''
+            von = ' von'
             if online != 0:
                 fancy = 'sind**'
-                von = ' von'
             else:
-                fancy = 'sind **keine'
+                fancy = 'ist **keiner'
                 online = ''
-                tut_count = ''
 
             embed.add_field(
                 name = 'Tutoren auf dem Server:',
@@ -545,14 +547,12 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                     online += 1
             
             fancy = ''
-            von = ''
+            von = ' von'
             if online != 0:
                 fancy = 'sind**'
-                von = ' von'
             else:
-                fancy = 'sind **keine'
+                fancy = 'ist **keiner'
                 online = ''
-                fsr_count = ''
 
             embed.add_field(
                 name = 'FSRler auf dem Server:',
@@ -562,14 +562,13 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
 
             # all field
             fancy = ''
-            von = ''
+            von = ' von'
             if all_online != 0:
                 fancy = 'sind**'
-                von = ' von'
             else:
-                fancy = 'sind **keine'
+                fancy = 'ist **keiner'
                 online = ''
-                all_count = ''
+                all_online = ''
 
             embed.add_field(
                 name = 'Insgesamt:',
@@ -579,7 +578,6 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
             
             await ctx.send( ctx.author.mention, embed=embed )
         
-
 
 def setup(bot):
     bot.add_cog(ManualGroups(bot))
