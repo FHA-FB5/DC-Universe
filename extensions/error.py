@@ -6,21 +6,21 @@ class Error(commands.Cog, name='Error'):
     def __init__(self, bot):
         self.bot = bot
 
-    self.guild_error_channel_id = os.getenv(
+        self.guild_error_channel_id = os.getenv(
             'GUILD_ERROR_CHANNEL'
         )
-    if isinstance(self.guild_error_channel_id, str):
-        self.guild_error_channel_id = int(
-            self.guild_error_channel_id
-        )
+        if isinstance(self.guild_error_channel_id, str):
+            self.guild_error_channel_id = int(
+                self.guild_error_channel_id
+            )
 
-    self.debug_role_id = os.getenv(
-        'GUILD_DEBUG_ROLE'
-    )
-    if isinstance(self.debug_role_id, str):
-        self.debug_role_id = int(
-            self.debug_role_id
+        self.debug_role_id = os.getenv(
+            'GUILD_DEBUG_ROLE'
         )
+        if isinstance(self.debug_role_id, str):
+            self.debug_role_id = int(
+                self.debug_role_id
+            )
 
     @commands.Cog.listener()
     async def on_command_error( self, ctx, err ):
