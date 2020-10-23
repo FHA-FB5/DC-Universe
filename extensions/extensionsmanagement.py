@@ -208,6 +208,5 @@ class ExtensionsManagement(commands.Cog, name='ExtensionsManagement'):
         await ctx.send(ctx.author.mention, embed=embed_loaded)
         await ctx.send(ctx.author.mention, embed=embed_unloaded)
 
-
 def setup(bot):
     bot.add_cog(ExtensionsManagement(bot))
