@@ -32,6 +32,7 @@ from models.extension import Extension
 from models.state import State
 from models.group import Group
 from models.groupphaseuser import Groupphaseuser
+from models.speechlist import Speechlistmodel
 
 # set metadata
 target_metadata = Base.metadata
