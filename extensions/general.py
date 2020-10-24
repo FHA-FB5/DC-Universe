@@ -45,10 +45,6 @@ class General(commands.Cog, name='General'):
             name = "!rl|redeliste [help|add|remove|print]", value = "Funktion zur Verwaltung einer einfachen Redeliste.",
             inline = False
         )
-        embed.add_field(
-            name = "!rl|redeliste [clear|first|last]\t(Nur für Tutoren)", value = "Erweiterte Funktionen zur Verwaltung einer einfachen Redeliste.",
-            inline = False
-        )
 
         # send message
         await ctx.send(ctx.author.mention, embed=embed)

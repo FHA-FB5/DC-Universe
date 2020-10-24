@@ -113,7 +113,7 @@ class Speechlist(commands.Cog, name='Speechlist'):
                 msg = buildMessage(act_list)
                 await ctx.send(ctx.channel.mention, embed=msg)
         
-        elif (active == 'delete' or active == 'd') and (ctx.author.roles.count( tutor ) >= 1 or ctx.author.roles.count( fsr ) >= 1):
+        elif (active == 'delete' or active == 'd' or active == 'clear') and (ctx.author.roles.count( tutor ) >= 1 or ctx.author.roles.count( fsr ) >= 1):
             act_list = Speechlistmodel.all(ctx.channel.id)
             if not act_list:
                 embed = discord.Embed(
@@ -216,7 +216,6 @@ class Speechlist(commands.Cog, name='Speechlist'):
             )
             await ctx.send(ctx.author.mention, embed=embed)
 
-        # add with prio, remove specific name, clear all
         # todo add all to list for tutors
 
 def buildMessage(queue: Speechlist):
