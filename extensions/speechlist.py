@@ -6,7 +6,7 @@ import typing
 from discord.ext import commands
 from db import db_session, db_engine, Session
 
-from models.speechlist import Speechlist
+from models.speechlist import Speechlistmodel
 
 
 class Speechlist(commands.Cog, name='Speechlist'):
@@ -19,15 +19,25 @@ class Speechlist(commands.Cog, name='Speechlist'):
         if isinstance( self.bot_user_id, str ) :
             self.bot_user_id = int( self.bot_user_id )
 
-        self.speech_list = []
-        self.count = 0
-
-
+        self.tutor_role_id = os.getenv(
+            'GUILD_TUTOR_ROLE'
+        )
+        if isinstance( self.tutor_role_id, str ) :
+            self.tutor_role_id = int( self.tutor_role_id )
+            
+        self.fsr_role_id = os.getenv(
+            'GUILD_FSR_ROLE'
+        )
+        if isinstance( self.fsr_role_id, str ) :
+            self.fsr_role_id = int( self.fsr_role_id )
 
     @commands.command(aliases=['redeliste','rl'], hidden=True)
-    async def speechlist(self, ctx, active:  typing.Optional[str]):
+    async def speechlist(self, ctx, active:  typing.Optional[str], mem: typing.Optional[str]):
         if active:
             active = active.lower()
+        
+        tutor = ctx.guild.get_role( self.tutor_role_id )
+        fsr = ctx.guild.get_role( self.fsr_role_id )
         
         if active == 'help' or active == 'h':
             embed = discord.Embed(
@@ -43,7 +53,8 @@ class Speechlist(commands.Cog, name='Speechlist'):
             await ctx.send(ctx.author.mention, embed=embed)
         
         elif active == 'add' or active == 'a':
-            if self.speech_list.count(ctx.author.nick) > 0:
+            speechlist = Speechlistmodel.get(ctx.channel.id, ctx.author.id)
+            if speechlist:
                 embed = discord.Embed(
                     colour = discord.Colour.red(),
                     title = 'Du stehst bereits auf der Redeliste!'
@@ -51,48 +62,148 @@ class Speechlist(commands.Cog, name='Speechlist'):
                 await ctx.send(ctx.author.mention, embed=embed)
                 
             else:
-                self.speech_list.append(ctx.author.nick)
-                self.count = self.count + 1
-            
-                msg = buildMessage(self.speech_list, self.count)
+                name = ''
+                if ctx.author.nick:
+                    name = ctx.author.nick
+                else:
+                    name = ctx.author.name
+                
+                Speechlistmodel.set(ctx.channel.id, ctx.author.id, name, False)
+
+                new_list = Speechlistmodel.all(ctx.channel.id)
+                msg = buildMessage(new_list)
                 await ctx.send(ctx.channel.mention, embed=msg)
  
         elif active == 'remove' or active == 'r':
-            if self.speech_list.count(ctx.author.nick) == 0:
+            speechlist = Speechlistmodel.get(ctx.channel.id, ctx.author.id)
+            if not speechlist:
                 embed = discord.Embed(
                     colour = discord.Colour.red(),
                     title = 'Du bist nicht auf der Redeliste eingetragen!'
                 )
                 await ctx.send(ctx.author.mention, embed=embed)
-            elif self.count == 0:
+            elif not Speechlistmodel.all(ctx.channel.id):
                 embed = discord.Embed(
                     colour = discord.Colour.red(),
                     title = 'Die Redeliste ist leer!'
                 )
                 await ctx.send(ctx.author.mention, embed=embed)
             else:
-                self.speech_list.remove(ctx.author.nick)
-                self.count = self.count - 1
-
-                if self.count == 0:
+                Speechlistmodel.delete(ctx.channel.id, ctx.author.id)
+                new_list = Speechlistmodel.all(ctx.channel.id)
+                if not new_list:
                     embed = discord.Embed(
                         colour = discord.Colour.blue(),
                         title = 'Die Redeliste ist jetzt leer. Jeder sollte dran gewesen sein :)'
                     )
                     await ctx.send(ctx.author.mention, embed=embed)
                 else:
-                    msg = buildMessage(self.speech_list, self.count)
+                    msg = buildMessage(new_list)
                     await ctx.send(ctx.channel.mention, embed=msg)
         
         elif active == 'print' or active == 'p':
-            if self.count == 0:
+            act_list = Speechlistmodel.all(ctx.channel.id)
+            if not act_list:
                 embed = discord.Embed(
                     colour = discord.Colour.red(),
                     title = 'Die Redeliste ist leer!'
                 )
                 await ctx.send(ctx.author.mention, embed=embed)
             else:
-                msg = buildMessage(self.speech_list, self.count)
+                msg = buildMessage(act_list)
+                await ctx.send(ctx.channel.mention, embed=msg)
+        
+        elif (active == 'delete' or active == 'd') and (ctx.author.roles.count( tutor ) >= 1 or ctx.author.roles.count( fsr ) >= 1):
+            act_list = Speechlistmodel.all(ctx.channel.id)
+            if not act_list:
+                embed = discord.Embed(
+                    colour = discord.Colour.red(),
+                    title = 'Die Redeliste ist leer!'
+                )
+                await ctx.send(ctx.author.mention, embed=embed)
+            else:
+                Speechlistmodel.deleteAll(ctx.channel.id)
+                embed = discord.Embed(
+                    colour = discord.Colour.blue(),
+                    title = 'Die Redeliste ist jetzt leer. Durch einen Tutor gelöscht!'
+                )
+                await ctx.send(ctx.author.mention, embed=embed)
+
+        elif (active == 'erase' or active == 'e') and (ctx.author.roles.count( tutor ) >= 1 or ctx.author.roles.count( fsr ) >= 1):
+            act_list = Speechlistmodel.all(ctx.channel.id)
+            if not act_list:
+                embed = discord.Embed(
+                    colour = discord.Colour.red(),
+                    title = 'Die Redeliste ist leer!'
+                )
+                await ctx.send(ctx.author.mention, embed=embed)
+            else:
+                if mem:
+                    user = ''
+                    members = self.bot.get_all_members()
+                    for member in members:
+                        if member.name == mem or member.nick == mem:
+                            user = member
+                            members.close()
+
+                    if user != '':
+                        is_member_on_speechlist = Speechlistmodel.get(ctx.channel.id, user.id)
+                    else:
+                        is_member_on_speechlist = False
+
+                    if is_member_on_speechlist:
+                        Speechlistmodel.delete(ctx.channel.id, user.id)
+                        embed = discord.Embed(
+                            colour = discord.Colour.blue(),
+                            title = f'{mem} wurde von der Liste gelöscht!'
+                        )
+                        await ctx.send(ctx.author.mention, embed=embed)
+                        new_list = Speechlistmodel.all(ctx.channel.id)
+                        if new_list:
+                            msg = buildMessage(new_list)
+                            msg.title = "Neue Redeliste:"
+                            await ctx.send(ctx.author.mention, embed=msg)
+                        else:
+                            embed = discord.Embed(
+                            colour = discord.Colour.blue(),
+                            title = 'Die Redeliste ist jetzt leer. Jeder sollte dran gewesen sein :)'
+                            )
+                            await ctx.send(ctx.author.mention, embed=embed) 
+
+                    else:
+                        embed = discord.Embed(
+                            colour = discord.Colour.red(),
+                            title = f'{mem} steht nicht auf der Redeliste!'
+                        )
+                        await ctx.send(ctx.author.mention, embed=embed)
+
+                else:
+                    embed = discord.Embed(
+                        colour = discord.Colour.red(),
+                        title = 'Du musst einen Namen angeben, der von der Liste gelöscht werden soll!'
+                    )
+                    await ctx.send(ctx.author.mention, embed=embed)
+
+        elif (active == 'prio' or active == 'first') and (ctx.author.roles.count( tutor ) >= 1 or ctx.author.roles.count( fsr ) >= 1):
+            speechlist = Speechlistmodel.get(ctx.channel.id, ctx.author.id)
+            if speechlist:
+                embed = discord.Embed(
+                    colour = discord.Colour.red(),
+                    title = 'Du stehst bereits auf der Redeliste!'
+                )
+                await ctx.send(ctx.author.mention, embed=embed)
+                
+            else:
+                name = ''
+                if ctx.author.nick:
+                    name = ctx.author.nick
+                else:
+                    name = ctx.author.name
+                
+                Speechlistmodel.set(ctx.channel.id, ctx.author.id, name, True)
+
+                new_list = Speechlistmodel.all(ctx.channel.id)
+                msg = buildMessage(new_list)
                 await ctx.send(ctx.channel.mention, embed=msg)
 
         else:
@@ -108,14 +219,12 @@ class Speechlist(commands.Cog, name='Speechlist'):
         # add with prio, remove specific name, clear all
         # todo add all to list for tutors
 
-def buildMessage(queue: list, count: int):
-    tmp = queue.copy()
-    text = ""
+def buildMessage(queue: Speechlist):
+    text = ''
     it = 0
-    while it < count:
-        name = tmp.pop()
-        it = it + 1
-        text = text + str(it) + ". " + name + "\n"
+    for item in queue:
+        it += 1
+        text = text + str(it) + ". " + item.member_name + '\n'
 
     msg = discord.Embed(
         colour = discord.Colour.green(),
