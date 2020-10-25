@@ -71,7 +71,7 @@ class General(commands.Cog, name='General'):
         await ctx.send(ctx.author.mention, embed=embed)
 
     @commands.command(aliases=['löschen'], hidden=True)
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_messages=True)
     async def delete(self, ctx, amount: int):
         if amount < 1:
             amount = 1
