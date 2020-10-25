@@ -62,12 +62,7 @@ class Speechlist(commands.Cog, name='Speechlist'):
                 await ctx.send(ctx.author.mention, embed=embed)
                 
             else:
-                name = ''
-                if ctx.author.nick:
-                    name = ctx.author.nick
-                else:
-                    name = ctx.author.name
-                
+                name = ctx.author.display_name
                 Speechlistmodel.set(ctx.channel.id, ctx.author.id, name, False)
 
                 new_list = Speechlistmodel.all(ctx.channel.id)
