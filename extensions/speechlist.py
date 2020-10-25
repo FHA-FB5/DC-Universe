@@ -199,7 +199,14 @@ class Speechlist(commands.Cog, name='Speechlist'):
                 
         # todo add all to list for tutors
         #elif (active == 'all' or active == 'a' or active == 'complete') and (ctx.author.roles.count( tutor ) >= 1 or ctx.author.roles.count( fsr ) >= 1):
-            
+
+        elif (active == 'prio' or active == 'first' or active == 'delete' or active == 'd' or active == 'clear' or active == 'erase' or active == 'e'):
+            embed = discord.Embed(
+                    colour = discord.Colour.red(),
+                    title = 'Du hst nicht die benötigten Rechte für diesen Befehl!\nVersuche es nächstes Jahr noch einmal, wenn deine vielversprechende Tutorenbewerbung angenommen worden ist :)'
+                )
+            await ctx.send(ctx.author.mention, embed=embed)
+
         else:
             embed = discord.Embed(
                 colour = discord.Colour.blue(),
