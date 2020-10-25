@@ -79,6 +79,7 @@ class General(commands.Cog, name='General'):
             amount = 1
         elif amount > 100:
             amount = 100
+        await ctx.message.delete()
         deleted = await ctx.channel.purge(limit=amount)
         message = await ctx.send('Deleted {} message(s)'.format(len(deleted)))
         time.sleep(3)
