@@ -137,7 +137,7 @@ class Speechlist(commands.Cog, name='Speechlist'):
                     user = ''
                     members = self.bot.get_all_members()
                     for member in members:
-                        if member.name == mem or member.nick == mem:
+                        if member.display_name == mem:
                             user = member
                             members.close()
 
@@ -189,18 +189,17 @@ class Speechlist(commands.Cog, name='Speechlist'):
                 await ctx.send(ctx.author.mention, embed=embed)
                 
             else:
-                name = ''
-                if ctx.author.nick:
-                    name = ctx.author.nick
-                else:
-                    name = ctx.author.name
+                name = ctx.author.display_name
                 
                 Speechlistmodel.set(ctx.channel.id, ctx.author.id, name, True)
 
                 new_list = Speechlistmodel.all(ctx.channel.id)
                 msg = buildMessage(new_list)
                 await ctx.send(ctx.channel.mention, embed=msg)
-
+                
+        # todo add all to list for tutors
+        #elif (active == 'all' or active == 'a' or active == 'complete') and (ctx.author.roles.count( tutor ) >= 1 or ctx.author.roles.count( fsr ) >= 1):
+            
         else:
             embed = discord.Embed(
                 colour = discord.Colour.blue(),
@@ -211,7 +210,7 @@ class Speechlist(commands.Cog, name='Speechlist'):
             )
             await ctx.send(ctx.author.mention, embed=embed)
 
-        # todo add all to list for tutors
+        
 
 def buildMessage(queue: Speechlist):
     text = ''
