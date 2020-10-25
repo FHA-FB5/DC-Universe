@@ -209,6 +209,35 @@ class Groups(commands.Cog, name='Groups'):
                 # send embed
                 await ctx.send(ctx.author.mention, embed=embed)
 
+        elif type in ['shuffle']:
+            # check if grouphase is startet
+            state_groupphase_isStarted = State.get('groupphase_isStarted')
+            if (state_groupphase_isStarted and state_groupphase_isStarted.value == str(True)):
+
+                # check if groupamount parameter isset
+                if groupamount:
+                    if groupamount < 1:
+                        groupamount = 1
+                    elif groupamount > 20:
+                        groupamount = 20
+
+                    # create output embed
+                    embed = discord.Embed(
+                        colour=discord.Colour.blue(),
+                        title="Neueinteilung der Gruppenphase beginnt",
+                    )
+
+                else:
+
+                    # create output embed
+                    embed = discord.Embed(
+                        colour=discord.Colour.red(),
+                        title=f'Bitte füge noch den Parameter `groupamount` hinzu.'
+                    )
+
+                    # send embed
+                    await ctx.send(ctx.author.mention, embed=embed)
+
         elif type in ['sort', 'inf', 'wi', 'et', 'mcd']:
             # check if grouphase is startet
             state_groupphase_isStarted = State.get('groupphase_isStarted')
@@ -331,7 +360,6 @@ class Groups(commands.Cog, name='Groups'):
 
                     counter = 0
 
-                    random.shuffle(allWithoutGroups)
                     for user in allWithoutGroups:
                         if counter >= groupamount:
                             counter = 0
