@@ -98,6 +98,11 @@ class Fun(commands.Cog, name='Fun'):
     async def spam(self, ctx):
         await ctx.send('{0.mention} selber Spam!'.format(ctx.author))
 
+    @commands.command(aliases=['arschwienflixbus'], hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    async def saft(self, ctx):
+        await ctx.send('{0.mention} https://youtu.be/bx1vOD1jlN8?t=27'.format(ctx.guild.get_member(627153086753931305)))
+
 
 def setup(bot):
     bot.add_cog(Fun(bot))
