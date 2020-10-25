@@ -79,7 +79,6 @@ We use [SemVer](http://semver.org/) for versioning. For available versions, see 
 * [discord.py](https://github.com/Rapptz/discord.py) - An API wrapper for Discord written in Python.
 
 ## Authors
-* **BDinevv** - *Development* - [BDinevv](https://github.com/BDinevv)
 * **Patrik Schmolke** - *Development* - [Rec0gnice](https://github.com/Rec0gnice)
 * **Titus Kirch** - *Development* - [TitusKirch](https://github.com/TitusKirch)
 
