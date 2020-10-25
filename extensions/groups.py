@@ -2,6 +2,7 @@ import discord
 import typing
 import os
 import math
+import random
 
 from discord.ext import commands
 from db import db_session, db_engine, Session
@@ -330,6 +331,7 @@ class Groups(commands.Cog, name='Groups'):
 
                     counter = 0
 
+                    random.shuffle(allWithoutGroups)
                     for user in allWithoutGroups:
                         if counter >= groupamount:
                             counter = 0
