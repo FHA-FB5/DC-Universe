@@ -11,6 +11,7 @@ class Fun(commands.Cog, name='Fun'):
         self.caroMember = None
 
     @commands.command(aliases=['keks'], hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
     async def cookie(self, ctx, member: discord.Member):
         if ctx.author.id == member.id:
             await ctx.send('{0.mention} zu Eigenlob sage ich nur: https://tenor.com/view/shame-sad-too-bad-hot-fuzz-nick-gif-4991655'.format(member))
@@ -21,22 +22,27 @@ class Fun(commands.Cog, name='Fun'):
         self._last_member = member
 
     @commands.command(hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
     async def ping(self, ctx):
         await ctx.send('{0.mention} pong!'.format(ctx.author))
 
     @commands.command(hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
     async def pong(self, ctx):
         await ctx.send('{0.mention} ping'.format(ctx.author))
 
     @commands.command(aliases=['kuchen'], hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
     async def cake(self, ctx):
         await ctx.send('{0.mention} The Cake Is A Lie'.format(ctx.author))
 
     @commands.command(hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
     async def alive(self, ctx):
         await ctx.send('{0.mention} https://www.youtube.com/watch?v=Y6ljFaKRTrI'.format(ctx.author))
 
     @commands.command(aliases=['münzwurf', 'münze', 'kopf', 'zahl', 'coin'], hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
     async def coinflip(self, ctx):
         coin = randint(0, 1)
         if coin == 0:
@@ -45,14 +51,17 @@ class Fun(commands.Cog, name='Fun'):
             await ctx.send('{0.mention} Zahl'.format(ctx.author))
 
     @commands.command(aliases=['tableflip'], hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
     async def flip(self, ctx):
         await ctx.send('{0.mention} (╯°□°）╯︵ ┻━┻'.format(ctx.author))
 
     @commands.command(aliases=['mayo'], hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
     async def mayonaise(self, ctx):
         await ctx.send('{0.mention} https://www.youtube.com/watch?v=hVtSkF-hBXE'.format(ctx.author))
 
     @commands.command(aliases=['carlo'], hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.guild)
     async def caro(self, ctx):
         ping = ctx.author
         if self.caroMember == None:
@@ -65,22 +74,27 @@ class Fun(commands.Cog, name='Fun'):
         await ctx.send('{0.mention} https://youtu.be/NFAjjdM0HaU?t=27'.format(ping))
 
     @commands.command(hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
     async def hoever(self, ctx):
         await ctx.send('{0.mention} https://soundcloud.com/cvrofficial/hoever/s-eXVFz'.format(ctx.author))
 
     @commands.command(hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
     async def matheisttoll(self, ctx):
         await ctx.send('{0.mention} Mathe ist magic!'.format(ctx.author))
 
     @commands.command(hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
     async def matheistmagic(self, ctx):
         await ctx.send('{0.mention} Und wie Sie sehen, es funktioniert auf magische Weise. Magic Mathe!'.format(ctx.author))
 
     @commands.command(hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
     async def error(self, ctx):
         await ctx.send('{0.mention} Claßen: Error heißt ich weigere mich!'.format(ctx.author))
 
     @commands.command(hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
     async def spam(self, ctx):
         await ctx.send('{0.mention} selber Spam!'.format(ctx.author))
 

@@ -202,6 +202,7 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                 await msg.remove_reaction(payload.emoji, payload.member)
 
     @commands.command(aliases=['c', 'count', 'wieviele'], hidden=True)
+    @commands.cooldown(1, 300, commands.BucketType.user)
     async def studyCourseCount(self, ctx, role: typing.Optional[str]):
         
         guild = ctx.guild
