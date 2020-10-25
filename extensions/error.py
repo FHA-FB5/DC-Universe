@@ -41,6 +41,12 @@ class Error(commands.Cog, name='Error'):
         embed.add_field(
             name="Author", value=f'{ctx.author.mention}', inline=False)
 
+        embed.add_field(
+            name="Nachricht", value=f'{ctx.message.content}', inline=False)
+
+        embed.add_field(
+            name="Link", value=f'{ctx.message.jump_url}', inline=False)
+
         embed.add_field(name="Fehler", value="{}: {}".format(
             type(err).__name__, err), inline=False)
 
