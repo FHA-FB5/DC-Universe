@@ -78,6 +78,11 @@ class Information(commands.Cog, name='Informations'):
             inline = False
         )
         embed.add_field(
+            name = 'Studierendensekretariat',
+            value = 'https://www.fh-aachen.de/hochschule/studierendensekretariat/',
+            inline = False
+        )
+        embed.add_field(
             name = 'FB5 - Fachbereich 5',
             value = 'https://www.fh-aachen.de/fachbereiche/elektrotechnik-und-informationstechnik/',
             inline = False
@@ -115,6 +120,149 @@ class Information(commands.Cog, name='Informations'):
 
         await ctx.send(ctx.author.mention, embed=embed)
 
+    # Services
+    @commands.command(aliases=['account'], hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    async def fhservice( self, ctx ):
+        time = datetime.fromisoformat('2020-10-25')
+        embed = discord.Embed(
+            colour = 0x00b5ad,
+            title = 'FH Aachen - Services',
+            url = 'https://services.fh-aachen.de/',
+            description = '',
+            timestamp = time
+        )
+        embed.set_thumbnail( url=self.fb5_logo )
+        embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
+                        icon_url = self.fb5_logo )
+        
+        await ctx.send(ctx.author.mention, embed=embed)
+
+    # ilias
+    @commands.command(aliases=['ili','elearning'], hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    async def ilias( self, ctx ):
+        time = datetime.fromisoformat('2020-10-25')
+        embed = discord.Embed(
+            colour = 0x00b5ad,
+            title = 'Ilias - eLearning',
+            url = 'https://www.ili.fh-aachen.de/',
+            description = '',
+            timestamp = time
+        )
+        embed.set_thumbnail( url='https://itacademy.fh-aachen.de/templates/default/images/HeaderIcon100.png' )
+        embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
+                        icon_url = self.fb5_logo )
+        
+        await ctx.send(ctx.author.mention, embed=embed)
+    
+    # eLectures
+    @commands.command(aliases=['el','vorlesung','lectures','aufzeichnung'], hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    async def electures( self, ctx ):
+        time = datetime.fromisoformat('2020-10-25')
+        embed = discord.Embed(
+            colour = 0x00b5ad,
+            title = 'eLectures - FH Aachen',
+            url = 'https://www.electures.fh-aachen.de/',
+            description = '',
+            timestamp = time
+        )
+        embed.set_thumbnail( url=self.fb5_logo )
+        embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
+                        icon_url = self.fb5_logo )
+        
+        await ctx.send(ctx.author.mention, embed=embed)
+
+    # Campus Office
+    @commands.command(aliases=['campusoffice','co','office','stundenplan'], hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    async def campus( self, ctx ):
+        time = datetime.fromisoformat('2020-10-25')
+        embed = discord.Embed(
+            colour = 0x00b5ad,
+            title = 'Campus Office',
+            url = 'https://www.campusoffice.fh-aachen.de/',
+            description = '',
+            timestamp = time
+        )
+        embed.set_thumbnail( url='https://www.campusoffice.fh-aachen.de/custom/shared/img/cascampus-stroke-150.gif' )
+        embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
+                        icon_url = self.fb5_logo )
+        
+        await ctx.send(ctx.author.mention, embed=embed)
+
+    # QIS
+    @commands.command(aliases=['kis','kiss'], hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    async def qis( self, ctx ):
+        time = datetime.fromisoformat('2020-10-25')
+        embed = discord.Embed(
+            colour = 0x00b5ad,
+            title = 'QIS',
+            url = 'https://www.qis.fh-aachen.de/',
+            description = '',
+            timestamp = time
+        )
+        embed.set_thumbnail( url=self.fb5_logo )
+        embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
+                        icon_url = self.fb5_logo )
+        
+        await ctx.send(ctx.author.mention, embed=embed)
+
+    # Bibliothek
+    @commands.command(aliases=['bibliothek','biblio'], hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    async def bib( self, ctx ):
+        time = datetime.fromisoformat('2020-10-25')
+        embed = discord.Embed(
+            colour = 0x00b5ad,
+            title = 'Bibliothek',
+            url = 'https://www.fh-aachen.de/hochschule/bibliothek/',
+            description = '',
+            timestamp = time
+        )
+        embed.set_thumbnail( url=self.fb5_logo )
+        embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
+                        icon_url = self.fb5_logo )
+        
+        await ctx.send(ctx.author.mention, embed=embed)
+
+    # Webex
+    @commands.command(aliases=['meeting','meetings','meet'], hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    async def webex( self, ctx ):
+        time = datetime.fromisoformat('2020-10-25')
+        embed = discord.Embed(
+            colour = 0x00b5ad,
+            title = 'Cisco Webex Meetings',
+            url = 'https://www.webex.com/de/index.html',
+            description = '',
+            timestamp = time
+        )
+        embed.set_thumbnail( url='https://www.webex.com/content/dam/wbx/global/images/home_2.png' )
+        embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
+                        icon_url = self.fb5_logo )
+        
+        await ctx.send(ctx.author.mention, embed=embed)
+
+    # fsr
+    @commands.command(aliases=['fachschaft','fachschaftsrat','rat','zweifelamstudium'], hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    async def fsr( self, ctx ):
+        time = datetime.fromisoformat('2020-10-25')
+        embed = discord.Embed(
+            colour = 0x00b5ad,
+            title = 'Fachschaftsrat',
+            url = 'https://fsr5.de/',
+            description = 'Der Fachschaftsrat besteht aus gewählten studentischen Mitgliedern des Fachbereichs.',
+            timestamp = time
+        )
+        embed.set_thumbnail( url=self.fb5_logo )
+        embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
+                        icon_url = self.fb5_logo )
+        
+        await ctx.send(ctx.author.mention, embed=embed)
 
 def setup(bot):
     bot.add_cog(Information(bot))
