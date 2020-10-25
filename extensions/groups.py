@@ -3,6 +3,7 @@ import typing
 import os
 import math
 import random
+import sqlalchemy
 
 from discord.ext import commands
 from db import db_session, db_engine, Session
@@ -226,6 +227,89 @@ class Groups(commands.Cog, name='Groups'):
                         colour=discord.Colour.blue(),
                         title="Neueinteilung der Gruppenphase beginnt",
                     )
+
+                    # send embed
+                    await ctx.send(ctx.author.mention, embed=embed)
+
+                    groups = Group.all()
+                    groupWasShuffled = {}
+
+                    for group in groups:
+                        groupWasShuffled[group.id] = 0
+
+                    minGroupWasShuffled = [
+                        k for k in groupWasShuffled if groupWasShuffled[k] == min(groupWasShuffled.values())]
+
+                    for group in groups:
+                        # get members
+                        current_members = Groupphaseuser.getAllByGroupIDNotShuffled(
+                            group.id)
+
+                        counter = groupamount
+                        first = True
+                        newGroup = 0
+
+                        # random_group = rand
+                        for member in current_members:
+                            if first:
+                                member.wasShuffled = True
+                                db_session.commit()
+                            elif counter == groupamount:
+                                if len(minGroupWasShuffled) > 1:
+                                    for minGroup in minGroupWasShuffled:
+                                        if minGroup != member.groupID:
+                                            newGroup = minGroup
+                                            break
+                                else:
+                                    newGroup = minGroupWasShuffled[0]
+
+                            if newGroup != 0:
+                                try:
+                                    userDiscord = ctx.guild.get_member(
+                                        member.id)
+                                    tmpGroupObject = Group.get(newGroup)
+
+                                    if tmpGroupObject:
+                                        roleOld = ctx.guild.get_role(
+                                            group.role)
+                                        roleNew = ctx.guild.get_role(
+                                            tmpGroupObject.role)
+                                        await userDiscord.remove_roles(roleOld)
+                                        await userDiscord.add_roles(roleNew)
+
+                                        member.wasShuffled = True
+                                        member.groupID = newGroup
+                                        db_session.commit()
+                                except Exception:
+                                    pass
+
+                            # update counter
+                            if counter == 1:
+                                counter == groupamount
+                                if newGroup != 0:
+                                    groupWasShuffled[newGroup] = int(
+                                        groupWasShuffled[newGroup]) + 1
+                                minGroupWasShuffled = [
+                                    k for k in groupWasShuffled if groupWasShuffled[k] == min(groupWasShuffled.values())]
+
+                                if first:
+                                    first = False
+                            else:
+                                counter -= 1
+
+                    db_session.query(Groupphaseuser).update({"wasShuffled": 0})
+                    db_session.commit()
+
+                    # create output embed
+                    embed = discord.Embed(
+                        colour=discord.Colour.green(),
+                        title=f'Teilnehmer erfolgreich neueingeteilt!'
+                    )
+
+                    Session.close_all()
+
+                    # send embed
+                    await ctx.send(ctx.author.mention, embed=embed)
 
                 else:
 

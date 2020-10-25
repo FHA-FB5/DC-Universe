@@ -15,6 +15,7 @@ class Groupphaseuser(Base):
     id = Column(BigInteger, primary_key=True)
     groupID = Column(Integer)
     course = Column(String(length=255))
+    wasShuffled = Column(Boolean, default=False)
 
     def __init__(self, id: str):
         self.id = id
@@ -26,6 +27,10 @@ class Groupphaseuser(Base):
     @classmethod
     def getAllByGroupID(cls, groupID: int) -> List['Groupphaseuser']:
         return db_session.query(Groupphaseuser).filter(Groupphaseuser.groupID == groupID).all()
+
+    @classmethod
+    def getAllByGroupIDNotShuffled(cls, groupID: int) -> List['Groupphaseuser']:
+        return db_session.query(Groupphaseuser).filter(Groupphaseuser.groupID == groupID).filter(Groupphaseuser.wasShuffled == False).all()
 
     @classmethod
     def set(cls, id: int, course: str) -> 'Groupphaseuser':

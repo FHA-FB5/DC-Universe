@@ -26,6 +26,10 @@ class Group(Base):
         self.textChannel = textChannel
 
     @classmethod
+    def get(cls, id: int) -> 'Group':
+        return db_session.query(Group).filter(Group.id == id).first()
+
+    @classmethod
     def getByTextChannelId(cls, textChannel: int) -> 'Group':
         return db_session.query(Group).filter(Group.textChannel == textChannel).first()
 
