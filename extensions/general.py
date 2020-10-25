@@ -43,6 +43,8 @@ class General(commands.Cog, name='General'):
             name="!services|dienste", value="Auflistung von Services an der FH", inline=False)
         embed.add_field(
             name="!links|href", value="Auflistung von wichtigen Links", inline=False)
+        embed.add_field(
+            name="!rl|redeliste", value="Verwaltung einer Redeliste pro Textchannel", inline=False)
 
         # send message
         await ctx.send(ctx.author.mention, embed=embed)
