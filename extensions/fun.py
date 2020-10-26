@@ -1,4 +1,6 @@
 import discord
+import typing
+
 from random import randint
 
 from discord.ext import commands
@@ -99,10 +101,24 @@ class Fun(commands.Cog, name='Fun'):
     async def spam(self, ctx):
         await ctx.send('{0.mention} selber Spam!'.format(ctx.author))
 
-    @commands.command(hidden=True)
+    @commands.command(aliases=['arschwienflixbus'], hidden=True)
     @commands.cooldown(1, 60, commands.BucketType.user)
-    async def ac(self, ctx):
-        await ctx.send('{0.mention} selber Spam!'.format(ctx.author))
+    async def saft(self, ctx):
+        await ctx.send('{0.mention} https://youtu.be/bx1vOD1jlN8?t=27'.format(ctx.guild.get_member(627153086753931305)))
+
+    @commands.command(aliases=['dumm','dunning','kruger','schlau'], hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    async def wissen(self, ctx, member: typing.Optional[discord.Member]):
+        if not member:
+            member = ctx.author
+        if member.id == 196245963260559360:
+            return
+        await ctx.send('{0.mention} Einmal bitte durchlesen:\nhttps://de.wikipedia.org/wiki/Dunning-Kruger-Effekt'.format(member))
+
+    @commands.command(aliases=['fhfilm','film','werbung'],hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    async def imagefilm(self, ctx):
+        await ctx.send('{0.mention} https://www.youtube.com/watch?v=dvqUcB_3JPg'.format(ctx.author))
 
     @commands.command(hidden=True)
     @commands.cooldown(1, 60, commands.BucketType.user)
