@@ -258,9 +258,11 @@ class Information(commands.Cog, name='Informations'):
             description = 'Der Fachschaftsrat besteht aus gewählten studentischen Mitgliedern des Fachbereichs.',
             timestamp = time
         )
+        embed.set_image(url='https://fsr5.de/wp-content/uploads/2019/08/Pyramide4-768x512.jpg')
         embed.set_thumbnail( url=self.fb5_logo )
         embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
                         icon_url = self.fb5_logo )
+        
         
         await ctx.send(ctx.author.mention, embed=embed)
 
