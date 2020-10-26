@@ -110,6 +110,8 @@ class Fun(commands.Cog, name='Fun'):
     async def wissen(self, ctx, member: typing.Optional[discord.Member]):
         if not member:
             member = ctx.author
+        if member.id == 196245963260559360:
+            return
         await ctx.send('{0.mention} Einmal bitte durchlesen:\nhttps://de.wikipedia.org/wiki/Dunning-Kruger-Effekt'.format(member))
 
     @commands.command(aliases=['fhfilm','film','werbung'],hidden=True)
