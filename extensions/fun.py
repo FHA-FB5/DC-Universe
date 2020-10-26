@@ -129,7 +129,7 @@ class Fun(commands.Cog, name='Fun'):
                 self.nicoMember = tmp
 
         if self.nicoMember:
-            await ctx.send('{0.mention} du wirst von {1.metion} zu einer Runde "Wodka oder Wasser" herausgefordert!'.format(self.nicoMember, ctx.author))
+            await ctx.send('{0.mention} du wirst von {1.mention} zu einer Runde "Wodka oder Wasser" herausgefordert!'.format(self.nicoMember, ctx.author))
 
 
 def setup(bot):
