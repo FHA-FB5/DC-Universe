@@ -9,6 +9,7 @@ class Fun(commands.Cog, name='Fun'):
         self.bot = bot
         self._last_member = None
         self.caroMember = None
+        self.nicoMember = None
 
     @commands.command(aliases=['keks'], hidden=True)
     @commands.cooldown(1, 60, commands.BucketType.user)
@@ -88,7 +89,7 @@ class Fun(commands.Cog, name='Fun'):
     async def matheistmagic(self, ctx):
         await ctx.send('{0.mention} Und wie Sie sehen, es funktioniert auf magische Weise. Magic Mathe!'.format(ctx.author))
 
-    @commands.command(hidden=True)
+    @commands.command(aliases=['fehler'], hidden=True)
     @commands.cooldown(1, 60, commands.BucketType.user)
     async def error(self, ctx):
         await ctx.send('{0.mention} Claßen: Error heißt ich weigere mich!'.format(ctx.author))
@@ -97,6 +98,22 @@ class Fun(commands.Cog, name='Fun'):
     @commands.cooldown(1, 60, commands.BucketType.user)
     async def spam(self, ctx):
         await ctx.send('{0.mention} selber Spam!'.format(ctx.author))
+
+    @commands.command(hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    async def ac(self, ctx):
+        await ctx.send('{0.mention} selber Spam!'.format(ctx.author))
+
+    @commands.command(hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    async def nico(self, ctx):
+        if self.nicoMember == None:
+            tmp = ctx.guild.get_member(627153086753931305)
+            if tmp:
+                self.nicoMember = tmp
+
+        if self.nicoMember:
+            await ctx.send('{0.mention} du wirst von {1.metion} zu einer Runde "Vodka oder Wasser" herausgefordert!'.format(self.nicoMember, ctx.author))
 
 
 def setup(bot):
