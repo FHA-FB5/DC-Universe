@@ -1,4 +1,6 @@
 import discord
+import typing
+
 from random import randint
 
 from discord.ext import commands
@@ -105,7 +107,7 @@ class Fun(commands.Cog, name='Fun'):
 
     @commands.command(aliases=['dumm','dunning','kruger','schlau'], hidden=True)
     @commands.cooldown(1, 60, commands.BucketType.user)
-    async def wissen(self, ctx, member: discord.Member):
+    async def wissen(self, ctx, member: typing.Optional[discord.Member]):
         if not member:
             member = ctx.author
         await ctx.send('{0.mention} Einmal bitte durchlesen:\nhttps://de.wikipedia.org/wiki/Dunning-Kruger-Effekt'.format(member))
