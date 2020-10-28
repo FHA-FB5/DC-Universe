@@ -13,7 +13,7 @@ class Information(commands.Cog, name='Informations'):
 
     @commands.command(aliases=['services','dienste'], hidden=True)
     @commands.cooldown(1, 60, commands.BucketType.user)
-    async def shortMentionForServices( self, ctx ):
+    async def shortMentionForServices( self, ctx, member: typing.Optional[discord.Member] ):
         time = datetime.fromisoformat('2020-10-22')
         embed = discord.Embed(
             colour = 0x00b5ad,
@@ -56,12 +56,15 @@ class Information(commands.Cog, name='Informations'):
             value = 'Hier kannst du alle Infos rund um die Bib finden.\nhttps://www.fh-aachen.de/hochschule/bibliothek/',
             inline = False
         )
+        user = ctx.author
+        if member:
+            user = member
         
-        await ctx.send( ctx.author.mention, embed=embed )
+        await ctx.send( user.mention, embed=embed )
 
     @commands.command(aliases=['links', 'href'], hidden=True)
     @commands.cooldown(1, 60, commands.BucketType.user)
-    async def listOfImportantUrls( self, ctx ):
+    async def listOfImportantUrls( self, ctx, member: typing.Optional[discord.Member] ):
         time = datetime.fromisoformat('2020-10-22')
         embed = discord.Embed(
             colour = 0x00b5ad,
@@ -117,13 +120,16 @@ class Information(commands.Cog, name='Informations'):
             value = 'https://fhb-aachen.digibib.net/search/katalog',
             inline = False
         )
-
-        await ctx.send(ctx.author.mention, embed=embed)
+        user = ctx.author
+        if member:
+            user = member
+        
+        await ctx.send( user.mention, embed=embed )
 
     # Services
     @commands.command(aliases=['account'], hidden=True)
     @commands.cooldown(1, 60, commands.BucketType.user)
-    async def fhservice( self, ctx ):
+    async def fhservice( self, ctx, member: typing.Optional[discord.Member] ):
         time = datetime.fromisoformat('2020-10-25')
         embed = discord.Embed(
             colour = 0x00b5ad,
@@ -141,7 +147,7 @@ class Information(commands.Cog, name='Informations'):
     # ilias
     @commands.command(aliases=['ili','elearning'], hidden=True)
     @commands.cooldown(1, 60, commands.BucketType.user)
-    async def ilias( self, ctx ):
+    async def ilias( self, ctx, member: typing.Optional[discord.Member] ):
         time = datetime.fromisoformat('2020-10-25')
         embed = discord.Embed(
             colour = 0x00b5ad,
@@ -153,13 +159,17 @@ class Information(commands.Cog, name='Informations'):
         embed.set_thumbnail( url='https://itacademy.fh-aachen.de/templates/default/images/HeaderIcon100.png' )
         embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
                         icon_url = self.fb5_logo )
+
+        user = ctx.author
+        if member:
+            user = member
         
-        await ctx.send(ctx.author.mention, embed=embed)
+        await ctx.send( user.mention, embed=embed )
     
     # eLectures
     @commands.command(aliases=['el','vorlesung','lectures','aufzeichnung'], hidden=True)
     @commands.cooldown(1, 60, commands.BucketType.user)
-    async def electures( self, ctx ):
+    async def electures( self, ctx, member: typing.Optional[discord.Member] ):
         time = datetime.fromisoformat('2020-10-25')
         embed = discord.Embed(
             colour = 0x00b5ad,
@@ -172,12 +182,16 @@ class Information(commands.Cog, name='Informations'):
         embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
                         icon_url = self.fb5_logo )
         
-        await ctx.send(ctx.author.mention, embed=embed)
+        user = ctx.author
+        if member:
+            user = member
+        
+        await ctx.send( user.mention, embed=embed )
 
     # Campus Office
     @commands.command(aliases=['campusoffice','co','office','stundenplan'], hidden=True)
     @commands.cooldown(1, 60, commands.BucketType.user)
-    async def campus( self, ctx ):
+    async def campus( self, ctx, member: typing.Optional[discord.Member] ):
         time = datetime.fromisoformat('2020-10-25')
         embed = discord.Embed(
             colour = 0x00b5ad,
@@ -190,12 +204,16 @@ class Information(commands.Cog, name='Informations'):
         embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
                         icon_url = self.fb5_logo )
         
-        await ctx.send(ctx.author.mention, embed=embed)
+        user = ctx.author
+        if member:
+            user = member
+        
+        await ctx.send( user.mention, embed=embed )
 
     # QIS
     @commands.command(aliases=['kis','kiss'], hidden=True)
     @commands.cooldown(1, 60, commands.BucketType.user)
-    async def qis( self, ctx ):
+    async def qis( self, ctx, member: typing.Optional[discord.Member] ):
         time = datetime.fromisoformat('2020-10-25')
         embed = discord.Embed(
             colour = 0x00b5ad,
@@ -208,12 +226,16 @@ class Information(commands.Cog, name='Informations'):
         embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
                         icon_url = self.fb5_logo )
         
-        await ctx.send(ctx.author.mention, embed=embed)
+        user = ctx.author
+        if member:
+            user = member
+        
+        await ctx.send( user.mention, embed=embed )
 
     # Bibliothek
     @commands.command(aliases=['bibliothek','biblio'], hidden=True)
     @commands.cooldown(1, 60, commands.BucketType.user)
-    async def bib( self, ctx ):
+    async def bib( self, ctx, member: typing.Optional[discord.Member] ):
         time = datetime.fromisoformat('2020-10-25')
         embed = discord.Embed(
             colour = 0x00b5ad,
@@ -226,12 +248,16 @@ class Information(commands.Cog, name='Informations'):
         embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
                         icon_url = self.fb5_logo )
         
-        await ctx.send(ctx.author.mention, embed=embed)
+        user = ctx.author
+        if member:
+            user = member
+        
+        await ctx.send( user.mention, embed=embed )
 
     # Webex
     @commands.command(aliases=['meeting','meetings','meet'], hidden=True)
     @commands.cooldown(1, 60, commands.BucketType.user)
-    async def webex( self, ctx ):
+    async def webex( self, ctx, member: typing.Optional[discord.Member] ):
         time = datetime.fromisoformat('2020-10-25')
         embed = discord.Embed(
             colour = 0x00b5ad,
@@ -244,12 +270,16 @@ class Information(commands.Cog, name='Informations'):
         embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
                         icon_url = self.fb5_logo )
         
-        await ctx.send(ctx.author.mention, embed=embed)
+        user = ctx.author
+        if member:
+            user = member
+        
+        await ctx.send( user.mention, embed=embed )
 
     # fsr
     @commands.command(aliases=['fachschaft','fachschaftsrat','rat','zweifelamstudium'], hidden=True)
     @commands.cooldown(1, 60, commands.BucketType.user)
-    async def fsr( self, ctx ):
+    async def fsr( self, ctx, member: typing.Optional[discord.Member] ):
         time = datetime.fromisoformat('2020-10-25')
         embed = discord.Embed(
             colour = 0x00b5ad,
@@ -264,7 +294,11 @@ class Information(commands.Cog, name='Informations'):
                         icon_url = self.fb5_logo )
         
         
-        await ctx.send(ctx.author.mention, embed=embed)
+        user = ctx.author
+        if member:
+            user = member
+        
+        await ctx.send( user.mention, embed=embed )
 
 def setup(bot):
     bot.add_cog(Information(bot))
