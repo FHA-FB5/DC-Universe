@@ -300,6 +300,29 @@ class Information(commands.Cog, name='Informations'):
         
         await ctx.send( user.mention, embed=embed )
 
+    # AStA
+    @commands.command(aliases=[], hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    async def asta( self, ctx, member: typing.Optional[discord.Member] ):
+        time = datetime.fromisoformat('2020-10-25')
+        embed = discord.Embed(
+            colour = 0x00b5ad,
+            title = 'AStA - Allgemeiner Studierenden Ausschuss',
+            url = 'https://asta.fh-aachen.org/',
+            description = '',
+            timestamp = time
+        )
+        embed.set_thumbnail( url=self.fb5_logo )
+        embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
+                        icon_url = 'https://asta.fh-aachen.org/img/universal/logo.png' )
+        
+        
+        user = ctx.author
+        if member:
+            user = member
+        
+        await ctx.send( user.mention, embed=embed )
+
 def setup(bot):
     bot.add_cog(Information(bot))
 
