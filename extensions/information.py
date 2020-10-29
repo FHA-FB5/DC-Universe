@@ -336,8 +336,12 @@ class Information(commands.Cog, name='Informations'):
                         icon_url = self.fb5_logo )
         embed.add_field(
             name = 'Weitere Services',
-            value = '- **Die Printe:**\nWas es in und um die Hochschule zu wissen gibt in der Studentischen Zeitung des AStA der FH Aachen...\n\n- **ISIC:**\nBald auf Reisen? Nutz Rabatte weltweit und beantragt bei uns die "International Student Identitycard"...\n\n- **Leihgeräte:**\nDu hast keinen eigenen Laptop für die Online-Klausur zur Verfügung? Wir verleihen diese kostenfrei.\n\n- **Semesterticket:**\nMit dem Semesterticket durch ganz NRW. Alle Infos und mögliche Rückerstattung im Härtefall...\n\n' +
-                    '- **Beratung:**\nDer AStA bietet zu dem bei folgenden Themen einfache und Kompetente Beratung an:\n\t + **BAföG und Studienfinanzierung:**\n\t\t studienfinanzierung@asta.fh-aachen.org\n\t + **Hochschulwechselberatung:**\n\t\t hochschulwechsel@asta.fh-aachen.org\n\t + **Prüfungsordnungsberatung:** Über die angegebenen Kanäle\n\t + **Rechtsberatung:** Nach persönlicher Terminvereinbarung\n\t + **Studieren mit Beeinträchtigung:** stumibe@asta.fh-aachen.org\n\t + **Studieren mit Kind:** stumiki@asta.fh-aachen.org',
+            value = '- **[Die Printe:](https://asta.fh-aachen.org/printe)**\nWas es in und um die Hochschule zu wissen gibt in der Studentischen Zeitung des AStA der FH Aachen...\n\n- **[ISIC:](https://asta.fh-aachen.org/isic)**\nBald auf Reisen? Nutz Rabatte weltweit und beantragt bei uns die "International Student Identitycard"...\n\n- **[Leihgeräte:](https://asta.fh-aachen.org/leihgeraete)**\nDu hast keinen eigenen Laptop für die Online-Klausur zur Verfügung? Wir verleihen diese kostenfrei.\n\n- **[Semesterticket:](https://asta.fh-aachen.org/semesterticket)**\nMit dem Semesterticket durch ganz NRW. Alle Infos und mögliche Rückerstattung im Härtefall...\n\n',
+            inline = False
+        )
+        embed.add_field(
+            name = 'Beratung',
+            value = '- **[Hier klicken](https://asta.fh-aachen.org/#beratung)**, für ausführlicheren Text\nDer AStA bietet zu dem bei folgenden Themen einfache und Kompetente Beratung an:\n\t + **BAföG und Studienfinanzierung:**\n\t\t studienfinanzierung@asta.fh-aachen.org\n\t + **Hochschulwechselberatung:**\n\t\t hochschulwechsel@asta.fh-aachen.org\n\t + **Prüfungsordnungsberatung:** Über die angegebenen Kanäle\n\t + **Rechtsberatung:** Nach persönlicher Terminvereinbarung\n\t + **Studieren mit Beeinträchtigung:** stumibe@asta.fh-aachen.org\n\t + **Studieren mit Kind:** stumiki@asta.fh-aachen.org',
             inline = False
         )
         embed.add_field(
