@@ -25,6 +25,10 @@ class Speechlistmodel(Base):
     @classmethod
     def get(cls, channel: int, member: int) -> 'Speechlistmodel':
         return db_session.query(Speechlistmodel).filter(Speechlistmodel.channel_id == channel, Speechlistmodel.member_id == member).first()
+
+    @classmethod
+    def first(cls, channel: int) -> 'Speechlistmodel':
+        return db_session.query(Speechlistmodel).filter(Speechlistmodel.channel_id == channel).order_by(Speechlistmodel.prio.desc(), Speechlistmodel.id.asc()).first()
     
     @classmethod
     def all(cls, channel: int) -> List['Speechlistmodel']:
