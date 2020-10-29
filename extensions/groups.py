@@ -487,7 +487,7 @@ class Groups(commands.Cog, name='Groups'):
                         user.id = payload.user_id
                         await message.remove_reaction(payload.emoji, user)
                     else:
-                        course = 'no'
+                        course = None
 
                         if self.guild_inf_role in payload.member.roles:
                             course = 'inf'
@@ -498,7 +498,7 @@ class Groups(commands.Cog, name='Groups'):
                         elif self.guild_mcd_role in payload.member.roles:
                             course = 'mcd'
 
-                        if course != 'no':
+                        if course != None:
                             Groupphaseuser.set(payload.user_id, course)
                         else:
                             channel = self.bot.get_channel(payload.channel_id)
