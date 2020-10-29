@@ -257,9 +257,9 @@ class Groups(commands.Cog, name='Groups'):
 
                     for x in range(groupamount):
                         if type == 'sort':
-                            groupname = 'Gruppe ' + str(x)
+                            groupname = 'Gruppe ' + str((x) + 1)
                         else:
-                            groupname = type.upper() + '-Gruppe ' + str(x)
+                            groupname = type.upper() + '-Gruppe ' + str((x) + 1)
 
                         role = await ctx.guild.create_role(name=groupname, hoist=False)
 
