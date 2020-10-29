@@ -58,7 +58,7 @@ class Games(commands.Cog, name='Games'):
 
         # create output embeds
         embed = discord.Embed(
-            colour=discord.Colour.info(),
+            colour=discord.Colour.blue(),
             title='Games'
         )
 
@@ -103,7 +103,7 @@ class Games(commands.Cog, name='Games'):
 
         # create output embeds
         embed = discord.Embed(
-            colour=discord.Colour.info(),
+            colour=discord.Colour.blue(),
             title='Games'
         )
 
