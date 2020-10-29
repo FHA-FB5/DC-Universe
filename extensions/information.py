@@ -135,8 +135,18 @@ class Information(commands.Cog, name='Informations'):
             colour = 0x00b5ad,
             title = 'FH Aachen - Services',
             url = 'https://services.fh-aachen.de/',
-            description = '',
+            description = 'Benutzerinformationen und Accountverwaltung',
             timestamp = time
+        )
+        embed.add_field(
+            name = 'Informationsverwaltung',
+            value = '- **User Status:**\nPersönliche studentische Daten und Studentenstatus.\n- **Karten:**\nHier kannst du deine FH-Karte beantragen oder auch sperren lassen. Status deines ÖPNV-Tickets ist auch einsehbar.\n- **Rolle:**\nIhr könnt eure Rolle in der Hochschule einsehen.\n- **Online Support:**\nIm Falle eines Problems, das nicht mit Hilfe der Hilfe- oder Informationsfunktionen gelöst werden kann, könnt ihr zwischen den hier angegebenen Supportmöglichkeiten auswählen.',
+            inline = False
+        )
+        embed.add_field(
+            name = 'Funktionen',
+            value = '- **Accounts:**\nHier könnt ihr externe Dienste und deren Berechtigung verwalten. Zusätzlich kann hier auch eine Email Weiterleitung eingerichtet werden.\n- **Gruppen:**\nEine Auflistung von aktiven Gruppen und Verteilern, in denen ihr Mitglied seid.',
+            inline = False
         )
         embed.set_thumbnail( url=self.fb5_logo )
         embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
@@ -153,7 +163,7 @@ class Information(commands.Cog, name='Informations'):
             colour = 0x00b5ad,
             title = 'Ilias - eLearning',
             url = 'https://www.ili.fh-aachen.de/',
-            description = '',
+            description = 'Wenn der Prof. einen Kurs hinterlegt oder Campus Office einen automatisch anlegt, wird dieser hier zu finden sein. Meistens werden hier Vorlesungsfolien, Übungsaufgaben, Praktikumsunterlagen und Abgabeordner verfügbar gemacht.',
             timestamp = time
         )
         embed.set_thumbnail( url='https://itacademy.fh-aachen.de/templates/default/images/HeaderIcon100.png' )
@@ -175,7 +185,7 @@ class Information(commands.Cog, name='Informations'):
             colour = 0x00b5ad,
             title = 'eLectures - FH Aachen',
             url = 'https://www.electures.fh-aachen.de/',
-            description = '',
+            description = 'Hier gibt es eine Ansammlung von Vorlesungsaufzeichnung. Diese sind hauptsächlich aus Vor-Corona Zeiten und enthalten nicht die Webex Aufzeichnungen von aktuellen Online-Vorlesungen.',
             timestamp = time
         )
         embed.set_thumbnail( url=self.fb5_logo )
@@ -197,10 +207,15 @@ class Information(commands.Cog, name='Informations'):
             colour = 0x00b5ad,
             title = 'Campus Office',
             url = 'https://www.campusoffice.fh-aachen.de/',
-            description = '',
+            description = 'Mit Campus Office erstellen wir unseren Studienplan und melden wir uns zu Praktika an.',
             timestamp = time
         )
-        embed.set_thumbnail( url='https://www.campusoffice.fh-aachen.de/custom/shared/img/cascampus-stroke-150.gif' )
+        embed.add_field(
+            name = 'Funktionen',
+            value = '- **Stundenplan:**\nHier kannst du deinen aktuellen Stundenplan erstellen, indem du Termine hinzufügst, oder ihn aus verschiedenen Ansichten betrachten.\n\n- **Vorlesungsverzeichnis:**\nIhr könnt euch für jeden Studiengang und jedes Semester die verfügbaren Module anzeigen lassen.\n\n- **Anmeldungen:**\nFür Veranstaltungen zu denen du dich anmelden musst, wie z.B. Praktika oder begrenzte Kurse, kannst du hier deinen Status einsehen.',
+            inline = False
+        )
+        embed.set_thumbnail( url=self.fb5_logo )
         embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
                         icon_url = self.fb5_logo )
         
@@ -219,8 +234,13 @@ class Information(commands.Cog, name='Informations'):
             colour = 0x00b5ad,
             title = 'QIS',
             url = 'https://www.qis.fh-aachen.de/',
-            description = '',
+            description = 'Das QIS ist das digitale Prüfungsverwaltungsystem, welches die FH Aachen nutzt.',
             timestamp = time
+        )
+        embed.add_field(
+            name = 'Funktionen',
+            value = '- **Gebührenkonto:**\nDort findet ihr die Informationen über den momentanen Semesterbeitrag und wie dieser unterteilt ist. Außerdem könnt ihr direkt sehen, ob ihr für das nächste Semester bereits zurückgemeldet seid.\n\n- **Studienbescheining:**\nWenn ihr zurückgemeldet, also eingeschrieben, seid findet ihr hier den Downloadbereich für eure Studienbescheinigung, den Parkausweis und die extra Bescheinigung für das BAföG Amt.\n\n- **Prüfungsanmeldung:**\nSobald die Anmeldephase beginnt, könnt ihr euch hier zu Prüfungen anmelden und bis eine Woche vor der Klausur auch wieder abmelden.\n\n- **Notenspiegel:**\nSobald die Ergebnisse von euren Prüfungen dem Prüfungsamt bekannt gemacht worden sind, steht eure Note sowie euer Notenschnitt hier.\n**Note:** Die Sortierung stimmt nicht unbedingt!\n\n- **Kontaktdaten:**\nIm QIS könnt ihr zusätzlich eure Kontaktdaten, wie Adresse, Email-Adresse und Telefonnummer ändern. Letzteres muss in Coronazeiten zwingend angegeben sein, falls ein physicher Besuch der FH nicht ausbleibt.\n\n',
+            inline = False
         )
         embed.set_thumbnail( url=self.fb5_logo )
         embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
@@ -241,8 +261,13 @@ class Information(commands.Cog, name='Informations'):
             colour = 0x00b5ad,
             title = 'Bib - Bibliothek',
             url = 'https://www.fh-aachen.de/hochschule/bibliothek/',
-            description = '',
+            description = 'Katalog Plus - Bücher, Datenbanken und "Mehr" - mit einer Suche auf einen Blick!',
             timestamp = time
+        )
+        embed.add_field(
+            name = 'Weitere Services',
+            value = '- **Lernplatzbuchung:**\nStudierende der FH können 24 Stunden vor Öffnung der Bib einen Lernplatz buchen.\n- **E-Zeitschriften:**\nelektronische Zeitschriften - Empfohlen, wenn ihr gezielte Inhalte einer bestimmten Zeitschrift sucht.\n- **Fernleihe:**\nLiteratur oder Zeitschriften, die ihr in Aachen bzw. Jülich nicht findet könnt ihr auch online ausleihen oder bestellen.\n- **DigiBib:**\nDie digitale Bibliothek - Empfehlenswert für gezielte Recherche in einzelnen Datenbanken. Zugriff erhaltet ihr aus dem VPN oder eduroam [hier](https://fhb-aachen.digibib.net/search/katalog).\n- **Druckauftrag an die Druckstation:**\nHier könnt ihr eure Dokumente aus dem VPN hochladen, um sie später an einer der Druckstationen ausdrucken zu können.\n- **Leihfristverlängerung:**\nHier kann man von ausgeliehenen Büchern digital die Leihfrist bis zu 4 mal verlängern, falls man mal spontan die Literatur länger braucht oder es einfach nicht geschafft hat persönlich bei der Bib vorbeizuschauen.',
+            inline = False
         )
         embed.set_thumbnail( url=self.fb5_logo )
         embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
@@ -263,13 +288,23 @@ class Information(commands.Cog, name='Informations'):
             colour = 0x00b5ad,
             title = 'Cisco Webex Meetings',
             url = 'https://www.webex.com/de/index.html',
-            description = '',
+            description = 'Die Software welche für Live Vorlesungen als Streaming- und Kommunikationstool verwendet wird.',
             timestamp = time
         )
         embed.set_thumbnail( url='https://www.webex.com/content/dam/wbx/global/images/home_2.png' )
         embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
                         icon_url = self.fb5_logo )
-        
+        embed.add_field(
+            name = 'Account',
+            value = 'Man kann zwar Webex Meetings ohne Account oder mit seinem persönlichen Account verwenden, allerdings spart ihr euch den Zwischenschritt des Warteraums, wenn ihr den Account über eure FH-Emailaddresse erstellt habt und in den Services freigeschaltet habt.\nDazu `!account` für Informationen. Loggt euch dort ein und aktiviert die Erweiterung unter\n`Account -> externe Dienste -> Cisco Webex -> Freischaltung aktivieren`',
+            inline = False
+        )
+        embed.add_field(
+            name = 'Benutzung',
+            value = 'Im Normalfall bekommt ihr vom Gastgeber einen Link zu seinem persönlichem Meetingraum, einem speziell angelegten Termin oder zu einer Schulungssitzung. Diesen müsst ihr dann einfach folgen und die Applikation erledigt den Rest.\nBei Problemen kann man dieses Prozedere gerne einmal mit Tutoren vorführen.\n\n**Info:** Achtet darauf, dass ich euch bei Schulungssitzungen für Praktika meist autorisieren müsst.\n\n**Tipp:** Terminierte Meetings können als Datei exportiert werden und z.B. in Outlook importiert werden. So werden euch die nächsten Termine immer direkt angezeigt und hier könnt mit einem Klick dem Meeting beitreten, ohne minutenlang nach dem Link zu suchen.',
+            inline = False
+        )
+
         user = ctx.author
         if member:
             user = member
@@ -336,7 +371,7 @@ class Information(commands.Cog, name='Informations'):
                         icon_url = self.fb5_logo )
         embed.add_field(
             name = 'Weitere Services',
-            value = '- **[Die Printe:](https://asta.fh-aachen.org/printe)**\nWas es in und um die Hochschule zu wissen gibt in der Studentischen Zeitung des AStA der FH Aachen...\n\n- **[ISIC:](https://asta.fh-aachen.org/isic)**\nBald auf Reisen? Nutz Rabatte weltweit und beantragt bei uns die "International Student Identitycard"...\n\n- **[Leihgeräte:](https://asta.fh-aachen.org/leihgeraete)**\nDu hast keinen eigenen Laptop für die Online-Klausur zur Verfügung? Wir verleihen diese kostenfrei.\n\n- **[Semesterticket:](https://asta.fh-aachen.org/semesterticket)**\nMit dem Semesterticket durch ganz NRW. Alle Infos und mögliche Rückerstattung im Härtefall...\n\n',
+            value = '- **[Die Printe:](https://asta.fh-aachen.org/printe)**\nWas es in und um die Hochschule zu wissen gibt in der Studentischen Zeitung des AStA der FH Aachen...\n\n- **[ISIC:](https://asta.fh-aachen.org/isic)**\nBald auf Reisen? Nutz Rabatte weltweit und beantragt bei uns die "International Student Identitycard"...\n\n- **[Leihgeräte:](https://asta.fh-aachen.org/leihgeraete)**\nDu hast keinen eigenen Laptop für die Online-Klausur zur Verfügung? Wir verleihen diese kostenfrei.\n\n- **[Semesterticket:](https://asta.fh-aachen.org/semesterticket)**\nMit dem Semesterticket durch ganz NRW. Alle Infos und mögliche **Rückerstattung** im Härtefall...\n\n',
             inline = False
         )
         embed.add_field(
@@ -350,12 +385,20 @@ class Information(commands.Cog, name='Informations'):
             inline = False
         )
         
-        
         user = ctx.author
         if member:
             user = member
         
         await ctx.send( user.mention, embed=embed )
+
+    @commands.command(aliases=['ersti','erstiwoche'], hidden=True)
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    async def plan( self, ctx, member: typing.Optional[discord.Member] ):
+        user = ctx.author
+        if member:
+            user = member
+        
+        await ctx.send( content='{0.mention} Bittesehr :)\nhttps://fsr5.de/wp-content/uploads/2020/10/Wochenplan-Layoutentwurf_2020_V2.png'.format( user ) )
 
 def setup(bot):
     bot.add_cog(Information(bot))
