@@ -328,7 +328,7 @@ class Information(commands.Cog, name='Informations'):
             colour = 0x00b5ad,
             title = 'AStA - Allgemeiner Studierenden Ausschuss',
             url = 'https://asta.fh-aachen.org/',
-            description = '',
+            description = 'Egal, ob Finanzen, Politik, Soziales, Kultur, Öffentlichkeitsarbeit oder eines von vielen anderen Themen. Der AStA engagiert sich in all diesen Bereichen mit interessierten und kompetenten Vertretern aus der Studierendenschaft.\nEs gibt immer eine Anlaufstelle, wo ihr euch melden könnt damit ihr nicht verwzeifeln müsst.',
             timestamp = time
         )
         embed.set_thumbnail( url = 'https://asta.fh-aachen.org/img/universal/logo.png' )
