@@ -75,6 +75,14 @@ class Groups(commands.Cog, name='Groups'):
                 self.guild_tutor_role_id
             )
 
+        self.guild_tutor_sup_role_id = os.getenv(
+            'GUILD_TUTOR_SUP_ROLE'
+        )
+        if isinstance(self.guild_tutor_sup_role_id, str):
+            self.guild_tutor_sup_role_id = int(
+                self.guild_tutor_sup_role_id
+            )
+
         self.guild_id = os.getenv(
             'GUILD_ID'
         )
@@ -90,6 +98,12 @@ class Groups(commands.Cog, name='Groups'):
         self.guild_mcd_role = self.guild.get_role(self.guild_mcd_role_id)
         self.guild_fsr_role = self.guild.get_role(self.guild_fsr_role_id)
         self.guild_tutor_role = self.guild.get_role(self.guild_tutor_role_id)
+
+        if self.guild_tutor_sup_role_id:
+            self.guild_tutor_sup_role = self.guild.get_role(
+                self.guild_tutor_sup_role_id)
+        else:
+            self.guild_tutor_sup_role = None
 
     @commands.command(aliases=['gruppenphase'], hidden=True)
     @commands.has_permissions(administrator=True)
@@ -263,18 +277,38 @@ class Groups(commands.Cog, name='Groups'):
 
                         role = await ctx.guild.create_role(name=groupname, hoist=False)
 
-                        overwrites = {
-                            ctx.guild.default_role: discord.PermissionOverwrite(
-                                view_channel=False,
-                                read_messages=False,
-                                connect=False,
-                            ),
-                            role: discord.PermissionOverwrite(
-                                view_channel=True,
-                                read_messages=True,
-                                connect=True,
-                            )
-                        }
+                        if self.guild_tutor_sup_role != None:
+                            overwrites = {
+                                ctx.guild.default_role: discord.PermissionOverwrite(
+                                    view_channel=False,
+                                    read_messages=False,
+                                    connect=False,
+                                ),
+                                role: discord.PermissionOverwrite(
+                                    view_channel=True,
+                                    read_messages=True,
+                                    connect=True,
+                                ),
+                                self.guild_tutor_sup_role: discord.PermissionOverwrite(
+                                    view_channel=True,
+                                    read_messages=True,
+                                    connect=True,
+                                ),
+                            }
+                        else:
+                            overwrites = {
+                                ctx.guild.default_role: discord.PermissionOverwrite(
+                                    view_channel=False,
+                                    read_messages=False,
+                                    connect=False,
+                                ),
+                                role: discord.PermissionOverwrite(
+                                    view_channel=True,
+                                    read_messages=True,
+                                    connect=True,
+                                )
+                            }
+
                         voiceChannel = await ctx.guild.create_voice_channel(name=groupname, overwrites=overwrites)
                         textChannel = await ctx.guild.create_text_channel(name=groupname, overwrites=overwrites)
 

@@ -1,15 +1,25 @@
 import discord
 import time
+import os
 
-from discord.ext import commands
+from discord.ext import commands, tasks
 from db import db_session, db_engine, Session
+
+from models.state import State
 
 
 class General(commands.Cog, name='General'):
     def __init__(self, bot):
         self.bot = bot
 
+        self.bot_user_id = os.getenv(
+            'BOT_USER_ID')
+        if isinstance(self.bot_user_id, str):
+            self.bot_user_id = int(
+                self.bot_user_id)
+
     @commands.command(aliases=['i', 'info'])
+    @commands.cooldown(1, 60, commands.BucketType.user)
     async def information(self, ctx):
         # create output embed
         embed = discord.Embed(
@@ -24,6 +34,7 @@ class General(commands.Cog, name='General'):
         await ctx.send(ctx.author.mention, embed=embed)
 
     @commands.command(aliases=['h', 'hilfe'])
+    @commands.cooldown(1, 60, commands.BucketType.user)
     async def help(self, ctx):
         # create output embed
         embed = discord.Embed(
@@ -50,6 +61,7 @@ class General(commands.Cog, name='General'):
         await ctx.send(ctx.author.mention, embed=embed)
 
     @commands.command(aliases=['stat'])
+    @commands.cooldown(1, 60, commands.BucketType.user)
     async def stats(self, ctx):
         # create output embed
         embed = discord.Embed(
@@ -68,6 +80,12 @@ class General(commands.Cog, name='General'):
 
         embed.add_field(name='Shards',
                         value=f'Shard {ctx.guild.shard_id + 1} von {len(self.bot.shards)} (ID: {ctx.guild.shard_id})', inline=False)
+
+        embed.add_field(
+            name='Nachrichten',
+            value=str(State.get('guild_message_count').value),
+            inline=False
+        )
 
         # send message
         await ctx.send(ctx.author.mention, embed=embed)
