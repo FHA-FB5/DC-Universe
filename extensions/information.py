@@ -239,7 +239,7 @@ class Information(commands.Cog, name='Informations'):
         time = datetime.fromisoformat('2020-10-25')
         embed = discord.Embed(
             colour = 0x00b5ad,
-            title = 'Bibliothek',
+            title = 'Bib - Bibliothek',
             url = 'https://www.fh-aachen.de/hochschule/bibliothek/',
             description = '',
             timestamp = time
@@ -283,16 +283,35 @@ class Information(commands.Cog, name='Informations'):
         time = datetime.fromisoformat('2020-10-25')
         embed = discord.Embed(
             colour = 0x00b5ad,
-            title = 'Fachschaftsrat',
+            title = 'FSR - Fachschaftsrat',
             url = 'https://fsr5.de/',
             description = 'Der Fachschaftsrat besteht aus gewählten studentischen Mitgliedern des Fachbereichs.',
             timestamp = time
+        )
+        embed.add_field(
+            name = 'Covid-19',
+            value = 'Normalerweise könnt ihr zu gegebenen Sprechzeiten (9:45 - 10:15 und 11:45 - 12:15) einfach im Raum E034 vorbeischauen, dies ist aufgrund der aktuellen Situation leider nicht möglich.\nDennoch stehen euch die hübschen Menschen vom FSR auf verschiedenste Arten zur Verfügung.',
+            inline = False
         )
         embed.set_image(url='https://fsr5.de/wp-content/uploads/2019/08/Pyramide4-768x512.jpg')
         embed.set_thumbnail( url=self.fb5_logo )
         embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
                         icon_url = self.fb5_logo )
-        
+        embed.add_field(
+            name = 'Aktuelles',
+            value = 'Folgende Kanäle könnt ihr nutzen, um über aktuelle Themen des FSR informiert zu werden:\n- **Social Media:** [Facebook](http://www.facebook.com/fsr5.fhaachen/) | [Instagram](http://www.instagram.com/fsr5.fhaachen/)\n- **Podcast:** [Spotify](https://open.spotify.com/show/1x9WZEP3JcUGYmi0smQEK1) | [Apple](https://podcasts.apple.com/us/podcast/talking-beats-5-0/id1492162459?ign-mpt=uo%3D4) | [Anchor](https://anchor.fm/fb5-podcast)',
+            inline = False
+        )
+        embed.add_field(
+            name = 'Weitere Services',
+            value = '- **Altklausuren:**\nDa einige Professoren Altklausuren zur Verfügung stellen, haben wir über die Jahre ein hohes Kontingent angesammelt. Wenn du also zu Klausurbedingungen üben möchtest, komm einfach mit deinem Laptop oder USB Stick vorbei.\n\n- **Skriptbindung:**\nDu hast im Fachschaftsraum die Möglichkeit, Skripte zu binden. Deckblätter und Spiralen sind vorhanden. Ein FSRler erklärt dir, wie die Bindemaschine genutzt wird. Anschließend kannst du dann dein Skript selbst binden.\n\n- **Klokurier:**\nDer Klokurier ist eines unserer neuen Projekte, bei dem wir Informationen und Events rund um den Fachbereich 5 übersichtlich in den Klokabinen am Campus veröffentlichen.\n\n- **Einfach mal schnacken:**\nDie FSRler sing allgemein sehr aufgeschlossene und spaßige Personen mit denen man sich bei Zeiten über fast alles unterhalten kann. In der lockeren Atmosphäre gibt es auch häufig was zu lachen.',
+            inline = False
+        )
+        embed.add_field(
+            name = 'Kontakt',
+            value = 'Falls du Fragen oder Anmerkungen, wie beispielsweise zum Klorkurier oder zum Podcast, hast, zögere nicht dich beim FSR zu melden.\n- **Formular:** https://fsr5.de/kontakt/ \n- **Email:** fsr-fb5@fh-aachen.de',
+            inline = False
+        )
         
         user = ctx.author
         if member:
@@ -301,7 +320,7 @@ class Information(commands.Cog, name='Informations'):
         await ctx.send( user.mention, embed=embed )
 
     # AStA
-    @commands.command(aliases=[], hidden=True)
+    @commands.command(aliases=['ausschuss'], hidden=True)
     @commands.cooldown(1, 60, commands.BucketType.user)
     async def asta( self, ctx, member: typing.Optional[discord.Member] ):
         time = datetime.fromisoformat('2020-10-25')
@@ -312,9 +331,20 @@ class Information(commands.Cog, name='Informations'):
             description = '',
             timestamp = time
         )
-        embed.set_thumbnail( url=self.fb5_logo )
+        embed.set_thumbnail( url = 'https://asta.fh-aachen.org/img/universal/logo.png' )
         embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
-                        icon_url = 'https://asta.fh-aachen.org/img/universal/logo.png' )
+                        icon_url = self.fb5_logo )
+        embed.add_field(
+            name = 'Weitere Services',
+            value = '- **Die Printe:**\nWas es in und um die Hochschule zu wissen gibt in der Studentischen Zeitung des AStA der FH Aachen...\n\n- **ISIC:**\nBald auf Reisen? Nutz Rabatte weltweit und beantragt bei uns die "International Student Identitycard"...\n\n- **Leihgeräte:**\nDu hast keinen eigenen Laptop für die Online-Klausur zur Verfügung? Wir verleihen diese kostenfrei.\n\n- **Semesterticket:**\nMit dem Semesterticket durch ganz NRW. Alle Infos und mögliche Rückerstattung im Härtefall...\n\n' +
+                    '- **Beratung:**\nDer AStA bietet zu dem bei folgenden Themen einfache und Kompetente Beratung an:\n\t + **BAföG und Studienfinanzierung:**\n\t\t studienfinanzierung@asta.fh-aachen.org\n\t + **Hochschulwechselberatung:**\n\t\t hochschulwechsel@asta.fh-aachen.org\n\t + **Prüfungsordnungsberatung:** Über die angegebenen Kanäle\n\t + **Rechtsberatung:** Nach persönlicher Terminvereinbarung\n\t + **Studieren mit Beeinträchtigung:** stumibe@asta.fh-aachen.org\n\t + **Studieren mit Kind:** stumiki@asta.fh-aachen.org',
+            inline = False
+        )
+        embed.add_field(
+            name = 'Kontakt',
+            value = 'Bei Fragen und Bedürnissen kannst du dich über eine der folgenden Kanäle beim AStA melden.\n- **Adresse:** Stephanstraße 58-62, 52064 Aachen\n- **Email:** asta@fh-aachen.org\n- **Telefon:** 0241 6009-52807',
+            inline = False
+        )
         
         
         user = ctx.author
