@@ -57,42 +57,28 @@ class Games(commands.Cog, name='Games'):
         await ctx.author.add_roles(*roles)
 
         # create output embeds
-        embed_success = discord.Embed(
-            colour=discord.Colour.green(),
-            title='Erfolgreich'
-        )
-        embed_has = discord.Embed(
-            colour=discord.Colour.blue(),
-            title='Schon in Gruppen'
-        )
-        embed_failed = discord.Embed(
-            colour=discord.Colour.red(),
-            title='Fehler'
+        embed = discord.Embed(
+            colour=discord.Colour.info(),
+            title='Games'
         )
 
         if success:
-            embed_success.add_field(
+            embed.add_field(
                 name='Zugewiesene Spiele:',
                 value=', '.join(success), inline=False)
 
-            # send embeds
-            await ctx.send(ctx.author.mention, embed=embed_success)
-
         if has:
-            embed_has.add_field(
+            embed.add_field(
                 name='Schon zugewiesene Spiele:',
                 value=', '.join(has), inline=False)
 
-            # send embeds
-            await ctx.send(ctx.author.mention, embed=embed_has)
-
         if failed:
-            embed_failed.add_field(
+            embed.add_field(
                 name='Nicht zugewiesene Spiele:',
                 value=', '.join(failed), inline=False)
 
-            # send embeds
-            await ctx.send(ctx.author.mention, embed=embed_failed)
+        # send embeds
+        await ctx.send(ctx.author.mention, embed=embed)
 
     @commands.command(aliases=['gl'])
     async def gameleave(self, ctx, *game_keys: str):
@@ -116,42 +102,28 @@ class Games(commands.Cog, name='Games'):
         await ctx.author.remove_roles(*roles)
 
         # create output embeds
-        embed_success = discord.Embed(
-            colour=discord.Colour.green(),
-            title='Erfolgreich'
-        )
-        embed_hasNot = discord.Embed(
-            colour=discord.Colour.blue(),
-            title='Nicht in Gruppen'
-        )
-        embed_failed = discord.Embed(
-            colour=discord.Colour.red(),
-            title='Fehler'
+        embed = discord.Embed(
+            colour=discord.Colour.info(),
+            title='Games'
         )
 
         if success:
-            embed_success.add_field(
+            embed.add_field(
                 name='Verlassene Spiele:',
                 value=', '.join(success), inline=False)
 
-            # send embeds
-            await ctx.send(ctx.author.mention, embed=embed_success)
-
         if hasNot:
-            embed_hasNot.add_field(
+            embed.add_field(
                 name='Nicht vorhandene Spiele:',
                 value=', '.join(hasNot), inline=False)
 
-            # send embeds
-            await ctx.send(ctx.author.mention, embed=embed_hasNot)
-
         if failed:
-            embed_failed.add_field(
+            embed.add_field(
                 name='Nicht verlassene Spiele:',
                 value=', '.join(failed), inline=False)
 
-            # send embeds
-            await ctx.send(ctx.author.mention, embed=embed_failed)
+        # send embeds
+        await ctx.send(ctx.author.mention, embed=embed)
 
     @commands.command(hidden=True)
     @commands.has_permissions(administrator=True)
