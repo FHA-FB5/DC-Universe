@@ -1,5 +1,6 @@
 import discord
 import typing
+import random
 
 from random import randint
 
@@ -111,8 +112,7 @@ class Fun(commands.Cog, name='Fun'):
     async def wissen(self, ctx, member: typing.Optional[discord.Member]):
         if not member:
             member = ctx.author
-        if member.id == 196245963260559360:
-            return
+
         await ctx.send('{0.mention} Einmal bitte durchlesen:\nhttps://de.wikipedia.org/wiki/Dunning-Kruger-Effekt'.format(member))
 
     @commands.command(aliases=['fhfilm','film','werbung'],hidden=True)
@@ -131,6 +131,25 @@ class Fun(commands.Cog, name='Fun'):
         if self.nicoMember:
             await ctx.send('{0.mention} du wirst von {1.mention} zu einer Runde "Wodka oder Wasser" herausgefordert!'.format(self.nicoMember, ctx.author))
 
+    @commands.command(hidden=True)
+    @commands.cooldown(3, 60, commands.BucketType.user)
+    async def itoldyouso(self, ctx, member: typing.Optional[discord.Member]):
+        gifs = [
+            'https://tenor.com/view/scrubs-elliot-told-you-so-gif-14971747',
+            'https://tenor.com/view/itold-you-so-james-spader-the-blacklist-gif-13370939',
+            'https://tenor.com/view/itold-you-so-me-pointing-gif-15732474',
+            'https://tenor.com/view/itold-you-so-benedict-townsend-youtuber-news-you-shouldve-listened-iwarned-you-gif-17836633',
+            'https://tenor.com/view/what-did-itell-you-jesse-ridgeway-mcjuggernuggets-itold-you-already-itold-you-so-gif-17966702'
+        ]
+        n = randint( 0, len( gifs ) - 1 )
+
+        user = ctx.author
+        if member:
+            user = member
+
+        msg = '{0.mention} ' + gifs[ n ] 
+
+        await ctx.send( msg.format( user ) )
 
 def setup(bot):
     bot.add_cog(Fun(bot))
