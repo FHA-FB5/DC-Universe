@@ -152,8 +152,12 @@ class Information(commands.Cog, name='Informations'):
         embed.set_footer( text = 'Alle Angaben ohne Gewähr!', 
                         icon_url = self.fb5_logo )
         
-        await ctx.send(ctx.author.mention, embed=embed)
-
+        user = ctx.author
+        if member:
+            user = member
+        
+        await ctx.send( user.mention, embed=embed )
+        
     # ilias
     @commands.command(aliases=['ili','elearning'], hidden=True)
     @commands.cooldown(1, 60, commands.BucketType.user)
