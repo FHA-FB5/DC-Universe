@@ -371,7 +371,7 @@ class Information(commands.Cog, name='Informations'):
                         icon_url = self.fb5_logo )
         embed.add_field(
             name = 'Weitere Services',
-            value = '- **[Die Printe:](https://asta.fh-aachen.org/printe)**\nWas es in und um die Hochschule zu wissen gibt in der Studentischen Zeitung des AStA der FH Aachen...\n\n- **[ISIC:](https://asta.fh-aachen.org/isic)**\nBald auf Reisen? Nutz Rabatte weltweit und beantragt bei uns die "International Student Identitycard"...\n\n- **[Leihgeräte:](https://asta.fh-aachen.org/leihgeraete)**\nDu hast keinen eigenen Laptop für die Online-Klausur zur Verfügung? Wir verleihen diese kostenfrei.\n\n- **[Semesterticket:](https://asta.fh-aachen.org/semesterticket)**\nMit dem Semesterticket durch ganz NRW. Alle Infos und mögliche **Rückerstattung** im Härtefall...\n\n',
+            value = '- **[Die Printe:](https://asta.fh-aachen.org/printe)**\nWas es in und um die Hochschule zu wissen gibt in der Studentischen Zeitung des AStA der FH Aachen...\n\n- **[ISIC:](https://asta.fh-aachen.org/isic)**\nBald auf Reisen? Nutz Rabatte weltweit und beantragt bei uns die "International Student Identitycard"...\n\n- **[Leihgeräte:](https://asta.fh-aachen.org/leihgeraete)**\nDu hast keinen eigenen Laptop für die Online-Klausur zur Verfügung? Wir verleihen diese kostenfrei.\n\n- **[Semesterticket:](https://asta.fh-aachen.org/semesterticket)**\nMit dem Semesterticket durch ganz NRW. Alle Infos und mögliche **Rückerstattung** im Härtefall...\nSchreibe dazu an: semesterticket@asta.fh-aachen.org\n\n',
             inline = False
         )
         embed.add_field(
