@@ -47,12 +47,12 @@ class Games(commands.Cog, name='Games'):
                 role = ctx.guild.get_role(game.role)
 
                 if role in ctx.author.roles:
-                    has.append(game_key)
+                    has.append(game.name)
                 else:
                     roles.append(role)
-                    success.append(game_key)
+                    success.append(game.name)
             else:
-                failed.append(game_key)
+                failed.append(game.name)
 
         await ctx.author.add_roles(*roles)
 
@@ -93,11 +93,11 @@ class Games(commands.Cog, name='Games'):
 
                 if role in ctx.author.roles:
                     roles.append(role)
-                    success.append(game_key)
+                    success.append(game.name)
                 else:
-                    hasNot.append(game_key)
+                    hasNot.append(game.name)
             else:
-                failed.append(game_key)
+                failed.append(game.name)
 
         await ctx.author.remove_roles(*roles)
 
