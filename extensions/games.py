@@ -52,7 +52,7 @@ class Games(commands.Cog, name='Games'):
                     roles.append(role)
                     success.append(game.name)
             else:
-                failed.append(game.name)
+                failed.append(game_key)
 
         await ctx.author.add_roles(*roles)
 
@@ -97,7 +97,7 @@ class Games(commands.Cog, name='Games'):
                 else:
                     hasNot.append(game.name)
             else:
-                failed.append(game.name)
+                failed.append(game_key)
 
         await ctx.author.remove_roles(*roles)
 
