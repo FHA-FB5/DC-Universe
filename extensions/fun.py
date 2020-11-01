@@ -114,7 +114,7 @@ class Fun(commands.Cog, name='Fun'):
             member = ctx.author
        
         if member.id == 196245963260559360:
-            await ctx.send('{0.mention} ich glaube, du hast dich mit dem User vertan ;D'.format(member))
+            await ctx.send('{0.mention} ich glaube, du hast dich mit dem User vertan ;D'.format(ctx.author))
         else:
             await ctx.send('{0.mention} Einmal bitte durchlesen:\nhttps://de.wikipedia.org/wiki/Dunning-Kruger-Effekt'.format(member))
 
