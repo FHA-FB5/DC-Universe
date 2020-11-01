@@ -112,8 +112,11 @@ class Fun(commands.Cog, name='Fun'):
     async def wissen(self, ctx, member: typing.Optional[discord.Member]):
         if not member:
             member = ctx.author
-
-        await ctx.send('{0.mention} Einmal bitte durchlesen:\nhttps://de.wikipedia.org/wiki/Dunning-Kruger-Effekt'.format(member))
+       
+        if member.id == 196245963260559360:
+            await ctx.send('{0.mention} ich glaube, du hast dich mit dem User vertan ;D'.format(member))
+        else:
+            await ctx.send('{0.mention} Einmal bitte durchlesen:\nhttps://de.wikipedia.org/wiki/Dunning-Kruger-Effekt'.format(member))
 
     @commands.command(aliases=['fhfilm','film','werbung'],hidden=True)
     @commands.cooldown(1, 60, commands.BucketType.user)
