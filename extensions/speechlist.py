@@ -224,7 +224,7 @@ class Speechlist(commands.Cog, name='Speechlist'):
     async def all(self, ctx, channel: typing.Optional[discord.VoiceChannel]):
         mention = ctx.author.mention
         embed = None
-        if channel:
+        if ctx.guild.voice_channels.count(channel) > 0:
             Speechlistmodel.deleteAll(ctx.channel.id)
 
             member_list = channel.members
@@ -244,7 +244,7 @@ class Speechlist(commands.Cog, name='Speechlist'):
                 embed.title = "Neue Redeliste:"
 
         else:
-            embed = await create_embed( 'Du musst einen Voice Channel angeben, von dem aus alle Teilnehmer hinzugefügt werden sollen.', EmbedColour.ERROR )
+            embed = await create_embed( 'Du musst einen gültigen Voice Channel angeben, von dem aus alle Teilnehmer hinzugefügt werden sollen.', EmbedColour.ERROR )
         
         await ctx.send( mention, embed=embed )
 
