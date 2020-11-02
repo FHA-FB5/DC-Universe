@@ -1,7 +1,7 @@
 import discord
 import os
 import typing
-
+import random
 
 from discord.ext import commands
 from db import db_session, db_engine, Session
@@ -218,6 +218,43 @@ class Speechlist(commands.Cog, name='Speechlist'):
             embed = await create_embed( 'Die Redeliste ist leer!', EmbedColour.ERROR )
 
         await ctx.send( mention, embed=embed )
+
+    @speechlist.command(aliases=['alle','channel','addall'])
+    @commands.has_any_role( 'FSR', 'TUTOR', 'Tutor' )
+    async def all(self, ctx, channel: typing.Optional[discord.VoiceChannel]):
+        mention = ctx.author.mention
+        embed = None
+        if channel:
+            Speechlistmodel.deleteAll(ctx.channel.id)
+
+            member_list = channel.members
+            random.shuffle( member_list )
+
+            for m in member_list:
+                Speechlistmodel.set(ctx.channel.id, m.id, m.display_name, False )
+        
+            embed = await create_embed( f'Alle Teilnehmer aus {channel.name} wurden zur Redeliste hinzugefügt!', EmbedColour.SUCCESS )
+            await ctx.send( mention, embed=embed )
+
+            new_list = Speechlistmodel.all(ctx.channel.id)
+            mention = ctx.channel.mention
+
+            if new_list:
+                embed = await buildMessage(new_list)
+                embed.title = "Neue Redeliste:"
+
+        else:
+            embed = await create_embed( 'Du musst einen Voice Channel angeben, von dem aus alle Teilnehmer hinzugefügt werden sollen.', EmbedColour.ERROR )
+        
+        await ctx.send( mention, embed=embed )
+
+    @delete.error
+    async def speechlist_error(self, ctx, err):
+        if isinstance(err, commands.MissingAnyRole):
+            embed = await create_embed( 'Du hst nicht die benötigten Rechte für diesen Befehl!\nVersuche es nächstes Jahr noch einmal, wenn deine vielversprechende Tutorenbewerbung angenommen worden ist :)',
+                                            EmbedColour.ERROR )
+
+            await ctx.send(ctx.author.mention, embed=embed)
         
 
 async def buildMessage(queue: Speechlist):

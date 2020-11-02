@@ -33,12 +33,6 @@ class Error(commands.Cog, name='Error'):
         )
         debug = discord.utils.get(ctx.guild.roles, id=self.debug_role_id)
 
-        if isinstance( err, commands.MissingAnyRole ):
-            embed = await create_embed( 'Du hst nicht die benötigten Rechte für diesen Befehl!\nVersuche es nächstes Jahr noch einmal, wenn deine vielversprechende Tutorenbewerbung angenommen worden ist :)',
-                                            EmbedColour.ERROR )
-
-            await ctx.send(ctx.author.mention, embed=embed)
-
         if isinstance( err, commands.MissingPermissions ):
             embed = await create_embed( 'Dieser Befehl kann nur von Admins ausgeführt werden!',
                                             EmbedColour.ERROR )
