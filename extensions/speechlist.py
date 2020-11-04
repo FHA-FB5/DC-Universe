@@ -58,16 +58,22 @@ class Speechlist(commands.Cog, name='Speechlist'):
         await ctx.send(ctx.author.mention, embed=embed)
 
     @speechlist.command(aliases=['a'])
-    async def add(self, ctx):
-        speechlist = Speechlistmodel.get(ctx.channel.id, ctx.author.id)
+    async def add(self, ctx, mem: typing.Optional[discord.Member]):
+        member = None
+        annotation = 'Du stehst'
+        if mem:
+            member = mem
+            annotation = mem.display_name + ' steht'
+        else:
+            member = ctx.author
+        speechlist = Speechlistmodel.get(ctx.channel.id, member.id)
         embed = None
-        mention = ctx.author.mention
+        mention = member.mention
         if speechlist:
-            embed = await create_embed( 'Du stehst bereits auf der Redeliste!', EmbedColour.ERROR )
+            embed = await create_embed( f'{annotation} bereits auf der Redeliste!', EmbedColour.ERROR )
                 
         else:
-            name = ctx.author.display_name
-            Speechlistmodel.set(ctx.channel.id, ctx.author.id, name, False)
+            Speechlistmodel.set(ctx.channel.id, member.id, member.display_name, False)
 
             new_list = Speechlistmodel.all(ctx.channel.id)
             embed = await buildMessage(new_list)
@@ -115,7 +121,7 @@ class Speechlist(commands.Cog, name='Speechlist'):
         await ctx.send(mention, embed=embed)
 
     @speechlist.command(aliases=['d','löschen'])
-    @commands.has_any_role( 'FSR', 'TUTOR', 'Tutor' )
+    @commands.has_any_role( 'FSR', 'TUTOR', 'Tutor', 'ESP' )
     async def delete(self, ctx):
         act_list = Speechlistmodel.all(ctx.channel.id)
         embed = None
@@ -131,7 +137,7 @@ class Speechlist(commands.Cog, name='Speechlist'):
         await ctx.send(mention, embed=embed)
 
     @speechlist.command(aliases=['e','entferne'])
-    @commands.has_any_role( 'FSR', 'TUTOR', 'Tutor' )
+    @commands.has_any_role( 'FSR', 'TUTOR', 'Tutor', 'ESP' )
     async def erase(self, ctx, mem: typing.Optional[discord.Member]):
         act_list = Speechlistmodel.all(ctx.channel.id)
         if not act_list:
@@ -173,7 +179,7 @@ class Speechlist(commands.Cog, name='Speechlist'):
                 await ctx.send( ctx.author.mention, embed=embed )  
 
     @speechlist.command(aliases=['first','f'])
-    @commands.has_any_role( 'FSR', 'TUTOR', 'Tutor' )
+    @commands.has_any_role( 'FSR', 'TUTOR', 'Tutor', 'ESP' )
     async def prio(self, ctx):
         speechlist = Speechlistmodel.get(ctx.channel.id, ctx.author.id)
         embed = None
@@ -193,7 +199,7 @@ class Speechlist(commands.Cog, name='Speechlist'):
         await ctx.send( mention, embed=embed )
 
     @speechlist.command(aliases=['n'])
-    @commands.has_any_role( 'FSR', 'TUTOR', 'Tutor' )
+    @commands.has_any_role( 'FSR', 'TUTOR', 'Tutor', 'ESP' )
     async def next(self, ctx):
         first_entry = Speechlistmodel.first(ctx.channel.id)
 
@@ -220,7 +226,7 @@ class Speechlist(commands.Cog, name='Speechlist'):
         await ctx.send( mention, embed=embed )
 
     @speechlist.command(aliases=['alle','channel','addall'])
-    @commands.has_any_role( 'FSR', 'TUTOR', 'Tutor' )
+    @commands.has_any_role( 'FSR', 'TUTOR', 'Tutor', 'ESP' )
     async def all(self, ctx, channel: typing.Optional[discord.VoiceChannel]):
         mention = ctx.author.mention
         embed = None
