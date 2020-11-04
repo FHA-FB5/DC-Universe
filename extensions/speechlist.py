@@ -52,7 +52,7 @@ class Speechlist(commands.Cog, name='Speechlist'):
             inline = False)
         embed.add_field(
             name = 'Tutorenbefehle',
-            value = '- !rl e <_erwähnung_> => Entfernt die angegebene Person von der Redeliste.\nBsp. => !rl e @FachschaftsBot\n\t- !rl d => Löscht die gesamte Redeliste.\n\t- !rl f => Fügt dich mit einer Tutorenpriorität oben auf die Redeliste hinzu.\n\t- !rl n => Entfernt den obersten Eintrag auf der Redeliste.',
+            value = '- !rl e <_erwähnung_> => Entfernt die angegebene Person von der Redeliste.\nBsp. => !rl e @FachschaftsBot\n\t- !rl d => Löscht die gesamte Redeliste.\n\t- !rl f => Fügt dich mit einer Tutorenpriorität oben auf die Redeliste hinzu.\n\t- !rl n => Entfernt den obersten Eintrag auf der Redeliste.\n\t- !rl all <_voice_channel_> => Fügt alle Mitglieder eines angegebenen Sprackchannels in zufälliger Reihenfolge zur Redeliste hinzu.',
             inline = False
         )
         await ctx.send(ctx.author.mention, embed=embed)

@@ -39,7 +39,7 @@ class Error(commands.Cog, name='Error'):
 
             await ctx.send(ctx.author.mention, embed=embed)
         
-        if isinstance( err, commands.CommandOnCooldown ):
+        elif isinstance( err, commands.CommandOnCooldown ):
             embed = await create_embed( 'Dieser Befehl hat noch Cooldown, bitte warte weitere {}s'.format( math.ceil( err.retry_after ) ) ,
                                             EmbedColour.ERROR )
 
