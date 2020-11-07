@@ -36,6 +36,7 @@ class Pubtour(commands.Cog, name='Pubtour'):
 
         if guild.categories.count( category ) >= 1:
             await ctx.send( ctx.author.mention + '\nBeginne mit Prozess.')
+            tutor_role = guild.get_role( self.guild_tutor_role_id )
 
             for c in category.voice_channels:
                 channel_used.append( c )
@@ -44,7 +45,6 @@ class Pubtour(commands.Cog, name='Pubtour'):
                 name = c.name
                 role = await guild.create_role(name=name, hoist=False)
                 roles_used.append( role )
-                tutor_role = guild.get_role( self.guild_tutor_role_id )
                 overwrites = {
                     ctx.guild.default_role: discord.PermissionOverwrite(
                         view_channel=False,
@@ -70,15 +70,15 @@ class Pubtour(commands.Cog, name='Pubtour'):
                 for m in c.members:
                     await m.add_roles( role )
 
-            await ctx.send( ctx.author.mention + '\nProzess abgeschlossen.')
-
             for c in channel_used:
                 Pubtourmodel.set(c.id, True)
             for r in roles_used:
                 Pubtourmodel.set(r.id, False)
 
+            await ctx.send( ctx.author.mention + '\nProzess abgeschlossen.')
+
         else:
-            await ctx.send( ctx.author.mention + '\nFehler' )
+            await ctx.send( ctx.author.mention + '\nFehler!' )
 
     @commands.command(hidden=True)
     @commands.has_permissions(administrator=True)
