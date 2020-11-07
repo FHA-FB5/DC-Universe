@@ -34,6 +34,7 @@ from models.group import Group
 from models.groupphaseuser import Groupphaseuser
 from models.speechlist import Speechlistmodel
 from models.game import Game
+from models.pubtour import Pubtourmodel
 
 # set metadata
 target_metadata = Base.metadata
