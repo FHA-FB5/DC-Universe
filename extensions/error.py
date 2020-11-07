@@ -1,8 +1,10 @@
 import discord
 import os
+import math
 
 from discord.ext import commands
 
+from extensions.util import create_embed, EmbedColour
 
 class Error(commands.Cog, name='Error'):
     def __init__(self, bot):
@@ -30,6 +32,18 @@ class Error(commands.Cog, name='Error'):
             self.guild_error_channel_id
         )
         debug = discord.utils.get(ctx.guild.roles, id=self.debug_role_id)
+
+        if isinstance( err, commands.MissingPermissions ):
+            embed = await create_embed( 'Für diesen Befehl hast du nicht die benötigten Berechtigungen!',
+                                            EmbedColour.ERROR )
+
+            await ctx.send(ctx.author.mention, embed=embed)
+        
+        elif isinstance( err, commands.CommandOnCooldown ):
+            embed = await create_embed( 'Dieser Befehl hat noch Cooldown, bitte warte weitere {}s'.format( math.ceil( err.retry_after ) ) ,
+                                            EmbedColour.ERROR )
+
+            await ctx.send(ctx.author.mention, embed=embed)
 
         # create output embed
         embed = discord.Embed(
