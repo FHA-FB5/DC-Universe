@@ -74,7 +74,15 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
             self.guild_mcd_role_id = int(
                 self.guild_mcd_role_id
             )
-        
+
+        self.guild_external_role_id = os.getenv(
+            'GUILD_EXTERNAL_ROLE'
+        )
+        if isinstance(self.guild_external_role_id, str):
+            self.guild_external_role_id = int(
+                self.guild_external_role_id
+            )
+
         self.guild_tutor_role_id = os.getenv(
             'GUILD_TUTOR_ROLE'
         )
@@ -128,12 +136,14 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                         ':regional_indicator_i: - Informatik\n' +
                         ':regional_indicator_w: - Wirtschaftsinformatik\n' +
                         ':regional_indicator_e: - Elektrotechnik\n' +
-                        ':regional_indicator_m: - Media and Communications for Digital Business'
+                        ':regional_indicator_m: - Media and Communications for Digital Business\n' +
+                        ':black_joker: - Externes Mitglied'
                     )
                     await command_message.add_reaction('🇮')
                     await command_message.add_reaction('🇼')
                     await command_message.add_reaction('🇪')
                     await command_message.add_reaction('🇲')
+                    await command_message.add_reaction('🃏')
                     if command_message:
                         State.set('guild_study_course_message',
                                   command_message.id)
@@ -182,37 +192,42 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                 role_wi = guild.get_role(self.guild_wi_role_id)
                 role_mcd = guild.get_role(self.guild_mcd_role_id)
                 role_et = guild.get_role(self.guild_et_role_id)
+                role_external = guild.get_role(self.guild_external_role_id)
 
                 if payload.emoji.name == '🇮':
                     await payload.member.add_roles(role_inf)
-                    await payload.member.remove_roles(role_wi, role_mcd, role_et)
+                    await payload.member.remove_roles(role_wi, role_mcd, role_et, role_external)
 
                 elif payload.emoji.name == '🇼':
                     await payload.member.add_roles(role_wi)
-                    await payload.member.remove_roles(role_inf, role_mcd, role_et)
+                    await payload.member.remove_roles(role_inf, role_mcd, role_et, role_external)
 
                 elif payload.emoji.name == '🇪':
                     await payload.member.add_roles(role_et)
-                    await payload.member.remove_roles(role_wi, role_mcd, role_inf)
+                    await payload.member.remove_roles(role_wi, role_mcd, role_inf, role_external)
 
                 elif payload.emoji.name == '🇲':
                     await payload.member.add_roles(role_mcd)
-                    await payload.member.remove_roles(role_wi, role_inf, role_et)
+                    await payload.member.remove_roles(role_wi, role_inf, role_et, role_external)
+
+                elif payload.emoji.name == '🃏':
+                    await payload.member.add_roles(role_external)
+                    await payload.member.remove_roles(role_mcd, role_wi, role_inf, role_et)
 
                 await msg.remove_reaction(payload.emoji, payload.member)
 
     @commands.command(aliases=['c', 'count', 'wieviele'], hidden=True)
     @commands.cooldown(1, 300, commands.BucketType.user)
     async def studyCourseCount(self, ctx, role: typing.Optional[str]):
-        
+
         guild = ctx.guild
         all_member = self.bot.get_all_members()
-        inf = guild.get_role( self.guild_inf_role_id )
-        wi = guild.get_role( self.guild_wi_role_id )
-        et = guild.get_role( self.guild_et_role_id )
-        mcd = guild.get_role( self.guild_mcd_role_id )
-        tutor = guild.get_role( self.guild_tutor_role_id )
-        fsr = guild.get_role( self.guild_fsr_role_id )
+        inf = guild.get_role(self.guild_inf_role_id)
+        wi = guild.get_role(self.guild_wi_role_id)
+        et = guild.get_role(self.guild_et_role_id)
+        mcd = guild.get_role(self.guild_mcd_role_id)
+        tutor = guild.get_role(self.guild_tutor_role_id)
+        fsr = guild.get_role(self.guild_fsr_role_id)
 
         if role:
             role = role.lower()
@@ -222,8 +237,8 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
             if role == 'inf' or role == 'informatik':
                 inf_member = []
                 for m in all_member:
-                    if m.roles.count( inf ) >= 1:
-                        inf_member.append( m )
+                    if m.roles.count(inf) >= 1:
+                        inf_member.append(m)
 
                 member_count = len(inf_member)
                 online_count = 0
@@ -240,23 +255,22 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                     online_count = ''
 
                 embed = discord.Embed(
-                    colour = inf.colour,
-                    title = 'Informatiker auf dem Server:',
-                    description = f'Es {fancy} {online_count}{von} {member_count} Studierenden** online.'
+                    colour=inf.colour,
+                    title='Informatiker auf dem Server:',
+                    description=f'Es {fancy} {online_count}{von} {member_count} Studierenden** online.'
                 )
 
             elif role == 'wi' or role == 'wirtschaft' or role == 'wirtschaftsinformatik':
                 wi_member = []
                 for m in all_member:
-                    if m.roles.count( wi ) >= 1:
-                        wi_member.append( m )
+                    if m.roles.count(wi) >= 1:
+                        wi_member.append(m)
 
                 member_count = len(wi_member)
                 online_count = 0
                 for m in wi_member:
                     if m.status != discord.Status.offline:
                         online_count += 1
-
 
                 fancy = ''
                 von = ' von'
@@ -267,16 +281,16 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                     online_count = ''
 
                 embed = discord.Embed(
-                    colour = wi.colour,
-                    title = 'Wirtschaftsinformatiker auf dem Server:',
-                    description = f'Es {fancy} {online_count}{von} {member_count} Studierenden** online.'
+                    colour=wi.colour,
+                    title='Wirtschaftsinformatiker auf dem Server:',
+                    description=f'Es {fancy} {online_count}{von} {member_count} Studierenden** online.'
                 )
-      
+
             elif role == 'et' or role == 'etec' or role == 'etechnik' or role == 'elektrotechnik':
                 et_member = []
                 for m in all_member:
-                    if m.roles.count( et ) >= 1:
-                        et_member.append( m )
+                    if m.roles.count(et) >= 1:
+                        et_member.append(m)
 
                 member_count = len(et_member)
                 online_count = 0
@@ -293,16 +307,16 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                     online_count = ''
 
                 embed = discord.Embed(
-                    colour = et.colour,
-                    title = 'Elektrotechniker auf dem Server:',
-                    description = f'Es {fancy} {online_count}{von} {member_count} Studierenden** online.'
+                    colour=et.colour,
+                    title='Elektrotechniker auf dem Server:',
+                    description=f'Es {fancy} {online_count}{von} {member_count} Studierenden** online.'
                 )
 
             elif role == 'mcd' or role == 'media' or role == 'mediaandcommunication' or role == 'irgendwasmitmedien':
                 mcd_member = []
                 for m in all_member:
-                    if m.roles.count( mcd ) >= 1:
-                        mcd_member.append( m )
+                    if m.roles.count(mcd) >= 1:
+                        mcd_member.append(m)
 
                 member_count = len(mcd_member)
                 online_count = 0
@@ -319,16 +333,16 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                     online_count = ''
 
                 embed = discord.Embed(
-                    colour = mcd.colour,
-                    title = 'MCDler auf dem Server (sry Name ist zu lang):',
-                    description = f'Es {fancy} {online_count}{von} {member_count} Studierenden** online.'
+                    colour=mcd.colour,
+                    title='MCDler auf dem Server (sry Name ist zu lang):',
+                    description=f'Es {fancy} {online_count}{von} {member_count} Studierenden** online.'
                 )
 
             elif role == 'tut' or role == 'tutor' or role == 'esa':
                 tut_member = []
                 for m in all_member:
-                    if m.roles.count( tutor ) >= 1:
-                        tut_member.append( m ) 
+                    if m.roles.count(tutor) >= 1:
+                        tut_member.append(m)
 
                 member_count = len(tut_member)
                 online_count = 0
@@ -345,16 +359,16 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                     online_count = ''
 
                 embed = discord.Embed(
-                    colour = tutor.colour,
-                    title = 'Tutoren auf dem Server:',
-                    description = f'Es {fancy} {online_count}{von} {member_count} Studierenden** online.'
+                    colour=tutor.colour,
+                    title='Tutoren auf dem Server:',
+                    description=f'Es {fancy} {online_count}{von} {member_count} Studierenden** online.'
                 )
-            
+
             elif role == 'fsr' or role == 'fachschaft' or role == 'rat':
                 fsr_member = []
                 for m in all_member:
-                    if m.roles.count( fsr ) >= 1:
-                        fsr_member.append( m ) 
+                    if m.roles.count(fsr) >= 1:
+                        fsr_member.append(m)
 
                 member_count = len(fsr_member)
                 online_count = 0
@@ -371,23 +385,24 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                     online_count = ''
 
                 embed = discord.Embed(
-                    colour = fsr.colour,
-                    title = 'FSRler auf dem Server:',
-                    description = f'Es {fancy} {online_count}{von} {member_count} Studierenden** online.'
+                    colour=fsr.colour,
+                    title='FSRler auf dem Server:',
+                    description=f'Es {fancy} {online_count}{von} {member_count} Studierenden** online.'
                 )
-            
-            await ctx.send( ctx.author.mention, embed=embed )
-        
+
+            await ctx.send(ctx.author.mention, embed=embed)
+
         else:
-            
+
             date = datetime.now(pytz.timezone('Etc/GMT+1'))
             embed = discord.Embed(
-                colour = 0x00b5ad,
-                title = 'Die Verteilung von Mitgliedern auf dem Server',
-                description = 'Eine aktuelle Auflistung',
-                timestamp = date               
+                colour=0x00b5ad,
+                title='Die Verteilung von Mitgliedern auf dem Server',
+                description='Eine aktuelle Auflistung',
+                timestamp=date
             )
-            embed.set_footer( text = 'Statistiken', icon_url='https://i.imgur.com/WBeaODR.jpg' )
+            embed.set_footer(text='Statistiken',
+                             icon_url='https://i.imgur.com/WBeaODR.jpg')
 
             member = [[], [], [], [], [], [], []]
             # -1 coz of bot
@@ -398,21 +413,21 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                 all_count += 1
                 if m.status != discord.Status.offline:
                     all_online += 1
-                if m.roles.count( inf ) >= 1:
-                    member[0].append( m )
-                if m.roles.count( wi ) >= 1:
-                    member[1].append( m )
-                if m.roles.count( et ) >= 1:
-                    member[2].append( m )
-                if m.roles.count( mcd ) >= 1:
-                    member[3].append( m )
-                if m.roles.count( tutor ) >= 1:
-                    member[4].append( m )
-                if m.roles.count( fsr ) >= 1:
-                    member[5].append( m )
-                if m.roles.count( tutor ) == 0 and m.roles.count ( fsr ) == 0 and not m.bot:
-                    member[6].append( m )
-            
+                if m.roles.count(inf) >= 1:
+                    member[0].append(m)
+                if m.roles.count(wi) >= 1:
+                    member[1].append(m)
+                if m.roles.count(et) >= 1:
+                    member[2].append(m)
+                if m.roles.count(mcd) >= 1:
+                    member[3].append(m)
+                if m.roles.count(tutor) >= 1:
+                    member[4].append(m)
+                if m.roles.count(fsr) >= 1:
+                    member[5].append(m)
+                if m.roles.count(tutor) == 0 and m.roles.count(fsr) == 0 and not m.bot:
+                    member[6].append(m)
+
             inf_count = len(member[0])
             wi_count = len(member[1])
             et_count = len(member[2])
@@ -426,7 +441,7 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
             for m in member[6]:
                 if m.status != discord.Status.offline:
                     online += 1
-            
+
             fancy = ''
             von = ' von'
             if online != 0:
@@ -436,9 +451,9 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                 online = ''
 
             embed.add_field(
-                name = 'Erstsemester auf dem Server:',
-                value = f'Es {fancy} {online}{von} {ersti_count} Studierenden** online.',
-                inline = False
+                name='Erstsemester auf dem Server:',
+                value=f'Es {fancy} {online}{von} {ersti_count} Studierenden** online.',
+                inline=False
             )
 
             # inf field
@@ -446,7 +461,7 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
             for m in member[0]:
                 if m.status != discord.Status.offline:
                     online += 1
-            
+
             fancy = ''
             von = ' von'
             if online != 0:
@@ -456,9 +471,9 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                 online = ''
 
             embed.add_field(
-                name = 'Informatiker auf dem Server:',
-                value = f'Es {fancy} {online}{von} {inf_count} Studierenden** online.',
-                inline = False
+                name='Informatiker auf dem Server:',
+                value=f'Es {fancy} {online}{von} {inf_count} Studierenden** online.',
+                inline=False
             )
 
             # wi field
@@ -466,7 +481,7 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
             for m in member[1]:
                 if m.status != discord.Status.offline:
                     online += 1
-            
+
             fancy = ''
             von = ' von'
             if online != 0:
@@ -476,9 +491,9 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                 online = ''
 
             embed.add_field(
-                name = 'Wirtschaftsinformatiker auf dem Server:',
-                value = f'Es {fancy} {online}{von} {wi_count} Studierenden** online.',
-                inline = False
+                name='Wirtschaftsinformatiker auf dem Server:',
+                value=f'Es {fancy} {online}{von} {wi_count} Studierenden** online.',
+                inline=False
             )
 
             # et field
@@ -486,7 +501,7 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
             for m in member[2]:
                 if m.status != discord.Status.offline:
                     online += 1
-            
+
             fancy = ''
             von = ' von'
             if online != 0:
@@ -496,9 +511,9 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                 online = ''
 
             embed.add_field(
-                name = 'Elektrotechniker auf dem Server:',
-                value = f'Es {fancy} {online}{von} {et_count} Studierenden** online.',
-                inline = False
+                name='Elektrotechniker auf dem Server:',
+                value=f'Es {fancy} {online}{von} {et_count} Studierenden** online.',
+                inline=False
             )
 
             # mcd field
@@ -506,7 +521,7 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
             for m in member[3]:
                 if m.status != discord.Status.offline:
                     online += 1
-            
+
             fancy = ''
             von = ' von'
             if online != 0:
@@ -516,9 +531,9 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                 online = ''
 
             embed.add_field(
-                name = 'MCDler auf dem Server:',
-                value = f'Es {fancy} {online}{von} {mcd_count} Studierenden** online.',
-                inline = False
+                name='MCDler auf dem Server:',
+                value=f'Es {fancy} {online}{von} {mcd_count} Studierenden** online.',
+                inline=False
             )
 
             # tutor field
@@ -526,7 +541,7 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
             for m in member[4]:
                 if m.status != discord.Status.offline:
                     online += 1
-            
+
             fancy = ''
             von = ' von'
             if online != 0:
@@ -536,9 +551,9 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                 online = ''
 
             embed.add_field(
-                name = 'Tutoren auf dem Server:',
-                value = f'Es {fancy} {online}{von} {tut_count} Studierenden** online.',
-                inline = False
+                name='Tutoren auf dem Server:',
+                value=f'Es {fancy} {online}{von} {tut_count} Studierenden** online.',
+                inline=False
             )
 
             # fsr field
@@ -546,7 +561,7 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
             for m in member[5]:
                 if m.status != discord.Status.offline:
                     online += 1
-            
+
             fancy = ''
             von = ' von'
             if online != 0:
@@ -556,9 +571,9 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                 online = ''
 
             embed.add_field(
-                name = 'FSRler auf dem Server:',
-                value = f'Es {fancy} {online}{von} {fsr_count} Studierenden** online.',
-                inline = False
+                name='FSRler auf dem Server:',
+                value=f'Es {fancy} {online}{von} {fsr_count} Studierenden** online.',
+                inline=False
             )
 
             # all field
@@ -572,13 +587,13 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                 all_online = ''
 
             embed.add_field(
-                name = 'Insgesamt:',
-                value = f'Es {fancy} {all_online}{von} {all_count} Studierenden** online.',
-                inline = False
+                name='Insgesamt:',
+                value=f'Es {fancy} {all_online}{von} {all_count} Studierenden** online.',
+                inline=False
             )
-            
-            await ctx.send( ctx.author.mention, embed=embed )
-        
+
+            await ctx.send(ctx.author.mention, embed=embed)
+
 
 def setup(bot):
     bot.add_cog(ManualGroups(bot))
