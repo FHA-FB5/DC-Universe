@@ -228,6 +228,7 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
         mcd = guild.get_role(self.guild_mcd_role_id)
         tutor = guild.get_role(self.guild_tutor_role_id)
         fsr = guild.get_role(self.guild_fsr_role_id)
+        external = guild.get_role(self.guild_external_role_id)
 
         if role:
             role = role.lower()
@@ -415,12 +416,14 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
                     all_online += 1
                 if m.roles.count(inf) >= 1:
                     member[0].append(m)
-                if m.roles.count(wi) >= 1:
+                elif m.roles.count(wi) >= 1:
                     member[1].append(m)
-                if m.roles.count(et) >= 1:
+                elif m.roles.count(et) >= 1:
                     member[2].append(m)
-                if m.roles.count(mcd) >= 1:
+                elif m.roles.count(mcd) >= 1:
                     member[3].append(m)
+                elif m.roles.count(external) >= 1:
+                    member[7].append(m)
                 if m.roles.count(tutor) >= 1:
                     member[4].append(m)
                 if m.roles.count(fsr) >= 1:
@@ -435,6 +438,7 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
             tut_count = len(member[4])
             fsr_count = len(member[5])
             ersti_count = len(member[6])
+            external_count = len(member[7])
 
             # ersti field
             online = 0
@@ -573,6 +577,26 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
             embed.add_field(
                 name='FSRler auf dem Server:',
                 value=f'Es {fancy} {online}{von} {fsr_count} Studierenden** online.',
+                inline=False
+            )
+
+            # external field
+            online = 0
+            for m in member[7]:
+                if m.status != discord.Status.offline:
+                    online += 1
+
+            fancy = ''
+            von = ' von'
+            if online != 0:
+                fancy = 'sind**'
+            else:
+                fancy = 'ist **keiner'
+                online = ''
+
+            embed.add_field(
+                name='Externe Mitglieder auf dem Server:',
+                value=f'Es {fancy} {online}{von} {external_count} Mitlgiedern** online.',
                 inline=False
             )
 
