@@ -405,7 +405,7 @@ class ManualGroups(commands.Cog, name='ManualGroups'):
             embed.set_footer(text='Statistiken',
                              icon_url='https://i.imgur.com/WBeaODR.jpg')
 
-            member = [[], [], [], [], [], [], []]
+            member = [[], [], [], [], [], [], [], []]
             # -1 coz of bot
             all_count = -1
             all_online = -1
