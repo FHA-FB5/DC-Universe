@@ -154,5 +154,22 @@ class Fun(commands.Cog, name='Fun'):
 
         await ctx.send( msg.format( user ) )
 
+    @commands.command(aliases=['simmmon','siiimon','simooon','simp'], hidden=True)
+    @commands.cooldown(3, 30, commands.BucketType.user)
+    async def simon(self, ctx, member: typing.Optional[discord.Member]):
+        simon = ctx.guild.get_member(299972474165264388)
+        vids = [
+            'https://www.youtube.com/watch?v=4-tHcpVXFXU'
+        ]
+        n = randint( 0, len( vids ) - 1 )
+
+        user = simon
+        if member:
+            user = member
+    
+        msg = '{0.mention} ' + vids[ n ]
+
+        await ctx.send( msg.format( user ) )
+
 def setup(bot):
     bot.add_cog(Fun(bot))
